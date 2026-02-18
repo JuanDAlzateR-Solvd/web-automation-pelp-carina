@@ -1,12 +1,10 @@
-package com.solvd.carina.webAutomation.pages.common;
+package com.solvd.carina.webAutomation.actions;
 
-import com.solvd.carina.webAutomation.actions.UIActions;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import com.zebrunner.carina.webdriver.gui.AbstractPage;
-
-import org.openqa.selenium.*;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -14,20 +12,16 @@ import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 
-public abstract class BasePage extends AbstractPage {
+public class UIActions {
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
+    private WebDriver driver;
+    private WebDriverWait wait;
 
-    public BasePage(WebDriver driver) {
-        super(driver);
-
-        logger.info("Page Created | Thread: {} | Driver: {}",
-                Thread.currentThread().getId(),
-                System.identityHashCode(driver)
-        );
-    }
     private static final By LOADER = By.cssSelector(".loader, .spinner, .loading");
 
-    abstract By getPageLoadedIndicator();
+    public UIActions(WebDriver driver) {
+        this.driver = driver;
+    }
 
     public void click(ExtendedWebElement element) {
         click(element, element.getName());
@@ -35,11 +29,14 @@ public abstract class BasePage extends AbstractPage {
 
     public void click(ExtendedWebElement element, String elementName) {
         logger.info("Clicking on element [{}]", elementName);
+        scrollTo(element);
         element.click();
     }
 
     public void type(ExtendedWebElement element, String elementName, String text) {
         logger.info("Typing on element [{}]", elementName);
+        scrollTo(element);
+//        element.clear();
         element.type(text);
     }
 
@@ -49,6 +46,7 @@ public abstract class BasePage extends AbstractPage {
 
     public String getText(ExtendedWebElement element, String elementName) {
         logger.info("Getting text from element [{}]", elementName);
+        scrollTo(element);
         return element.getText();
     }
 
@@ -118,11 +116,10 @@ public abstract class BasePage extends AbstractPage {
 //        logger.info("The page is ready");
 //    }
 
-        public void waitUntilPageIsReady() {
-        logger.info("Waiting for the page to load");
-        ExtendedWebElement element=(ExtendedWebElement) driver.findElement(getPageLoadedIndicator());
-        isVisible(element);
-        logger.info("The page is ready");
+    public void scrollTo(ExtendedWebElement element) {
+        ((JavascriptExecutor) driver).executeScript(
+                "arguments[0].scrollIntoView({block:'center', inline:'nearest'});", element
+        );
     }
 
     /**

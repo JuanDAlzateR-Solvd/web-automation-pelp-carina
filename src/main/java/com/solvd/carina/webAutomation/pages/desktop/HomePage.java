@@ -29,6 +29,7 @@ public class HomePage extends BasePage {
             MenuItem.MONITORS, monitorsButton
     );
 
+    @Override
     protected By getPageLoadedIndicator() {
         return By.cssSelector("#tbodyid .card-img-top.img-fluid");
     }

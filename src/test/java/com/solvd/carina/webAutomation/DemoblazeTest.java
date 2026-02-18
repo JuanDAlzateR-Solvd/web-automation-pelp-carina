@@ -31,7 +31,7 @@ public class DemoblazeTest implements IAbstractTest {
 
         homePage.clickButton(HomePage.MenuItem.LAPTOPS);
 
-//        homePage.waitUntilPageIsReady();
+        homePage.waitUntilPageIsReady();
 
         List<String> productsList = productGrid.getProductTitles();
         productsList.forEach(logger::info);

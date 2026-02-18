@@ -4,6 +4,7 @@ import com.solvd.carina.webAutomation.pages.common.BasePage;
 import com.solvd.carina.webAutomation.pages.desktop.HomePage;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
+import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -12,7 +13,7 @@ import org.openqa.selenium.support.FindBy;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductGrid extends BasePage {
+public class ProductGrid extends BaseComponent {
 
     @FindBy(css = "#tbodyid")
     private ExtendedWebElement productGridContainer;
@@ -27,7 +28,6 @@ public class ProductGrid extends BasePage {
         super(driver);
     }
 
-    @Override
     protected By getPageLoadedIndicator() {
         return By.cssSelector("#tbodyid .card-img-top.img-fluid");
     }
@@ -45,7 +45,7 @@ public class ProductGrid extends BasePage {
     }
 
     public boolean nextButtonIsClickable() {
-        return isClickable(nextButton);
+        return nextButton.isClickable();
     }
 
     public void clickNextButton() {
