@@ -21,6 +21,28 @@ public class DemoblazeTest implements IAbstractTest {
     private static final Logger logger =
             LoggerFactory.getLogger(DemoblazeTest.class);
 
+    @Test(testName = "Functionality of top menu", description = "verifies that home page loads,top Menu works correctly")
+    public void verifyTopMenuNavigation() {
+        WebDriver driver = getDriver();
+        HomePage homePage = new HomePage(driver);
+        TopMenu topMenu = new TopMenu(driver);
+
+        homePage.open();
+        topMenu.clickButton(TopMenu.MenuItem.HOME);
+        homePage.waitUntilPageIsReady();
+        SoftAssert sa = new SoftAssert();
+
+        Arrays.stream(TopMenu.MenuItem.values())
+                .forEach(menuItem -> {
+                    topMenu.isVisible(menuItem);
+                    topMenu.clickButton(menuItem);
+                    sa.assertTrue(topMenu.isVisible(menuItem));
+                    topMenu.clickCloseButton(menuItem);
+                    homePage.waitUntilPageIsReady();
+                });
+
+        sa.assertAll();
+    }
 
     @Test(testName = "List of Products - Task1", description = "filters the products by category, then prints in console all the products")
     public void verifyProductsDisplayedForSelectedCategory() {
@@ -35,7 +57,6 @@ public class DemoblazeTest implements IAbstractTest {
 
         homePage.waitUntilPageIsReady();
 
-        homePage.printLoc();
         List<String> productsList = productGrid.getProductTitles();
         productsList.forEach(logger::info);
 
