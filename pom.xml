@@ -19,7 +19,7 @@
 		<carina-aws-s3.version>1.1.4</carina-aws-s3.version>
 		<carina-azure.version>1.1.4</carina-azure.version>
 		<carina-appcenter.version>1.1.4</carina-appcenter.version>
-		<java.version>11</java.version>
+		<java.version>21</java.version>
 		<zebrunner-agent.version>1.9.6</zebrunner-agent.version>
 		<suite>helloWorld</suite>
 	</properties>
