@@ -2,15 +2,9 @@ package com.solvd.carina.webAutomation.pages.desktop;
 
 import com.solvd.carina.webAutomation.pages.common.BasePage;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import com.zebrunner.carina.webdriver.gui.AbstractPage;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +34,7 @@ public class HomePage extends BasePage {
     );
 
     protected ExtendedWebElement getPageLoadedIndicator() {
-      return imageLocator.get(0);
+        return imageLocator.get(0);
     }
 
     public void printLoc() {

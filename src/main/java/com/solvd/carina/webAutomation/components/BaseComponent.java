@@ -9,24 +9,27 @@ import org.slf4j.LoggerFactory;
 
 public abstract class BaseComponent extends AbstractUIObject {
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
+
     public BaseComponent(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
+
     public BaseComponent(WebDriver driver) {
         super(driver);
     }
 
     protected abstract ExtendedWebElement getComponentLoadedIndicator();
 
-    public void click(ExtendedWebElement element,String elementName) {
+    public void click(ExtendedWebElement element, String elementName) {
         logger.info("Clicking on element [{}]", elementName);
         element.click();
     }
 
-    public String getText(ExtendedWebElement element,String elementName) {
+    public String getText(ExtendedWebElement element, String elementName) {
         logger.info("Getting text from element [{}]", elementName);
         return element.getText();
     }
+
     public String getText(ExtendedWebElement element) {
         logger.info("Getting text from element [{}]", element.getName());
         return element.getText();

@@ -1,12 +1,8 @@
 package com.solvd.carina.webAutomation.components;
 
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-
 import org.openqa.selenium.WebDriver;
-
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.Map;
 

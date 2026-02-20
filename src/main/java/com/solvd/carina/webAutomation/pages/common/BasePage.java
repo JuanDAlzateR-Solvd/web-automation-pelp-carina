@@ -1,6 +1,5 @@
 package com.solvd.carina.webAutomation.pages.common;
 
-import com.solvd.carina.webAutomation.actions.UIActions;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
 
@@ -23,6 +22,7 @@ public abstract class BasePage extends AbstractPage {
                 System.identityHashCode(driver)
         );
     }
+
     private static final By LOADER = By.cssSelector(".loader, .spinner, .loading");
 
     protected abstract ExtendedWebElement getPageLoadedIndicator();
@@ -61,7 +61,7 @@ public abstract class BasePage extends AbstractPage {
         if (isVisible) {
             logger.info("Element [{}] is visible", elementName);
             return true;
-        }else  {
+        } else {
             logger.info("Element [{}] is not visible", elementName);
             return false;
         }
@@ -116,7 +116,7 @@ public abstract class BasePage extends AbstractPage {
 //        logger.info("The page is ready");
 //    }
 
-        public void waitUntilPageIsReady() {
+    public void waitUntilPageIsReady() {
         logger.info("Waiting for the page to load");
         getPageLoadedIndicator().isVisible(10);
         logger.info("The page is ready");

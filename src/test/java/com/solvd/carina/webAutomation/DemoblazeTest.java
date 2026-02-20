@@ -1,13 +1,10 @@
 package com.solvd.carina.webAutomation;
 
-import com.solvd.carina.demo.gui.pages.common.HomePageBase;
 import com.solvd.carina.webAutomation.components.*;
 import com.solvd.carina.webAutomation.components.ProductGrid;
 import com.solvd.carina.webAutomation.pages.desktop.HomePage;
 import com.zebrunner.carina.core.IAbstractTest;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -28,8 +25,7 @@ public class DemoblazeTest implements IAbstractTest {
         TopMenu topMenu = new TopMenu(driver);
 
         homePage.open();
-        topMenu.clickButton(TopMenu.MenuItem.HOME);
-        homePage.waitUntilPageIsReady();
+//        homePage.waitUntilPageIsReady();
         SoftAssert sa = new SoftAssert();
 
         Arrays.stream(TopMenu.MenuItem.values())
