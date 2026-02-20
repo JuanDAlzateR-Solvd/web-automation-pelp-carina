@@ -24,12 +24,16 @@ public class ProductGrid extends BaseComponent {
     @FindBy(css = "#tbodyid .card-title")
     private List<ExtendedWebElement> productElements;
 
+    @FindBy(css = "#tbodyid .card-img-top")
+    private List<ExtendedWebElement> imageLocator;
+
+
     public ProductGrid(WebDriver driver) {
         super(driver);
     }
 
-    protected By getPageLoadedIndicator() {
-        return By.cssSelector("#tbodyid .card-img-top.img-fluid");
+    protected ExtendedWebElement getComponentLoadedIndicator() {
+        return imageLocator.get(0);
     }
 
     public List<ExtendedWebElement> getProductElements() {

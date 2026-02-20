@@ -1,10 +1,9 @@
 package com.solvd.carina.webAutomation.components;
 
-import com.solvd.webAutomation.pages.common.AbstractPage;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import org.openqa.selenium.By;
+
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+
 import org.openqa.selenium.support.FindBy;
 
 import java.util.Map;
@@ -65,7 +64,7 @@ public class TopMenu extends BaseComponent {
     );
 
     @Override
-    protected ExtendedWebElement getPageLoadedIndicator() {
+    protected ExtendedWebElement getComponentLoadedIndicator() {
         return imageLocator;
     }
 

@@ -16,6 +16,8 @@ public abstract class BaseComponent extends AbstractUIObject {
         super(driver);
     }
 
+    protected abstract ExtendedWebElement getComponentLoadedIndicator();
+
     public void click(ExtendedWebElement element,String elementName) {
         logger.info("Clicking on element [{}]", elementName);
         element.click();
