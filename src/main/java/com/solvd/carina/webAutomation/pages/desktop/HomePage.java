@@ -7,17 +7,27 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
+import java.util.List;
 import java.util.Map;
 
 public class HomePage extends BasePage {
 
     @FindBy(css = ".list-group a[onclick*='phone']")
     private ExtendedWebElement phonesButton;
+
     @FindBy(css = ".list-group a[onclick*='notebook']")
     private ExtendedWebElement laptopsButton;
+
     @FindBy(css = ".list-group a[onclick*='monitor']")
     private ExtendedWebElement monitorsButton;
+
+    @FindBy(css = "#tbodyid .card-img-top")
+    private List<ExtendedWebElement> imageLocator;
+
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -29,10 +39,17 @@ public class HomePage extends BasePage {
             MenuItem.MONITORS, monitorsButton
     );
 
-    @Override
-    protected By getPageLoadedIndicator() {
-        return By.cssSelector("#tbodyid .card-img-top.img-fluid");
+    protected ExtendedWebElement getPageLoadedIndicator() {
+      return imageLocator.get(0);
     }
+
+    public void printLoc() {
+
+        for (ExtendedWebElement img : imageLocator) {
+            logger.info("Class: [{}]", img.getAttribute("class"));
+        }
+
+    } //#tbodyid .card-img-top.img-fluid
 
     public void clickButton(MenuItem item) {
         menuButtons.get(item).click();

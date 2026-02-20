@@ -5,8 +5,6 @@ import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -27,7 +25,7 @@ public abstract class BasePage extends AbstractPage {
     }
     private static final By LOADER = By.cssSelector(".loader, .spinner, .loading");
 
-    abstract By getPageLoadedIndicator();
+    protected abstract ExtendedWebElement getPageLoadedIndicator();
 
     public void click(ExtendedWebElement element) {
         click(element, element.getName());
@@ -120,8 +118,7 @@ public abstract class BasePage extends AbstractPage {
 
         public void waitUntilPageIsReady() {
         logger.info("Waiting for the page to load");
-        ExtendedWebElement element=(ExtendedWebElement) driver.findElement(getPageLoadedIndicator());
-        isVisible(element);
+        getPageLoadedIndicator().isVisible(10);
         logger.info("The page is ready");
     }
 

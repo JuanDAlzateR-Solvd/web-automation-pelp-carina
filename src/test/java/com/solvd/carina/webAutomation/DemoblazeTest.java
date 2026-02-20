@@ -5,7 +5,9 @@ import com.solvd.carina.webAutomation.components.*;
 import com.solvd.carina.webAutomation.components.ProductGrid;
 import com.solvd.carina.webAutomation.pages.desktop.HomePage;
 import com.zebrunner.carina.core.IAbstractTest;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -33,6 +35,7 @@ public class DemoblazeTest implements IAbstractTest {
 
         homePage.waitUntilPageIsReady();
 
+        homePage.printLoc();
         List<String> productsList = productGrid.getProductTitles();
         productsList.forEach(logger::info);
 
