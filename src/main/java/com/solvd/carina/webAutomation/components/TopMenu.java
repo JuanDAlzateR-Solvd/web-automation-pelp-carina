@@ -1,8 +1,13 @@
 package com.solvd.carina.webAutomation.components;
 
+import com.solvd.carina.webAutomation.pages.desktop.CartPage;
+import com.solvd.carina.webAutomation.pages.desktop.HomePage;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.Map;
 
@@ -38,44 +43,45 @@ public class TopMenu extends BaseComponent {
     @FindBy(css = "#signInModal .close")
     private ExtendedWebElement signUpCloseButton;
 
-    @FindBy(css = "#nava img")
-    private ExtendedWebElement imageLocator;
+    @FindBy(css = "a[id='nava'] img")
+    private ExtendedWebElement imageIndicator;
+
+    private final Map<MenuItem, ExtendedWebElement> menuButtons;
+
+    private final Map<MenuItem, ExtendedWebElement> closeButtons;
 
     public TopMenu(WebDriver driver) {
         super(driver);
+        menuButtons = Map.of(
+                MenuItem.HOME, homeButton,
+                MenuItem.CONTACT, contactButton,
+                MenuItem.ABOUT_US, aboutUsButton,
+                MenuItem.CART, cartButton,
+                MenuItem.LOG_IN, logInButton,
+                MenuItem.SIGN_UP, signUpButton
+        );
+        closeButtons = Map.of(
+                MenuItem.CONTACT, contactCloseButton,
+                MenuItem.ABOUT_US, aboutUsCloseButton,
+                MenuItem.LOG_IN, logInCloseButton,
+                MenuItem.SIGN_UP, signUpCloseButton
+        );
     }
-
-    private final Map<MenuItem, ExtendedWebElement> menuButtons = Map.of(
-            MenuItem.HOME, homeButton,
-            MenuItem.CONTACT, contactButton,
-            MenuItem.ABOUT_US, aboutUsButton,
-            MenuItem.CART, cartButton,
-            MenuItem.LOG_IN, logInButton,
-            MenuItem.SIGN_UP, signUpButton
-    );
-
-    private final Map<MenuItem, ExtendedWebElement> closeButtons = Map.of(
-            MenuItem.CONTACT, contactCloseButton,
-            MenuItem.ABOUT_US, aboutUsCloseButton,
-            MenuItem.LOG_IN, logInCloseButton,
-            MenuItem.SIGN_UP, signUpCloseButton
-    );
 
     @Override
     protected ExtendedWebElement getComponentLoadedIndicator() {
-        return imageLocator;
+        return imageIndicator;
     }
 
-    public void clickButton(MenuItem item) {
-        click(menuButtons.get(item), item.getName());
+    public void click(MenuItem item) {
+//       menuButtons.get(item).isClickable();
+       menuButtons.get(item).click();
     }
 
-    public void clickCloseButton(MenuItem item) {
-        if (closeButtons.containsKey(item)) {
-            ExtendedWebElement closeButton = closeButtons.get(item);
-            click(closeButton,
-                    item.getName().substring(4) + " Close Button");
-            closeButton.waitUntilElementDisappear(10);
+    public void clickClose(MenuItem item) {
+        ExtendedWebElement closeButton = closeButtons.get(item);
+        if (closeButton != null) {
+           closeButton.click();
         }
     }
 
@@ -86,15 +92,15 @@ public class TopMenu extends BaseComponent {
             result = closeButtons.get(item).isVisible(10);
         } else {
             switch (item) {
-                case HOME -> result = driver.getCurrentUrl().contains("index.html");
-                case CART -> result = driver.getCurrentUrl().contains("cart.html");
+                case HOME -> result = new HomePage(driver).isPageVisible();
+                case CART -> result = new CartPage(driver).isPageVisible();
             }
         }
 
         return result;
     }
 
-    public enum MenuItem {
+     public enum MenuItem {
         HOME("Top Menu Home"),
         CONTACT("Top Menu Contact"),
         ABOUT_US("Top Menu About Us"),
@@ -112,5 +118,51 @@ public class TopMenu extends BaseComponent {
             return name;
         }
     }
+
+    //Test flow methods
+    public CartPage goToCartPage() {
+        click(MenuItem.CART);
+        CartPage cartPage = new CartPage(driver);
+        cartPage.waitUntilPageIsReady();//just added
+//        cartPage.waitUntilCartLoadsProducts();
+        return cartPage;
+    }
+
+    public HomePage goToHomePage() {
+        click(MenuItem.HOME);
+        HomePage homePage = new HomePage(driver);
+        homePage.waitUntilPageIsReady();
+        return homePage;
+    }
+
+    public AboutUsModal openAboutUsModal() {
+        click(MenuItem.ABOUT_US);
+        AboutUsModal aboutUsModal = new AboutUsModal(driver);
+        aboutUsModal.waitUntilModalOpened();
+        return aboutUsModal;
+    }
+
+    public SignUpModal openSignUpModal() {
+        click(MenuItem.SIGN_UP);
+        SignUpModal signUpModal = new SignUpModal(driver);
+        signUpModal.waitUntilModalOpened();
+
+        return signUpModal;
+    }
+
+    public ContactModal openContactModal() {
+        click(MenuItem.CONTACT);
+        ContactModal contactModal = new ContactModal(driver);
+        contactModal.waitUntilModalOpened();
+        return contactModal;
+    }
+
+    public LogInModal openLogInModal() {
+        click(MenuItem.LOG_IN);
+        LogInModal logInModal = new LogInModal(driver);
+        logInModal.waitUntilModalOpened();
+        return logInModal;
+    }
+
 
 }

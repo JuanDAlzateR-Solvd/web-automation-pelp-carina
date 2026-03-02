@@ -6,6 +6,7 @@ import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
 import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -27,9 +28,8 @@ public class ProductGrid extends BaseComponent {
     @FindBy(css = "#tbodyid .card-img-top")
     private List<ExtendedWebElement> imageLocator;
 
-
-    public ProductGrid(WebDriver driver) {
-        super(driver);
+    public ProductGrid(WebDriver driver, SearchContext root) {
+        super(driver, root);
     }
 
     protected ExtendedWebElement getComponentLoadedIndicator() {
@@ -42,6 +42,7 @@ public class ProductGrid extends BaseComponent {
 
     public List<String> getProductTitles() {
         List<String> productsList = new ArrayList<>();
+        waitUntilComponentIsReady();
         for (ExtendedWebElement product : getProductElements()) {
             productsList.add(product.getText());
         }
@@ -53,28 +54,28 @@ public class ProductGrid extends BaseComponent {
     }
 
     public void clickNextButton() {
-        click(nextButton, "Next Button");
+       nextButton.click();
     }
 
-    public void clickNextButtonIfPossible(HomePage.MenuItem category) {
-        if (nextButtonIsClickable() && category != HomePage.MenuItem.MONITORS) {
+    public void clickNextButtonIfPossible(HomePage.Category category) {
+        if (nextButtonIsClickable() && category != HomePage.Category.MONITORS) {
             //demoblaze.com has a bug, when click on category monitors it shows the next button, even thought it shouldn't.
             clickNextButton();
         }
     }
 
     public String getTextOf(ExtendedWebElement product) {
-        String productName = getText(product).split("\n")[0];
-        return getText(product, productName);
+//        String productName = product.getText().split("\n")[0];
+        return product.getText();
     }
 
     public void clickProduct(ExtendedWebElement product) {
         String productName = getProductName(product);
-        click(product, productName);
+        product.click();
     }
 
     public String getProductName(ExtendedWebElement product) {
-        return getText(product).split("\n")[0];
+        return product.getText().split("\n")[0];
     }
 
     public ExtendedWebElement getProductGridContainer() {

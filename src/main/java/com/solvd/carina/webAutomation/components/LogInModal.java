@@ -1,0 +1,74 @@
+package com.solvd.carina.webAutomation.components;
+
+import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.FindBy;
+
+public class LogInModal extends BaseModal {
+
+    @FindBy(id = "logInModal")
+    private ExtendedWebElement modalContainer;
+
+    @FindBy(id = "logInModalLabel")
+    private ExtendedWebElement labelTitle;
+
+    @FindBy(css = "#logInModal button.btn.btn-primary")
+    private ExtendedWebElement logInButton;
+
+    @FindBy(css = "#logInModal button.btn.btn-secondary")
+    private ExtendedWebElement closeButton;
+
+    @FindBy(id = "loginusername")
+    private ExtendedWebElement usernameInput;
+
+    @FindBy(id = "loginpassword")
+    private ExtendedWebElement passwordInput;
+
+    public LogInModal(WebDriver driver) {
+        super(driver,driver);
+    }
+
+    @Override
+    protected ExtendedWebElement getComponentLoadedIndicator() {
+        return labelTitle;
+    }
+
+    @Override
+    protected ExtendedWebElement getModalContainer() {
+        return modalContainer;
+    }
+
+    @Override
+    protected ExtendedWebElement getCloseButton() {
+        return closeButton;
+    }
+
+    @Override
+    protected ExtendedWebElement getModalTitle() {
+        return labelTitle;
+    }
+
+    public ExtendedWebElement getLabelTitle() {
+        return labelTitle;
+    }
+
+    public void clickLogIn() {
+        logInButton.click();
+    }
+
+    public void typeUsername(String username) {
+        usernameInput.type(username);
+    }
+
+    public void typePassword(String password) {
+        passwordInput.type(password);
+    }
+
+    public LogInModal logInWith(String username, String password) {
+        typeUsername(username);
+        typePassword(password);
+        clickLogIn();
+        return this;
+    }
+
+}
