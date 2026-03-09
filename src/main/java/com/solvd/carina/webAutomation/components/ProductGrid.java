@@ -1,40 +1,46 @@
 package com.solvd.carina.webAutomation.components;
 
-import com.solvd.carina.webAutomation.pages.common.BasePage;
 import com.solvd.carina.webAutomation.pages.desktop.HomePage;
+import com.solvd.carina.webAutomation.pages.desktop.ProductPage;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import com.zebrunner.carina.webdriver.gui.AbstractPage;
-import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
 import org.openqa.selenium.By;
-import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class ProductGrid extends BaseComponent {
 
-    @FindBy(css = "#tbodyid")
-    private ExtendedWebElement productGridContainer;
-
     @FindBy(css = ".pagination #next2")
     private ExtendedWebElement nextButton;
 
-    @FindBy(css = "#tbodyid .card-title")
+    @FindBy(css = ".col-lg-4")
     private List<ExtendedWebElement> productElements;
 
-    @FindBy(css = "#tbodyid .card-img-top")
-    private List<ExtendedWebElement> imageLocator;
+    @FindBy(css = ".card-img-top.img-fluid")
+    private List<ExtendedWebElement> imageIndicator;
 
-    public ProductGrid(WebDriver driver, SearchContext root) {
+    public ProductGrid(WebDriver driver, WebElement root) {
         super(driver, root);
     }
 
+    @Override
     protected ExtendedWebElement getComponentLoadedIndicator() {
-        return imageLocator.get(0);
+
+        waitUtil.waitForNumberOfElementsToBeMoreThan(
+                By.cssSelector(".card-img-top.img-fluid"), 0);
+
+        return  findExtendedWebElements(By.cssSelector(".card-title")).get(0);
+    }
+
+    public List<ProductGridItemComponent> getProductComponents() {
+
+        logger.debug("Getting product components: found {} products", productElements.size());
+        return productElements.stream()
+                .map(el -> new ProductGridItemComponent(driver, el.getElement()))
+                .toList();
     }
 
     public List<ExtendedWebElement> getProductElements() {
@@ -42,57 +48,88 @@ public class ProductGrid extends BaseComponent {
     }
 
     public List<String> getProductTitles() {
-        List<String> productsList = new ArrayList<>();
         waitUntilComponentIsReady();
-        for (int i = 0; i < getProductElements().size(); i++) {
-            try {
-                productsList.add(getProductElements().get(i).getText());
-            } catch (StaleElementReferenceException e) {
-                logger.warn("Stale element detected, retrying to get product titles...");
-                return getProductTitles();
-            }
-        }
-        return productsList;
+
+        List<ExtendedWebElement> titles =
+                findExtendedWebElements(By.cssSelector(".card-title"));
+
+        logger.info("Getting {} product titles", titles.size());
+
+        return titles.stream()
+                .map(ExtendedWebElement::getText)
+                .toList();
+
     }
 
-    public boolean nextButtonIsClickable() {
-        return nextButton.isClickable();
+    public boolean isNextButtonClickable() {
+        return nextButton.isElementPresent() && nextButton.isClickable();
     }
 
     public void clickNextButton() {
-       nextButton.click();
+        nextButton.click();
     }
 
     public void clickNextButtonIfPossible(HomePage.Category category) {
-        if (nextButtonIsClickable() && category != HomePage.Category.MONITORS) {
-            //demoblaze.com has a bug, when click on category monitors it shows the next button, even thought it shouldn't.
+        if (isNextButtonClickable() && category != HomePage.Category.MONITORS) {
+            // Monitors category is expected to be a single page without pagination, so do not use the Next button for it.
             clickNextButton();
         }
     }
 
-    public String getTextOf(ExtendedWebElement product) {
-//        String productName = product.getText().split("\n")[0];
-        return product.getText();
-    }
-
-    public void clickProduct(ExtendedWebElement product) {
-        String productName = getProductName(product);
-        product.click();
-    }
-
-    public String getProductName(ExtendedWebElement product) {
-        return product.getText().split("\n")[0];
-    }
-
     public ExtendedWebElement getProductGridContainer() {
-        return productGridContainer;
+        return getRootExtendedElement();
     }
 
-    public ExtendedWebElement getProductByIndex(int productIndex) {
-        List<ExtendedWebElement> products = getProductElements();
-        ExtendedWebElement product = products.get(productIndex);
-        logger.info(getTextOf(product));
-        return product;
+//    public ProductGridItemComponent getProductByIndex(int productIndex) {
+//        List<ProductGridItemComponent> products = getProductComponents();
+//        ProductGridItemComponent product = products.get(productIndex);
+//        logger.debug("Getting product {} from product grid", productIndex);
+//        return product;
+//    }
+
+    public ProductGridItemComponent getProductByIndex(int productIndex) {
+        waitUntilComponentIsReady();
+
+        List<ProductGridItemComponent> products = getProductComponents();
+        int size = products.size();
+
+        if (productIndex < 0 || productIndex >= size) {
+            throw new IllegalArgumentException(
+                    "Product index " + productIndex + " is out of bounds. Grid size: " + size);
+        }
+
+        logger.debug("Getting product {} from grid", productIndex);
+
+        return products.get(productIndex);
+    }
+
+    //Test flow methods
+
+    public ProductPage openProductByIndex(int index) {
+        waitUntilComponentIsReady();
+        ProductGridItemComponent product = getProductByIndex(index);
+        logger.info("Opening product {} from product grid", index);
+        product.clickProduct();
+        return new ProductPage(driver);
+    }
+
+    public String getProductNameByIndex(int index) {
+        ProductGridItemComponent product = getProductByIndex(index);
+        return product.getProductName();
+    }
+
+    public int getProductCount() {
+        waitUntilComponentIsReady();
+        logger.info("Checking number of products in product grid");
+        waitUtil.waitForPresenceOfElementLocated(By.id("tbodyid"));
+
+        List<ExtendedWebElement> rows =
+                findExtendedWebElements(By.cssSelector("#tbodyid .card-title"));
+
+        int size = rows.size();
+        logger.info("Product grid has {} products", size);
+
+        return size;
     }
 
 }

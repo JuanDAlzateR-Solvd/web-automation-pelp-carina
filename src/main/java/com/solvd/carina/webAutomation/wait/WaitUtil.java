@@ -23,7 +23,7 @@ public class WaitUtil {
         this.defaultTimeout = Configuration.get("explicit_timeout")
                 .map(Integer::parseInt)
                 .orElse(10);
-        logger.info("WaitUtil default timeout is set to: {}", this.defaultTimeout);
+        logger.debug("WaitUtil default timeout is set to: {}", this.defaultTimeout);
     }
 
     private WebDriverWait buildWait(int timeoutInSeconds) {

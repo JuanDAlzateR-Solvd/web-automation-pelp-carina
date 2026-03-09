@@ -46,7 +46,7 @@ public class HomePage extends BasePage {
     public ExtendedWebElement getPageLoadedIndicator() {
         if (imageIndicator.isEmpty()) {
             logger.info("No images found, returning productGridContainer");
-            // Regresamos el contenedor si no hay imágenes aún para evitar IndexOutOfBounds
+            // Return container to avoid IndexOutOfBounds
             return productGridContainer;
         }
         return imageIndicator.get(0);
@@ -88,6 +88,7 @@ public class HomePage extends BasePage {
 
     public ProductGrid selectCategory(Category item) {
         click(item);
+        waitUntilPageIsReady();
         return new ProductGrid(driver, productGridContainer.getElement());
     }
 
