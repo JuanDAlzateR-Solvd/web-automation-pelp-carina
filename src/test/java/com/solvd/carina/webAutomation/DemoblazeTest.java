@@ -2,8 +2,11 @@ package com.solvd.carina.webAutomation;
 
 import com.solvd.carina.webAutomation.components.*;
 import com.solvd.carina.webAutomation.components.ProductGrid;
+import com.solvd.carina.webAutomation.components.modals.AboutUsModal;
+import com.solvd.carina.webAutomation.components.modals.ContactModal;
+import com.solvd.carina.webAutomation.components.modals.LogInModal;
+import com.solvd.carina.webAutomation.components.modals.SignUpModal;
 import com.solvd.carina.webAutomation.navigation.PageNavigator;
-import com.solvd.carina.webAutomation.pages.common.BasePage;
 import com.solvd.carina.webAutomation.pages.desktop.CartPage;
 import com.solvd.carina.webAutomation.pages.desktop.HomePage;
 import com.zebrunner.carina.core.IAbstractTest;
@@ -14,7 +17,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class DemoblazeTest implements IAbstractTest {

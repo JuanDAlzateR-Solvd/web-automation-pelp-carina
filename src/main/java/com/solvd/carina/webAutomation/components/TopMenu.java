@@ -1,13 +1,15 @@
 package com.solvd.carina.webAutomation.components;
 
+import com.solvd.carina.webAutomation.components.modals.AboutUsModal;
+import com.solvd.carina.webAutomation.components.modals.ContactModal;
+import com.solvd.carina.webAutomation.components.modals.LogInModal;
+import com.solvd.carina.webAutomation.components.modals.SignUpModal;
 import com.solvd.carina.webAutomation.pages.desktop.CartPage;
 import com.solvd.carina.webAutomation.pages.desktop.HomePage;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.Map;
 
@@ -74,8 +76,14 @@ public class TopMenu extends BaseComponent {
     }
 
     public void click(MenuItem item) {
-//       menuButtons.get(item).isClickable();
-       menuButtons.get(item).click();
+        ExtendedWebElement button = menuButtons.get(item);
+        try {
+            button.click(5);
+        } catch (Exception e) {
+            logger.warn("Standard click failed for {}, trying with JS", item);
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("arguments[0].click();", button.getElement());
+        }
     }
 
     public void clickClose(MenuItem item) {

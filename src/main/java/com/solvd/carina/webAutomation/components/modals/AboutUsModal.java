@@ -1,4 +1,4 @@
-package com.solvd.carina.webAutomation.components;
+package com.solvd.carina.webAutomation.components.modals;
 
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.WebDriver;

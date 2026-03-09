@@ -1,30 +1,30 @@
-package com.solvd.carina.webAutomation.components;
+package com.solvd.carina.webAutomation.components.modals;
 
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-public class LogInModal extends BaseModal {
+public class SignUpModal extends BaseModal {
 
-    @FindBy(id = "logInModal")
+    @FindBy(id = "signInModal")
     private ExtendedWebElement modalContainer;
 
-    @FindBy(id = "logInModalLabel")
+    @FindBy(id = "signInModalLabel")
     private ExtendedWebElement labelTitle;
 
-    @FindBy(css = "#logInModal button.btn.btn-primary")
-    private ExtendedWebElement logInButton;
+    @FindBy(css = "#signInModal button.btn.btn-primary")
+    private ExtendedWebElement signInButton;
 
-    @FindBy(css = "#logInModal button.btn.btn-secondary")
+    @FindBy(css = "#signInModal button.btn.btn-secondary")
     private ExtendedWebElement closeButton;
 
-    @FindBy(id = "loginusername")
+    @FindBy(id = "sign-username")
     private ExtendedWebElement usernameInput;
 
-    @FindBy(id = "loginpassword")
+    @FindBy(id = "sign-password")
     private ExtendedWebElement passwordInput;
 
-    public LogInModal(WebDriver driver) {
+    public SignUpModal(WebDriver driver) {
         super(driver,driver);
     }
 
@@ -37,38 +37,31 @@ public class LogInModal extends BaseModal {
     protected ExtendedWebElement getModalContainer() {
         return modalContainer;
     }
-
-    @Override
-    protected ExtendedWebElement getCloseButton() {
-        return closeButton;
-    }
-
     @Override
     protected ExtendedWebElement getModalTitle() {
         return labelTitle;
     }
-
+    @Override
+    protected ExtendedWebElement getCloseButton() {
+        return closeButton;
+    }
     public ExtendedWebElement getLabelTitle() {
         return labelTitle;
     }
 
-    public void clickLogIn() {
-        logInButton.click();
+    public void clickSignIn() {
+       signInButton.click();
     }
-
+    public void clickClose() {
+       closeButton.click();
+        closeButton.waitUntilElementDisappear(5);
+//        closeButton.isVisible();
+    }
     public void typeUsername(String username) {
         usernameInput.type(username);
     }
-
     public void typePassword(String password) {
         passwordInput.type(password);
-    }
-
-    public LogInModal logInWith(String username, String password) {
-        typeUsername(username);
-        typePassword(password);
-        clickLogIn();
-        return this;
     }
 
 }

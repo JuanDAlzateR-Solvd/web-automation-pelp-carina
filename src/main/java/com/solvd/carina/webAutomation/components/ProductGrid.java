@@ -7,6 +7,7 @@ import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -43,8 +44,13 @@ public class ProductGrid extends BaseComponent {
     public List<String> getProductTitles() {
         List<String> productsList = new ArrayList<>();
         waitUntilComponentIsReady();
-        for (ExtendedWebElement product : getProductElements()) {
-            productsList.add(product.getText());
+        for (int i = 0; i < getProductElements().size(); i++) {
+            try {
+                productsList.add(getProductElements().get(i).getText());
+            } catch (StaleElementReferenceException e) {
+                logger.warn("Stale element detected, retrying to get product titles...");
+                return getProductTitles();
+            }
         }
         return productsList;
     }

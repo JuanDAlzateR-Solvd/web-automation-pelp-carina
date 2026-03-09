@@ -97,4 +97,17 @@ public class WaitUtil {
                         .equals("complete"));
     }
 
+    /**
+     * Pauses using Thread sleep. Use only for debug code, not for test implementation.
+     *
+     * @param milliseconds int number of milliseconds to pause*
+     */
+    @Deprecated
+    public void debugPause(int milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

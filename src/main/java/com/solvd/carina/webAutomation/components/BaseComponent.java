@@ -32,7 +32,7 @@ public abstract class BaseComponent extends AbstractUIObject {
 
     public void waitUntilComponentIsReady() {
         logger.debug("Waiting for component [{}] to be ready", getClass().getSimpleName());
-//        getComponentLoadedIndicator().isVisible(5);
+        getComponentLoadedIndicator().isVisible(10);
     }
 
     public boolean isComponentVisible() {
