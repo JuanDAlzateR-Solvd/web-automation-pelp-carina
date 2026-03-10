@@ -29,10 +29,10 @@ public class ProductGrid extends BaseComponent {
     @Override
     protected ExtendedWebElement getComponentLoadedIndicator() {
 
-        waitUtil.waitForNumberOfElementsToBeMoreThan(
-                By.cssSelector(".card-img-top.img-fluid"), 0);
+        By locator = By.cssSelector(".card-img-top.img-fluid");
+        waitUtil.waitForNumberOfElementsToBeMoreThan(locator, 0);
 
-        return  findExtendedWebElements(By.cssSelector(".card-title")).get(0);
+        return  findExtendedWebElements(locator).get(0);
     }
 
     public List<ProductGridItemComponent> getProductComponents() {

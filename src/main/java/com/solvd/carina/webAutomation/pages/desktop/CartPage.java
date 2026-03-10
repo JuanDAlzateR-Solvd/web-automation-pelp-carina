@@ -49,8 +49,13 @@ public class CartPage extends BasePage {
     }
 
     public Optional<CartItemComponent> getCartItemComponentByName(String productName) {
+        waitUntilPageIsReady();
 
-        return getCartItemComponents().stream()
+        List<CartItemComponent> cartItems = getCartItemComponents();
+
+        logger.info("Getting cart item components. Found {} items", cartItems.size());
+
+        return cartItems.stream()
                 .filter(ci -> ci.getTitle().equalsIgnoreCase(productName))
                 .findFirst();
     }
@@ -78,9 +83,23 @@ public class CartPage extends BasePage {
 
         logger.info("Emptying shopping cart");
 
+        int initialSize = getProductCount();
+        logger.info("Initial cart size: {}", initialSize);
+
+        for (int i = initialSize; i > 0; i--) {
+            deleteProduct(getCartItemComponents().get(0).getTitle());
+            if(i>1){
+                waitUntilCartShowsProducts();
+            }else {
+                waitUntilPageIsReady();
+            }
+        }
+
+        //Final Empty cart, if some products were not deleted.
         while (!isCartEmpty()) {
             CartItemComponent item = getCartItemComponents().get(0);
             deleteProduct(item.getTitle());
+            waitUntilPageIsReady();
         }
     }
 
@@ -127,6 +146,11 @@ public class CartPage extends BasePage {
         logger.debug("Waiting for cart size to change from {}", initialSize);
 
         waitUntil(driver -> tableRows.size() != initialSize, 10);
+    }
+
+    public void waitUntilCartShowsProducts() {
+        waitUntilPageIsReady();
+        waitUntilCartSizeChanges(0);
     }
 
     /* -----------------------------

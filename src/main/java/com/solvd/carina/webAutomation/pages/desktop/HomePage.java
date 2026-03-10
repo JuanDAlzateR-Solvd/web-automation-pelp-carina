@@ -44,11 +44,11 @@ public class HomePage extends BasePage {
 
     @Override
     public ExtendedWebElement getPageLoadedIndicator() {
-        if (imageIndicator.isEmpty()) {
-            logger.info("No images found, returning productGridContainer");
-            // Return container to avoid IndexOutOfBounds
-            return productGridContainer;
-        }
+
+        logger.debug("Waiting for home page to load imageIndicator. Initial size: {}", imageIndicator.size());
+
+        waitUntil(driver -> !imageIndicator.isEmpty(), 10);
+
         return imageIndicator.get(0);
     }
 

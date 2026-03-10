@@ -6,6 +6,7 @@ import com.solvd.carina.webAutomation.components.modals.AboutUsModal;
 import com.solvd.carina.webAutomation.components.modals.ContactModal;
 import com.solvd.carina.webAutomation.components.modals.LogInModal;
 import com.solvd.carina.webAutomation.components.modals.SignUpModal;
+import com.solvd.carina.webAutomation.flows.ShoppingFlow;
 import com.solvd.carina.webAutomation.navigation.PageNavigator;
 import com.solvd.carina.webAutomation.pages.desktop.CartPage;
 import com.solvd.carina.webAutomation.pages.desktop.HomePage;
@@ -93,6 +94,97 @@ public class DemoblazeTest implements IAbstractTest {
 
         Assert.assertTrue(productPage.isInfoVisible(), "Product Page should have all info visible");
 
+    }
+
+    @Test(testName = "Add Product to Cart - Task3 TC-002",
+            description = "choose the first product from a category and add it to cart, then verifies info in shopping cart",
+            dataProvider = "Category MenuItem Provider")
+    public void verifyAddFirstProductToCart(HomePage.Category category) {
+        WebDriver driver = getDriver();
+
+        HomePage homePage = PageNavigator.openHomePage(driver);
+
+        ProductGrid productGrid = homePage.selectCategory(category);
+
+        String productName = productGrid.getProductNameByIndex(0);
+
+        CartPage cartPage = productGrid
+                .openProductByIndex(0)
+                .addToCart()
+                .getTopMenu()
+                .goToCartPage();
+
+        cartPage.waitUntilCartShowsProducts();
+
+        Assert.assertTrue(cartPage.containsProduct(productName), "Product was not added to cart");
+
+        Assert.assertFalse(cartPage.getTotalPrice().isEmpty(), "Total price is empty");
+
+    }
+
+    @Test(testName = "Delete Product from Cart - Task3 TC-003",
+            description = "choose the first product from a category and add it to cart, then delete it, verifies info in shopping cart",
+            dataProvider = "Category MenuItem Provider")
+    public void verifyDeleteProductFromCart(HomePage.Category category) {
+        WebDriver driver = getDriver();
+        HomePage homePage = PageNavigator.openHomePage(driver);
+        SoftAssert sa = new SoftAssert();
+
+        ProductGrid productGrid = homePage.selectCategory(category);
+
+        String productName = productGrid.getProductNameByIndex(0);
+
+        CartPage cartPage = productGrid
+                .openProductByIndex(0)
+                .addToCart()
+                .getTopMenu()
+                .goToCartPage();
+
+        cartPage.waitUntilCartShowsProducts();
+
+        sa.assertTrue(cartPage.containsProduct(productName),
+                "Product was not added to cart");
+
+        int initialSize = cartPage.getProductCount();
+
+        cartPage.deleteProduct(productName);
+
+        sa.assertEquals(
+                cartPage.getProductCount(),
+                initialSize - 1,
+                "Product was not deleted"
+        );
+
+        sa.assertAll();
+    }
+
+    @Test(testName = "Empty Shopping Cart - Task3 TC-004",
+            description = "add random products to the shopping cart, then empties the cart")
+    public void verifyAllDeleteButtonsToEmptyShoppingCart() {
+        WebDriver driver = getDriver();
+
+        HomePage homePage = PageNavigator.openHomePage(driver);
+        ShoppingFlow shoppingFlow = new ShoppingFlow(driver);
+
+        List<String> productNames = shoppingFlow.addRandomProductsToCart(5);
+
+        SoftAssert sa = new SoftAssert();
+        CartPage cartPage = homePage.getTopMenu().goToCartPage();
+
+        cartPage.waitUntilCartShowsProducts();
+
+        int initialSize = cartPage.getProductCount();
+
+        sa.assertFalse(initialSize == 0, "The shopping cart is empty");
+
+        cartPage.emptyShoppingCart();
+        logger.debug("finished empty shopping cart");
+
+        int finalSize = cartPage.getProductCount();
+        sa.assertTrue(finalSize == 0, "The shopping cart is not empty");
+        logger.debug("finished checking shopping cart");
+
+        sa.assertAll();
     }
 
     //Data Providers
