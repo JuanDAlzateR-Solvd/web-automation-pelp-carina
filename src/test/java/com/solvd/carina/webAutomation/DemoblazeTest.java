@@ -1,6 +1,5 @@
 package com.solvd.carina.webAutomation;
 
-import com.solvd.carina.webAutomation.components.*;
 import com.solvd.carina.webAutomation.components.ProductGrid;
 import com.solvd.carina.webAutomation.components.modals.AboutUsModal;
 import com.solvd.carina.webAutomation.components.modals.ContactModal;
@@ -91,7 +90,7 @@ public class DemoblazeTest implements IAbstractTest {
         int productIndex = productGrid.getProductCount() - 1;
 
         ProductPage productPage = productGrid
-                .openProductByIndex(productIndex);
+                .openProduct(productIndex);
 
         Assert.assertTrue(productPage.isInfoVisible(), "Product Page should have all info visible");
 
@@ -107,10 +106,10 @@ public class DemoblazeTest implements IAbstractTest {
 
         ProductGrid productGrid = homePage.selectCategory(category);
 
-        String productName = productGrid.getProductNameByIndex(0);
+        String productName = productGrid.getProductName(0);
 
         CartPage cartPage = productGrid
-                .openProductByIndex(0)
+                .openProduct(0)
                 .addToCart()
                 .getNavigation()
                 .goToCartPage();
@@ -133,10 +132,10 @@ public class DemoblazeTest implements IAbstractTest {
 
         ProductGrid productGrid = homePage.selectCategory(category);
 
-        String productName = productGrid.getProductNameByIndex(0);
+        String productName = productGrid.getProductName(0);
 
         CartPage cartPage = productGrid
-                .openProductByIndex(0)
+                .openProduct(0)
                 .addToCart()
                 .getNavigation()
                 .goToCartPage();

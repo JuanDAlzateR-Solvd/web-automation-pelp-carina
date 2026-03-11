@@ -2,7 +2,6 @@ package com.solvd.carina.webAutomation.flows;
 
 import com.solvd.carina.webAutomation.components.ProductGrid;
 import com.solvd.carina.webAutomation.pages.desktop.HomePage;
-import com.solvd.carina.webAutomation.wait.WaitUtil;
 import com.zebrunner.carina.utils.config.Configuration;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
@@ -28,7 +27,7 @@ public class ShoppingFlow {
 
         ProductGrid productGrid = homePage.getProductGrid();
 
-        String productName = productGrid.getProductNameByIndex(productIndex);
+        String productName = productGrid.getProductName(productIndex);
         String excludedProductsConfig = Configuration.get("excluded_products").orElse(null);
         List<String> excludedProducts = excludedProductsConfig != null
                 ? Arrays.stream(excludedProductsConfig.split(","))
@@ -39,11 +38,11 @@ public class ShoppingFlow {
         //Identified a bug specific for some products (e.g. Nexus 6).
         while (excludedProducts.contains(productName)) {
             productIndex++;
-            productName = productGrid.getProductNameByIndex(productIndex);
+            productName = productGrid.getProductName(productIndex);
         }
 
         productGrid
-                .openProductByIndex(productIndex)
+                .openProduct(productIndex)
                 .addToCart()
                 .getNavigation()
                 .goToHomePage();
