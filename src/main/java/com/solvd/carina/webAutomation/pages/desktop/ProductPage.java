@@ -2,6 +2,7 @@ package com.solvd.carina.webAutomation.pages.desktop;
 
 import com.solvd.carina.webAutomation.pages.common.BasePage;
 import com.solvd.carina.webAutomation.components.TopMenu;
+import com.solvd.carina.webAutomation.pages.common.BaseTopMenuPage;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.TimeoutException;
@@ -9,7 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class ProductPage extends BasePage {
+public class ProductPage extends BaseTopMenuPage {
 
     @FindBy(css = ".item.active")
     private ExtendedWebElement image;
@@ -29,6 +30,9 @@ public class ProductPage extends BasePage {
     @FindBy(css = "#myCarousel-2")
     private ExtendedWebElement imageLocator;
 
+    @FindBy(css = ".navbar.navbar-toggleable-md.bg-inverse")
+    private ExtendedWebElement topMenuContainer;
+
     public ProductPage(WebDriver driver) {
         super(driver);
     }
@@ -38,6 +42,10 @@ public class ProductPage extends BasePage {
         return imageLocator;
     }
 
+    @Override
+    protected WebElement getTopMenuContainer() {
+        return topMenuContainer.getElement();
+    }
     public boolean isVisible(InfoItem item) {
         return switch (item) {
             case IMAGE -> image.isVisible();
@@ -90,10 +98,6 @@ public class ProductPage extends BasePage {
         clickAddToCartButton();
         acceptProductAddedAlert();
         return this;
-    }
-
-    public TopMenu getTopMenu() {
-        return new TopMenu(driver);
     }
 
     public boolean isInfoVisible() {

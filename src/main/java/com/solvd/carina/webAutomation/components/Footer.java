@@ -4,6 +4,7 @@ import com.solvd.carina.webAutomation.utils.StringUtils;
 import com.solvd.carina.webAutomation.pages.common.BasePage;
 import com.solvd.carina.webAutomation.utils.StringUtils;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -18,8 +19,8 @@ public class Footer extends BaseComponent {
     @FindBy(css = "#fotcont img")
     private ExtendedWebElement imageLocator;
 
-    public Footer(WebDriver driver) {
-        super(driver);
+    public Footer(WebDriver driver, SearchContext searchContext) {
+        super(driver,searchContext);
     }
 
     @Override

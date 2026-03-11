@@ -3,14 +3,16 @@ package com.solvd.carina.webAutomation.pages.desktop;
 import com.solvd.carina.webAutomation.components.CartItemComponent;
 import com.solvd.carina.webAutomation.components.TopMenu;
 import com.solvd.carina.webAutomation.pages.common.BasePage;
+import com.solvd.carina.webAutomation.pages.common.BaseTopMenuPage;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 import java.util.Optional;
 
-public class CartPage extends BasePage {
+public class CartPage extends BaseTopMenuPage {
 
     @FindBy(id = "tbodyid")
     private ExtendedWebElement productGridContainer;
@@ -24,6 +26,9 @@ public class CartPage extends BasePage {
     @FindBy(css = ".table-responsive")
     private ExtendedWebElement tableIndicator;
 
+    @FindBy(css = ".navbar.navbar-toggleable-md.bg-inverse")
+    private ExtendedWebElement topMenuContainer;
+
     public CartPage(WebDriver driver) {
         super(driver);
     }
@@ -33,6 +38,10 @@ public class CartPage extends BasePage {
         return tableIndicator;
     }
 
+    @Override
+    protected WebElement getTopMenuContainer() {
+        return topMenuContainer.getElement();
+    }
     /* -----------------------------
         Cart items
      ----------------------------- */
@@ -169,7 +178,4 @@ public class CartPage extends BasePage {
         Components
      ----------------------------- */
 
-    public TopMenu getTopMenu() {
-        return new TopMenu(driver);
-    }
 }

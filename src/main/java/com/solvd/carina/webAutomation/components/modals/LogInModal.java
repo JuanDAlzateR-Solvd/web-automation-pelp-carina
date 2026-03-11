@@ -1,6 +1,7 @@
 package com.solvd.carina.webAutomation.components.modals;
 
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
@@ -24,8 +25,8 @@ public class LogInModal extends BaseModal {
     @FindBy(id = "loginpassword")
     private ExtendedWebElement passwordInput;
 
-    public LogInModal(WebDriver driver) {
-        super(driver,driver);
+    public LogInModal(WebDriver driver, SearchContext searchContext) {
+        super(driver,searchContext);
     }
 
     @Override

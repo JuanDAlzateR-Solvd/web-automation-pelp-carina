@@ -20,11 +20,6 @@ public abstract class BaseComponent extends AbstractUIObject {
         this.waitUtil=new WaitUtil(getDriver());
     }
 
-    protected BaseComponent(WebDriver driver) {
-        super(driver);
-        this.waitUtil=new WaitUtil(getDriver());
-    }
-
     /**
      * Element that indicates the component is fully loaded
      */

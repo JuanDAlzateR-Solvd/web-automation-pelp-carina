@@ -1,6 +1,7 @@
 package com.solvd.carina.webAutomation.components.modals;
 
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
@@ -18,8 +19,8 @@ public class AboutUsModal extends BaseModal {
     @FindBy(css = "#videoModal .close")
     private ExtendedWebElement exitButton;
 
-    public AboutUsModal(WebDriver driver) {
-        super(driver,driver);
+    public AboutUsModal(WebDriver driver, SearchContext searchContext) {
+        super(driver,searchContext);
     }
 
     @Override

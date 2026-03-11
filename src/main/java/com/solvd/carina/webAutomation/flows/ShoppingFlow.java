@@ -45,7 +45,7 @@ public class ShoppingFlow {
         productGrid
                 .openProductByIndex(productIndex)
                 .addToCart()
-                .getTopMenu()
+                .getNavigation()
                 .goToHomePage();
 
         return productName;

@@ -3,16 +3,19 @@ package com.solvd.carina.webAutomation.pages.desktop;
 import com.solvd.carina.webAutomation.components.Footer;
 import com.solvd.carina.webAutomation.components.ProductGrid;
 import com.solvd.carina.webAutomation.components.TopMenu;
+import com.solvd.carina.webAutomation.flows.Navigation;
 import com.solvd.carina.webAutomation.pages.common.BasePage;
+import com.solvd.carina.webAutomation.pages.common.BaseTopMenuPage;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 import java.util.Map;
 
-public class HomePage extends BasePage {
+public class HomePage extends BaseTopMenuPage {
 
     @FindBy(css = ".list-group a[onclick*='phone']")
     private ExtendedWebElement phonesButton;
@@ -29,6 +32,12 @@ public class HomePage extends BasePage {
     @FindBy(css = "#contcont")
     private ExtendedWebElement productGridContainer;
 
+    @FindBy(css = "#fotcont")
+    private ExtendedWebElement footerContainer;
+
+    @FindBy(css = "#narvbarx")
+    private ExtendedWebElement topMenuContainer;
+
     private static final By LOADER = By.cssSelector(".loader, .spinner, .loading");
 
     private final Map<Category, ExtendedWebElement> menuButtons;
@@ -43,13 +52,18 @@ public class HomePage extends BasePage {
     }
 
     @Override
-    public ExtendedWebElement getPageLoadedIndicator() {
+    protected ExtendedWebElement getPageLoadedIndicator() {
 
         logger.debug("Waiting for home page to load imageIndicator. Initial size: {}", imageIndicator.size());
 
         waitUntil(driver -> !imageIndicator.isEmpty(), 10);
 
         return imageIndicator.get(0);
+    }
+
+    @Override
+    protected WebElement getTopMenuContainer() {
+        return topMenuContainer.getElement();
     }
 
     public void click(Category item) {
@@ -78,12 +92,8 @@ public class HomePage extends BasePage {
         return new ProductGrid(driver, productGridContainer.getElement());
     }
 
-    public TopMenu getTopMenu() {
-        return new TopMenu(driver);
-    }
-
     public Footer getFooter() {
-        return new Footer(driver);
+        return new Footer(driver,footerContainer.getElement());
     }
 
     public ProductGrid selectCategory(Category item) {

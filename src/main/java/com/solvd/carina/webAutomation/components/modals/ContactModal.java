@@ -2,6 +2,7 @@ package com.solvd.carina.webAutomation.components.modals;
 
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.Alert;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
@@ -28,8 +29,8 @@ public class ContactModal extends BaseModal {
     @FindBy(css = "#exampleModal button.btn.btn-secondary")
     private ExtendedWebElement closeButton;
 
-    public ContactModal(WebDriver driver) {
-        super(driver,driver);
+    public ContactModal(WebDriver driver, SearchContext searchContext) {
+        super(driver,searchContext);
     }
 
     @Override
