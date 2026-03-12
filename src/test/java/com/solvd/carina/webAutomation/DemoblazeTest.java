@@ -1,5 +1,7 @@
 package com.solvd.carina.webAutomation;
 
+import com.solvd.carina.webAutomation.components.BaseComponent;
+import com.solvd.carina.webAutomation.components.Footer;
 import com.solvd.carina.webAutomation.components.ProductGrid;
 import com.solvd.carina.webAutomation.components.modals.AboutUsModal;
 import com.solvd.carina.webAutomation.components.modals.ContactModal;
@@ -11,22 +13,42 @@ import com.solvd.carina.webAutomation.navigation.PageNavigator;
 import com.solvd.carina.webAutomation.pages.desktop.CartPage;
 import com.solvd.carina.webAutomation.pages.desktop.HomePage;
 import com.solvd.carina.webAutomation.pages.desktop.ProductPage;
+import com.zebrunner.carina.core.AbstractTest;
 import com.zebrunner.carina.core.IAbstractTest;
+import com.zebrunner.carina.utils.R;
+import com.zebrunner.carina.utils.config.Configuration;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
+
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
-public class DemoblazeTest implements IAbstractTest {
+public class DemoblazeTest extends AbstractTest {//implements IAbstractTest
     private static final Logger logger =
             LoggerFactory.getLogger(DemoblazeTest.class);
 
+    @Parameters({"browser"})
+    @BeforeMethod
+    public void setUp(String browser) {
+        Optional <String> value = Configuration.get("browser");
+        logger.info("CONFIGURATION: {}", value);
+        logger.info("PRESENT: {}", value.isPresent());
+        if (!value.isPresent()) {
+            R.CONFIG.put("browser", browser);
+            logger.info("BROWSER: {}", browser);
+        }
+//        if (browser == null) {
+//            R.CONFIG.put("browser", defaultBrowser);
+//            R.CONFIG.put("capabilities.browserName", defaultBrowser);
+//        }
+
+    }
     @Test(testName = "Functionality of top menu modals", description = "verifies that home page loads, and top Menu modals works correctly")
     public void verifyTopMenuNavigation() {
         WebDriver driver = getDriver();
@@ -183,6 +205,70 @@ public class DemoblazeTest implements IAbstractTest {
         int finalSize = cartPage.getProductCount();
         sa.assertTrue(finalSize == 0, "The shopping cart is not empty");
         logger.debug("finished checking shopping cart");
+
+        sa.assertAll();
+    }
+
+    @Test(testName = "Fill Contact Form - Task3 TC-005",
+            description = "click on contact, then fills the form and sends it")
+    public void verifyFillInfoInContactFormAndSend() {
+        WebDriver driver = getDriver();
+
+        HomePage homePage = PageNavigator.openHomePage(driver);
+
+        ContactModal contactModal = homePage.getNavigation().openContactModal();
+        SoftAssert sa = new SoftAssert();
+
+        sa.assertTrue(contactModal.isModalVisible(), "Contact modal is not visible");
+
+        contactModal.fillAndSubmitForm("example@email.com",
+                "Example Name",
+                "This is a test message");
+
+        logger.info("alert {}", contactModal.getAlertText());
+
+        sa.assertTrue(contactModal.isAlertPresent(), "Alert should be present after submitting form");
+        logger.info("finished checking alert");
+
+        contactModal.acceptMessageAlert();
+
+        sa.assertAll();
+    }
+
+    @Test(testName = "Log In with wrong credentials - Task3 TC-006",
+            description = "click on log in, then fills the form and click log in button")
+    public void verifyLogInAttemptWithWrongCredentials() {
+        WebDriver driver = getDriver();
+
+        HomePage homePage = PageNavigator.openHomePage(driver);
+        LogInModal logInModal = homePage.getNavigation().openLogInModal();
+
+        SoftAssert sa = new SoftAssert();
+        sa.assertTrue(logInModal.isModalVisible(), "Log In modal is not visible");
+
+        logInModal.logInWith("example@email.com", "Example Password");
+        sa.assertTrue(logInModal.isAlertPresent(), "Alert should be present after submitting form");
+        logInModal.acceptWrongPasswordAlert();
+
+        sa.assertAll();
+    }
+
+    @Test(testName = "VerifyFooterInfo- Task3 TC-007",
+            description = "verifies footer visibility and contact info on the home page")
+    public void verifyFooterVisibilityAndInfo() {
+        WebDriver driver = getDriver();
+
+        HomePage homePage = PageNavigator.openHomePage(driver);
+        Footer footer = homePage.getFooter();
+
+        SoftAssert sa = new SoftAssert();
+
+        sa.assertFalse(footer.isVisibleInScreen(), "Footer is visible in screen after load home page");
+
+        footer.ensureVisible();
+
+        sa.assertTrue(footer.isVisibleInScreen(), "Footer is not visible in screen at bottom of page");
+        sa.assertTrue(footer.verifyFooterInfo(), "Footer info is not completely visible");
 
         sa.assertAll();
     }

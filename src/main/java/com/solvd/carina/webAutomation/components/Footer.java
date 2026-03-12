@@ -45,7 +45,7 @@ public class Footer extends BaseComponent {
     }
 
     public boolean isVisibleInScreen() {
-        return contactInfo.isVisible();
+        return isInViewport(contactInfo,"contact info");
     }
 
     public void scrollToBottom() {

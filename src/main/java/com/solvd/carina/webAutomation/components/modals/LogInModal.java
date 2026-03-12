@@ -1,7 +1,9 @@
 package com.solvd.carina.webAutomation.components.modals;
 
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.SearchContext;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
@@ -70,6 +72,32 @@ public class LogInModal extends BaseModal {
         typePassword(password);
         clickLogIn();
         return this;
+    }
+
+    public void acceptWrongPasswordAlert() {
+        logger.info("accepting 'Wrong password' Alert");
+        Alert alert = waitUtil.waitForAlert();
+        alert.accept();
+    }
+
+    public boolean isAlertPresent() {
+        logger.info("checking 'Log in' Alert Present");
+        try {
+            waitUtil.waitForAlert();
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
+
+    @Override
+    public void closeModal() {
+        logger.debug("Closing modal [{}]", getClass().getSimpleName());
+        pause(1);
+        waitUntilCloseButtonIsClickable();
+        getCloseButton().click();
+        waitUntilModalClosed();
+        cleanupBackdrops();
     }
 
 }

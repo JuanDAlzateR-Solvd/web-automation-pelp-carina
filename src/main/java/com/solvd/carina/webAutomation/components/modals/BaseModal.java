@@ -4,6 +4,7 @@ import com.solvd.carina.webAutomation.components.BaseComponent;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.SearchContext;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
@@ -44,14 +45,14 @@ public abstract class BaseModal extends BaseComponent {
 
     public void closeModal() {
         logger.debug("Closing modal [{}]", getClass().getSimpleName());
-
+        waitUntilComponentIsReady();
         waitUntilCloseButtonIsClickable();
         getCloseButton().click();
         waitUntilModalClosed();
         cleanupBackdrops();
     }
 
-    private void cleanupBackdrops() {
+    public void cleanupBackdrops() {
         try {
             JavascriptExecutor js = (JavascriptExecutor) driver;
             js.executeScript("document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());" +
@@ -71,8 +72,8 @@ public abstract class BaseModal extends BaseComponent {
     }
 
     private void waitUntilBackdropDisappear() {
-        // En Demoblaze, el backdrop puede tener diferentes IDs o simplemente ser .modal-backdrop
-        // Usamos una espera genérica para que cualquier elemento que bloquee desaparezca
+        // In Demoblaze, the backdrop could have different IDs or just be .modal-backdrop
+        // We use generic wait to any blocking element disappear
         try {
             if (backdrop.isElementPresent(1)) {
                 logger.debug("Waiting for modal backdrop to disappear");
@@ -84,8 +85,13 @@ public abstract class BaseModal extends BaseComponent {
     }
 
     public void waitUntilCloseButtonIsClickable() {
+        //method could be improved to run less flaky on firefox. Especially with the LogIn Modal.
+        logger.debug("Waiting for close button to be clickable");
         waitUntilModalOpened();
+        logger.debug("Modal {} is opened, checking if close button is clickable", getClass().getSimpleName());
+        getCloseButton().isVisible(1);
         for (int i = 0; i < 5; i++) {
+            logger.debug("Close button is clickable {}",getCloseButton().isClickable()); //
             if (!getCloseButton().isClickable()) {
                 logger.debug("Close button is not clickable, trying again");
                 getCloseButton().assertElementPresent(2);

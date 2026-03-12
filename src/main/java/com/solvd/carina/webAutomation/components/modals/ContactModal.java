@@ -1,9 +1,7 @@
 package com.solvd.carina.webAutomation.components.modals;
 
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 
 public class ContactModal extends BaseModal {
@@ -59,6 +57,11 @@ public class ContactModal extends BaseModal {
         alert.accept();
     }
 
+    public String getAlertText() {
+        Alert alert = waitUtil.waitForAlert();
+        return alert.getText();
+    }
+
     public ContactModal fillAndSubmitForm(String email, String name, String message) {
         typeEmail(email);
         typeName(name);
@@ -80,7 +83,18 @@ public class ContactModal extends BaseModal {
     }
 
     public void clickSend() {
-        sendButton.click();
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].click();", sendButton.getElement());
+    }
+
+    public boolean isAlertPresent() {
+        logger.info("checking 'Thanks for Message' Alert Present");
+        try {
+            waitUtil.waitForAlert();
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 
     public void clickClose() {
