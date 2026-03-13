@@ -1,19 +1,9 @@
 package com.solvd.carina.webAutomation.components;
 
-import com.solvd.carina.webAutomation.components.modals.AboutUsModal;
-import com.solvd.carina.webAutomation.components.modals.ContactModal;
-import com.solvd.carina.webAutomation.components.modals.LogInModal;
-import com.solvd.carina.webAutomation.components.modals.SignUpModal;
-import com.solvd.carina.webAutomation.pages.desktop.CartPage;
-import com.solvd.carina.webAutomation.pages.desktop.HomePage;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import java.util.Map;
 
 public class TopMenu extends BaseComponent {
 

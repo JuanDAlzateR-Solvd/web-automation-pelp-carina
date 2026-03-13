@@ -2,11 +2,10 @@ package com.solvd.carina.webAutomation.pages.desktop;
 
 import com.solvd.carina.webAutomation.components.CartItemComponent;
 import com.solvd.carina.webAutomation.components.TopMenu;
-import com.solvd.carina.webAutomation.pages.common.BasePage;
 import com.solvd.carina.webAutomation.pages.common.BaseTopMenuPage;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
@@ -21,13 +20,13 @@ public class CartPage extends BaseTopMenuPage {
     private ExtendedWebElement totalPrice;
 
     @FindBy(css = "#tbodyid .success")
-    private List<ExtendedWebElement> tableRows;
+    private List<CartItemComponent> cartItemComponents;
 
     @FindBy(css = ".table-responsive")
     private ExtendedWebElement tableIndicator;
 
     @FindBy(css = ".navbar.navbar-toggleable-md.bg-inverse")
-    private ExtendedWebElement topMenuContainer;
+    private TopMenu topMenu;
 
     public CartPage(WebDriver driver) {
         super(driver);
@@ -39,22 +38,18 @@ public class CartPage extends BaseTopMenuPage {
     }
 
     @Override
-    protected WebElement getTopMenuContainer() {
-        return topMenuContainer.getElement();
+    protected TopMenu getTopMenu() {
+        return topMenu;
     }
     /* -----------------------------
         Cart items
      ----------------------------- */
 
     public List<CartItemComponent> getCartItemComponents() {
-
         waitUntilPageIsReady();
-
-        logger.debug("Building cart item components. Found {} rows", tableRows.size());
-
-        return tableRows.stream()
-                .map(row -> new CartItemComponent(driver, row.getElement()))
-                .toList();
+        waitUtil.waitForPresenceOfElementLocated(By.id("tbodyid"));
+        logger.debug("Getting cart item components: found {} products", cartItemComponents.size());
+        return cartItemComponents;
     }
 
     public Optional<CartItemComponent> getCartItemComponentByName(String productName) {
@@ -67,6 +62,7 @@ public class CartPage extends BaseTopMenuPage {
         return cartItems.stream()
                 .filter(ci -> ci.getTitle().equalsIgnoreCase(productName))
                 .findFirst();
+
     }
 
     /* -----------------------------
@@ -89,27 +85,30 @@ public class CartPage extends BaseTopMenuPage {
     }
 
     public void emptyShoppingCart() {
+        final int maxAttempts = 20;
+        int attempts = 0;
 
-        logger.info("Emptying shopping cart");
-
-        int initialSize = getProductCount();
-        logger.info("Initial cart size: {}", initialSize);
-
-        for (int i = initialSize; i > 0; i--) {
-            deleteProduct(getCartItemComponents().get(0).getTitle());
-            if(i>1){
-                waitUntilCartShowsProducts();
-            }else {
-                waitUntilPageIsReady();
-            }
-        }
-
-        //Final Empty cart, if some products were not deleted.
         while (!isCartEmpty()) {
+
+            if (attempts >= maxAttempts) {
+                throw new IllegalStateException(
+                        "Failed to empty shopping cart after " + maxAttempts + " attempts."
+                );
+            }
+
             CartItemComponent item = getCartItemComponents().get(0);
-            deleteProduct(item.getTitle());
-            waitUntilPageIsReady();
+            String productName = item.getTitle();
+
+            logger.info("Deleting product '{}' from cart", productName);
+
+            ExtendedWebElement rowElement = item.getRootExtendedElement();
+            deleteProduct(productName);
+            waitUtil.waitForStalenessOf(rowElement.getElement(), productName);
+
+            attempts++;
         }
+
+        logger.info("Shopping cart successfully emptied");
     }
 
     /* -----------------------------
@@ -121,24 +120,16 @@ public class CartPage extends BaseTopMenuPage {
     }
 
     public boolean isCartEmpty() {
-
         waitUntilPageIsReady();
-
-        boolean empty = tableRows.isEmpty();
-
+        boolean empty = getCartItemComponents().isEmpty();
         logger.info("Cart empty: {}", empty);
-
         return empty;
     }
 
     public int getProductCount() {
-
         waitUntilPageIsReady();
-
-        int size = tableRows.size();
-
+        int size = getCartItemComponents().size();
         logger.info("Cart contains {} products", size);
-
         return size;
     }
 
@@ -151,10 +142,8 @@ public class CartPage extends BaseTopMenuPage {
      ----------------------------- */
 
     private void waitUntilCartSizeChanges(int initialSize) {
-
         logger.debug("Waiting for cart size to change from {}", initialSize);
-
-        waitUntil(driver -> tableRows.size() != initialSize, 10);
+        waitUntil(driver -> getCartItemComponents().size() != initialSize, 10);
     }
 
     public void waitUntilCartShowsProducts() {

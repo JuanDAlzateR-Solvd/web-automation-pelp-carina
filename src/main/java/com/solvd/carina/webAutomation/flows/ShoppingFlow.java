@@ -28,17 +28,17 @@ public class ShoppingFlow {
         ProductGrid productGrid = homePage.getProductGrid();
 
         String productName = productGrid.getProductName(productIndex);
-        String excludedProductsConfig = Configuration.get("excluded_products").orElse(null);
-        List<String> excludedProducts = excludedProductsConfig != null
-                ? Arrays.stream(excludedProductsConfig.split(","))
-                .map(String::trim)
-                .toList()
-                : List.of();
 
         //Identified a bug specific for some products (e.g. Nexus 6).
-        while (excludedProducts.contains(productName)) {
-            productIndex++;
-            productName = productGrid.getProductName(productIndex);
+        List<String> availableProducts = getAvailableProducts(productGrid);
+
+        if (availableProducts.isEmpty()) {
+            throw new RuntimeException("No products available to add to cart");
+        }
+
+        if (!availableProducts.contains(productName)) {
+            logger.debug("Product [{}] not found in available products. Selecting first available product.", productName);
+            productIndex = availableProducts.indexOf(availableProducts.get(0));
         }
 
         productGrid
@@ -69,6 +69,33 @@ public class ShoppingFlow {
             productNames.add(addRandomProductToCart());
         }
         return productNames;
+    }
+
+    private  List<String> getExcludedProducts() {
+        String excludedProductsConfig = Configuration.get("excluded_products").orElse(null);
+        List<String> excludedProducts = excludedProductsConfig != null
+                ? Arrays.stream(excludedProductsConfig.split(","))
+                .map(String::trim)
+                .toList()
+                : List.of();
+        return excludedProducts;
+    }
+
+
+    /**
+     * Retrieves a list of product titles that are available in the given product grid
+     * after filtering out excluded products.
+     *
+     * @param productGrid the product grid containing the list of all products
+     * @return a list of product titles that are not included in the excluded products list
+     */
+    private  List<String> getAvailableProducts(ProductGrid productGrid) {
+        List<String> excludedProducts =getExcludedProducts();
+        List<String> availableProducts = productGrid.getProductTitles()
+                .stream()
+                .filter(p -> !excludedProducts.contains(p))
+                .toList();
+        return availableProducts;
     }
 
 }

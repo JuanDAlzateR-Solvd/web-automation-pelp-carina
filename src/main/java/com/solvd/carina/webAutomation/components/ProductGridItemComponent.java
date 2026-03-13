@@ -9,13 +9,16 @@ import org.openqa.selenium.support.FindBy;
 public class ProductGridItemComponent extends BaseComponent {
 
     @FindBy(css = ".card-title")
-    private ExtendedWebElement labelTitle;
+    private ExtendedWebElement productTitle;
+
+    @FindBy(css = ".card-title a")
+    private ExtendedWebElement productLink;
 
     @FindBy(css = "h5")
-    private ExtendedWebElement price;
+    private ExtendedWebElement productPrice;
 
     @FindBy(css = ".card-text")
-    private ExtendedWebElement description;
+    private ExtendedWebElement productDescription;
 
     @FindBy(css = ".card-img-top")
     private ExtendedWebElement imageIndicator;
@@ -26,11 +29,12 @@ public class ProductGridItemComponent extends BaseComponent {
 
     @Override
     public ExtendedWebElement getComponentLoadedIndicator() {
-        return labelTitle;
+        return productTitle;
     }
 
-    public ExtendedWebElement getLabelTitle() {
-        return labelTitle;
+    private ExtendedWebElement getProductTitle() {
+
+        return productTitle;
     }
 
     public String getText() {
@@ -39,28 +43,28 @@ public class ProductGridItemComponent extends BaseComponent {
     }
 
     public String getProductName() {
-        return labelTitle.getText();
+        return productTitle.getText();
     }
 
-    public ExtendedWebElement getPrice() {
-        return price;
+    public ExtendedWebElement getProductPrice() {
+        return productPrice;
     }
 
-    public ExtendedWebElement getDescription() {
-        return description;
+    public ExtendedWebElement getProductDescription() {
+        return productDescription;
     }
 
     public void clickProduct() {
         waitUntilProductIsClickable();
-        labelTitle.click();
+        productLink.click();
     }
 
     public void waitUntilProductIsClickable() {
         waitUntilComponentIsReady();
         for (int i = 0; i < 5; i++) {
-            if (!getLabelTitle().isClickable()) {
+            if (!getProductTitle().isClickable()) {
                 logger.debug("Product is not clickable, trying again");
-                getLabelTitle().assertElementPresent(2);
+                getProductTitle().assertElementPresent(2);
             }
         }
     }

@@ -1,13 +1,11 @@
 package com.solvd.carina.webAutomation.pages.desktop;
 
-import com.solvd.carina.webAutomation.pages.common.BasePage;
 import com.solvd.carina.webAutomation.components.TopMenu;
 import com.solvd.carina.webAutomation.pages.common.BaseTopMenuPage;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class ProductPage extends BaseTopMenuPage {
@@ -27,11 +25,11 @@ public class ProductPage extends BaseTopMenuPage {
     @FindBy(css = "a.btn.btn-success.btn-lg")
     private ExtendedWebElement addToCartButton;
 
-    @FindBy(css = "#myCarousel-2")
+    @FindBy(id = "myCarousel-2")
     private ExtendedWebElement imageLocator;
 
     @FindBy(css = ".navbar.navbar-toggleable-md.bg-inverse")
-    private ExtendedWebElement topMenuContainer;
+    private TopMenu topMenu;
 
     public ProductPage(WebDriver driver) {
         super(driver);
@@ -43,8 +41,8 @@ public class ProductPage extends BaseTopMenuPage {
     }
 
     @Override
-    protected WebElement getTopMenuContainer() {
-        return topMenuContainer.getElement();
+    protected TopMenu getTopMenu() {
+        return topMenu;
     }
     public boolean isVisible(InfoItem item) {
         return switch (item) {

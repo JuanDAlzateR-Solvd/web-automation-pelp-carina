@@ -1,6 +1,5 @@
 package com.solvd.carina.webAutomation.flows;
 
-import com.solvd.carina.webAutomation.components.BaseComponent;
 import com.solvd.carina.webAutomation.components.TopMenu;
 import com.solvd.carina.webAutomation.components.modals.AboutUsModal;
 import com.solvd.carina.webAutomation.components.modals.ContactModal;
@@ -8,11 +7,7 @@ import com.solvd.carina.webAutomation.components.modals.LogInModal;
 import com.solvd.carina.webAutomation.components.modals.SignUpModal;
 import com.solvd.carina.webAutomation.pages.desktop.CartPage;
 import com.solvd.carina.webAutomation.pages.desktop.HomePage;
-import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 
 public class Navigation {
 
@@ -77,4 +72,18 @@ public class Navigation {
 
         return page;
     }
+
+    // ==========================
+    // Static methods
+    // ==========================
+
+    public static HomePage openHomePage(WebDriver driver) {
+
+        HomePage page = new HomePage(driver);
+        page.open();
+        page.waitUntilPageIsReady();
+
+        return page;
+    }
+
 }

@@ -6,7 +6,6 @@ import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,11 +55,4 @@ public abstract class BaseComponent extends AbstractUIObject {
         return isVisible;
     }
 
-    /**
-     * Use only for debugging purposes.
-     */
-    @Deprecated
-    protected void debugPause(long millis) {
-        pause(millis); // Carina's built-in pause
-    }
 }

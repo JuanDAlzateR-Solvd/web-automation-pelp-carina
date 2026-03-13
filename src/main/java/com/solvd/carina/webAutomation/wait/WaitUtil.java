@@ -1,6 +1,5 @@
 package com.solvd.carina.webAutomation.wait;
 
-
 import com.zebrunner.carina.utils.config.Configuration;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -9,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
-import java.util.Optional;
+import java.util.function.Function;
 
 public class WaitUtil {
 
@@ -75,6 +74,12 @@ public class WaitUtil {
         buildWait().until(ExpectedConditions.numberOfElementsToBe(locator, number));
     }
 
+    public void waitForStalenessOf(WebElement element, String elementName) {
+        logger.debug("Waiting for staleness of element {}", elementName);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(defaultTimeout));
+        wait.until(ExpectedConditions.stalenessOf(element));
+    }
+
     // ==========================
     // ALERTS
     // ==========================
@@ -109,5 +114,21 @@ public class WaitUtil {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    // ==========================
+    // CONDITIONS
+    // ==========================
+
+    public <T> T waitUntil(Function<WebDriver, T> condition) {
+        return buildWait().until(condition);
+    }
+
+    public <X, T> T waitUntilApply(Function<X, T> condition, X object) {
+        return buildWait().until(driver -> condition.apply(object));
+    }
+
+    public void waitUntilTrue(Function<WebDriver, Boolean> condition) {
+        buildWait().until(condition);
     }
 }

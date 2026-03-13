@@ -9,16 +9,16 @@ public class ContactModal extends BaseModal {
     @FindBy(id = "exampleModal")
     private ExtendedWebElement modalContainer;
 
-    @FindBy(css = "#exampleModalLabel")
+    @FindBy(id = "exampleModalLabel")
     private ExtendedWebElement labelTitle;
 
-    @FindBy(css = "#recipient-email")
+    @FindBy(id = "recipient-email")
     private ExtendedWebElement emailInput;
 
-    @FindBy(css = "#recipient-name")
+    @FindBy(id = "recipient-name")
     private ExtendedWebElement nameInput;
 
-    @FindBy(css = "#message-text")
+    @FindBy(id = "message-text")
     private ExtendedWebElement messageInput;
 
     @FindBy(css = "#exampleModal button.btn.btn-primary")
@@ -51,17 +51,6 @@ public class ContactModal extends BaseModal {
         return labelTitle;
     }
 
-    public void acceptMessageAlert() {
-        logger.info("accepting 'Thanks for message' Alert");
-        Alert alert = waitUtil.waitForAlert();
-        alert.accept();
-    }
-
-    public String getAlertText() {
-        Alert alert = waitUtil.waitForAlert();
-        return alert.getText();
-    }
-
     public ContactModal fillAndSubmitForm(String email, String name, String message) {
         typeEmail(email);
         typeName(name);
@@ -87,6 +76,17 @@ public class ContactModal extends BaseModal {
         js.executeScript("arguments[0].click();", sendButton.getElement());
     }
 
+    public void acceptMessageAlert() {
+        logger.info("accepting 'Thanks for message' Alert");
+        Alert alert = waitUtil.waitForAlert();
+        alert.accept();
+    }
+
+    public String getAlertText() {
+        Alert alert = waitUtil.waitForAlert();
+        return alert.getText();
+    }
+
     public boolean isAlertPresent() {
         logger.info("checking 'Thanks for Message' Alert Present");
         try {
@@ -100,7 +100,6 @@ public class ContactModal extends BaseModal {
     public void clickClose() {
        closeButton.click();
         closeButton.waitUntilElementDisappear(5);
-//       closeButton.isVisible();
     }
 
 }

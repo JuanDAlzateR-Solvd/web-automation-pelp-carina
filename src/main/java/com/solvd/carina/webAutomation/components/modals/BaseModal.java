@@ -4,7 +4,6 @@ import com.solvd.carina.webAutomation.components.BaseComponent;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
@@ -52,19 +51,6 @@ public abstract class BaseModal extends BaseComponent {
         cleanupBackdrops();
     }
 
-    public void cleanupBackdrops() {
-        try {
-            JavascriptExecutor js = (JavascriptExecutor) driver;
-            js.executeScript("document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());" +
-                             "document.body.classList.remove('modal-open');" +
-                             "document.body.style.paddingRight = '';");
-        } catch (Exception e) {
-            logger.warn("Failed to cleanup backdrops with JS: " + e.getMessage());
-        }
-    }
-
-
-
     public void waitUntilModalClosed() {
         ExtendedWebElement modal = getModalContainer();
         modal.waitUntilElementDisappear(15);
@@ -84,8 +70,19 @@ public abstract class BaseModal extends BaseComponent {
         }
     }
 
+    public void cleanupBackdrops() {
+        try {
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());" +
+                    "document.body.classList.remove('modal-open');" +
+                    "document.body.style.paddingRight = '';");
+        } catch (Exception e) {
+            logger.warn("Failed to cleanup backdrops with JS: " + e.getMessage());
+        }
+    }
+
     public void waitUntilCloseButtonIsClickable() {
-        //method could be improved to run less flaky on firefox. Especially with the LogIn Modal.
+        //method could be improved to run less flakily on firefox. Especially with the LogIn Modal.
         logger.debug("Waiting for close button to be clickable");
         waitUntilModalOpened();
         logger.debug("Modal {} is opened, checking if close button is clickable", getClass().getSimpleName());
@@ -98,7 +95,6 @@ public abstract class BaseModal extends BaseComponent {
             }
         }
     }
-
 
     public boolean isModalOpened() {
         return getModalContainer().isElementPresent();

@@ -1,6 +1,5 @@
 package com.solvd.carina.webAutomation;
 
-import com.solvd.carina.webAutomation.components.BaseComponent;
 import com.solvd.carina.webAutomation.components.Footer;
 import com.solvd.carina.webAutomation.components.ProductGrid;
 import com.solvd.carina.webAutomation.components.modals.AboutUsModal;
@@ -9,14 +8,11 @@ import com.solvd.carina.webAutomation.components.modals.LogInModal;
 import com.solvd.carina.webAutomation.components.modals.SignUpModal;
 import com.solvd.carina.webAutomation.flows.Navigation;
 import com.solvd.carina.webAutomation.flows.ShoppingFlow;
-import com.solvd.carina.webAutomation.navigation.PageNavigator;
 import com.solvd.carina.webAutomation.pages.desktop.CartPage;
 import com.solvd.carina.webAutomation.pages.desktop.HomePage;
 import com.solvd.carina.webAutomation.pages.desktop.ProductPage;
 import com.zebrunner.carina.core.AbstractTest;
-import com.zebrunner.carina.core.IAbstractTest;
 import com.zebrunner.carina.utils.R;
-import com.zebrunner.carina.utils.config.Configuration;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,10 +20,8 @@ import org.testng.Assert;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 
-
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 public class DemoblazeTest extends AbstractTest {//implements IAbstractTest
     private static final Logger logger =
@@ -35,24 +29,15 @@ public class DemoblazeTest extends AbstractTest {//implements IAbstractTest
 
     @Parameters({"browser"})
     @BeforeMethod
-    public void setUp(String browser) {
-        Optional <String> value = Configuration.get("browser");
-        logger.info("CONFIGURATION: {}", value);
-        logger.info("PRESENT: {}", value.isPresent());
-        if (!value.isPresent()) {
-            R.CONFIG.put("browser", browser);
-            logger.info("BROWSER: {}", browser);
-        }
-//        if (browser == null) {
-//            R.CONFIG.put("browser", defaultBrowser);
-//            R.CONFIG.put("capabilities.browserName", defaultBrowser);
-//        }
-
+    public void setUp(@Optional("firefox") String browser) {
+        R.CONFIG.put("browser", browser);
+        logger.info("Running test on browser: {}", browser);
     }
+
     @Test(testName = "Functionality of top menu modals", description = "verifies that home page loads, and top Menu modals works correctly")
     public void verifyTopMenuNavigation() {
         WebDriver driver = getDriver();
-        HomePage homePage = PageNavigator.openHomePage(driver);
+        HomePage homePage = Navigation.openHomePage(driver);
 
         Navigation navigation = homePage.getNavigation();
         SoftAssert sa = new SoftAssert();
@@ -89,7 +74,7 @@ public class DemoblazeTest extends AbstractTest {//implements IAbstractTest
     @Test(testName = "List of Products - Task1", description = "filters the products by category, then prints in console all the products")
     public void verifyProductsDisplayedForSelectedCategory() {
         WebDriver driver = getDriver();
-        HomePage homePage = PageNavigator.openHomePage(driver);
+        HomePage homePage = Navigation.openHomePage(driver);
 
         ProductGrid productGrid = homePage.selectCategory(HomePage.Category.LAPTOPS);
 
@@ -105,7 +90,7 @@ public class DemoblazeTest extends AbstractTest {//implements IAbstractTest
     public void verifyLastProductInfoForCategory(HomePage.Category category) {
         WebDriver driver = getDriver();
 
-        HomePage homePage = PageNavigator.openHomePage(driver);
+        HomePage homePage = Navigation.openHomePage(driver);
 
         ProductGrid productGrid = homePage.selectCategory(category);
 
@@ -124,7 +109,7 @@ public class DemoblazeTest extends AbstractTest {//implements IAbstractTest
     public void verifyAddFirstProductToCart(HomePage.Category category) {
         WebDriver driver = getDriver();
 
-        HomePage homePage = PageNavigator.openHomePage(driver);
+        HomePage homePage = Navigation.openHomePage(driver);
 
         ProductGrid productGrid = homePage.selectCategory(category);
 
@@ -149,7 +134,7 @@ public class DemoblazeTest extends AbstractTest {//implements IAbstractTest
             dataProvider = "Category MenuItem Provider")
     public void verifyDeleteProductFromCart(HomePage.Category category) {
         WebDriver driver = getDriver();
-        HomePage homePage = PageNavigator.openHomePage(driver);
+        HomePage homePage = Navigation.openHomePage(driver);
         SoftAssert sa = new SoftAssert();
 
         ProductGrid productGrid = homePage.selectCategory(category);
@@ -185,7 +170,7 @@ public class DemoblazeTest extends AbstractTest {//implements IAbstractTest
     public void verifyAllDeleteButtonsToEmptyShoppingCart() {
         WebDriver driver = getDriver();
 
-        HomePage homePage = PageNavigator.openHomePage(driver);
+        HomePage homePage = Navigation.openHomePage(driver);
         ShoppingFlow shoppingFlow = new ShoppingFlow(driver);
 
         List<String> productNames = shoppingFlow.addRandomProductsToCart(5);
@@ -214,7 +199,7 @@ public class DemoblazeTest extends AbstractTest {//implements IAbstractTest
     public void verifyFillInfoInContactFormAndSend() {
         WebDriver driver = getDriver();
 
-        HomePage homePage = PageNavigator.openHomePage(driver);
+        HomePage homePage = Navigation.openHomePage(driver);
 
         ContactModal contactModal = homePage.getNavigation().openContactModal();
         SoftAssert sa = new SoftAssert();
@@ -240,7 +225,7 @@ public class DemoblazeTest extends AbstractTest {//implements IAbstractTest
     public void verifyLogInAttemptWithWrongCredentials() {
         WebDriver driver = getDriver();
 
-        HomePage homePage = PageNavigator.openHomePage(driver);
+        HomePage homePage = Navigation.openHomePage(driver);
         LogInModal logInModal = homePage.getNavigation().openLogInModal();
 
         SoftAssert sa = new SoftAssert();
@@ -258,7 +243,7 @@ public class DemoblazeTest extends AbstractTest {//implements IAbstractTest
     public void verifyFooterVisibilityAndInfo() {
         WebDriver driver = getDriver();
 
-        HomePage homePage = PageNavigator.openHomePage(driver);
+        HomePage homePage = Navigation.openHomePage(driver);
         Footer footer = homePage.getFooter();
 
         SoftAssert sa = new SoftAssert();
@@ -281,13 +266,4 @@ public class DemoblazeTest extends AbstractTest {//implements IAbstractTest
                 .toArray(Object[][]::new);
     }
 
-//    @DataProvider(name = "TopMenu Modal MenuItem Provider")
-//    public Object[][] modalMenuItem() {
-//        return new Object[][]{
-//                {TopMenu.MenuItem.CONTACT},
-//                {TopMenu.MenuItem.ABOUT_US},
-//                {TopMenu.MenuItem.LOG_IN},
-//                {TopMenu.MenuItem.SIGN_UP}
-//        };
-//    }
 }

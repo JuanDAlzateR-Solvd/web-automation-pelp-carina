@@ -1,24 +1,25 @@
 package com.solvd.carina.webAutomation.components;
 
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import java.util.List;
 
 public class CartItemComponent extends BaseComponent {
 
-    @FindBy(css = "a[onclick*='deleteItem']")
-    private ExtendedWebElement deleteButton;
-
-    @FindBy(css = "td") // ".card-text"
-    private List<ExtendedWebElement> tableDataList;
-
-    @FindBy(css = "img")
+    @FindBy(css = "td:nth-child(1) img")
     private ExtendedWebElement imageIndicator;
 
-    public CartItemComponent(WebDriver driver, WebElement root) {
+    @FindBy(css = "td:nth-child(2)")
+    private ExtendedWebElement titleCell;
+
+    @FindBy(css = "td:nth-child(3)")
+    private ExtendedWebElement priceCell;
+
+    @FindBy(css = "td:nth-child(4) a[onclick*='deleteItem']")
+    private ExtendedWebElement deleteButton;
+
+    public CartItemComponent(WebDriver driver, SearchContext root) {
         super(driver, root);
     }
 
@@ -28,14 +29,14 @@ public class CartItemComponent extends BaseComponent {
     }
 
     public String getTitle() {
-        return getText(DataItem.TITLE);
+        return titleCell.getText();
     }
 
     public String getPrice() {
-        return getText(DataItem.PRICE);
+        return priceCell.getText();
     }
 
-    public String getText() {
+    public String getRootText() {
         return this.getRootExtendedElement().getText();
     }
 
@@ -43,35 +44,6 @@ public class CartItemComponent extends BaseComponent {
         deleteButton.click();
     }
 
-    protected String getText(DataItem item) {
-        return getElementFrom(item).getText();
     }
 
-    protected ExtendedWebElement getElementFrom(DataItem item) {
-        return tableDataList.get(item.getColumnIndex());
-    }
 
-    public enum DataItem {
-        PICTURE("Product Picture", 0),
-        TITLE("Product Title", 1),
-        PRICE("Product Price", 2),
-        DELETE("Product Delete", 3);
-
-        private final String name;
-        private final int columnIndex;
-
-        DataItem(String name, int lineIndex) {
-            this.name = name;
-            this.columnIndex = lineIndex;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public int getColumnIndex() {
-            return columnIndex;
-        }
-    }
-
-}

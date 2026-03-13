@@ -2,8 +2,8 @@ package com.solvd.carina.webAutomation.components;
 
 import com.solvd.carina.webAutomation.pages.desktop.ProductPage;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public class ProductGrid extends BaseComponent {
     @FindBy(css = ".card-img-top.img-fluid")
     private List<ExtendedWebElement> imageIndicator;
 
-    public ProductGrid(WebDriver driver, WebElement root) {
+    public ProductGrid(WebDriver driver, SearchContext root) {
         super(driver, root);
     }
 

@@ -1,6 +1,5 @@
 package com.solvd.carina.webAutomation.pages.common;
 
-import com.solvd.carina.webAutomation.pages.desktop.HomePage;
 import com.solvd.carina.webAutomation.wait.LoaderHandler;
 import com.solvd.carina.webAutomation.wait.WaitUtil;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
@@ -51,6 +50,7 @@ public abstract class BasePage extends AbstractPage {
     public boolean isPageOpened() {
         return getPageLoadedIndicator().isElementPresent();
     }
+
     public boolean isPageVisible() {
         return getPageLoadedIndicator().isVisible();
     }

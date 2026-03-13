@@ -92,6 +92,7 @@ public class LogInModal extends BaseModal {
 
     @Override
     public void closeModal() {
+        //This method needs to be improved to reduce flakiness
         logger.debug("Closing modal [{}]", getClass().getSimpleName());
         pause(1);
         waitUntilCloseButtonIsClickable();
