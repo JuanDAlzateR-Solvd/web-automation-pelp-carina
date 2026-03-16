@@ -30,11 +30,7 @@ public class CartPage extends BaseTopMenuPage {
 
     public CartPage(WebDriver driver) {
         super(driver);
-    }
-
-    @Override
-    protected ExtendedWebElement getPageLoadedIndicator() {
-        return tableIndicator;
+        setUiLoadedMarker(tableIndicator);
     }
 
     @Override

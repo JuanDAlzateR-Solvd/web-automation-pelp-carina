@@ -21,11 +21,7 @@ public class ProductGrid extends BaseComponent {
 
     public ProductGrid(WebDriver driver, SearchContext root) {
         super(driver, root);
-    }
-
-    @Override
-    protected ExtendedWebElement getComponentLoadedIndicator() {
-        return  productItems.get(0).getRootExtendedElement();
+//        setUiLoadedMarker(productItems.get(0).getRootExtendedElement()); //works without set marker
     }
 
     public List<ProductGridItemComponent> getProductComponents() {
@@ -63,6 +59,11 @@ public class ProductGrid extends BaseComponent {
         return new ProductPage(driver);
     }
 
+    public ProductPage openLastProduct() {
+        int productIndex = getProductCount() - 1;
+       return openProduct(productIndex);
+    }
+
     public String getProductName(int index) {
         ProductGridItemComponent product = getProduct(index);
         return product.getProductName();
@@ -71,5 +72,7 @@ public class ProductGrid extends BaseComponent {
     public int getProductCount() {
         return productItems.size();
     }
+
+
 
 }

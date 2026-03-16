@@ -25,11 +25,7 @@ public class ProductGridItemComponent extends BaseComponent {
 
     public ProductGridItemComponent(WebDriver driver, SearchContext root) {
         super(driver, root);
-    }
-
-    @Override
-    public ExtendedWebElement getComponentLoadedIndicator() {
-        return productTitle;
+        setUiLoadedMarker(productTitle);
     }
 
     private ExtendedWebElement getProductTitle() {
@@ -60,7 +56,7 @@ public class ProductGridItemComponent extends BaseComponent {
     }
 
     public void waitUntilProductIsClickable() {
-        waitUntilComponentIsReady();
+//        waitUntilComponentIsReady();
         for (int i = 0; i < 5; i++) {
             if (!getProductTitle().isClickable()) {
                 logger.debug("Product is not clickable, trying again");

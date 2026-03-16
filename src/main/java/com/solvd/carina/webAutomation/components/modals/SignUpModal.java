@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class SignUpModal extends BaseModal {
 
-    @FindBy(id = "signInModal")
+    @FindBy(css = "#signInModal .modal-content")
     private ExtendedWebElement modalContainer;
 
     @FindBy(id = "signInModalLabel")
@@ -27,11 +27,6 @@ public class SignUpModal extends BaseModal {
 
     public SignUpModal(WebDriver driver, SearchContext searchContext) {
         super(driver,searchContext);
-    }
-
-    @Override
-    protected ExtendedWebElement getComponentLoadedIndicator() {
-        return labelTitle;
     }
 
     @Override

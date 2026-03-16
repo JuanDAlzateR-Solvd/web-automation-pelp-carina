@@ -30,11 +30,7 @@ public class TopMenu extends BaseComponent {
 
     public TopMenu(WebDriver driver, SearchContext root) {
         super(driver, root);
-    }
-
-    @Override
-    protected ExtendedWebElement getComponentLoadedIndicator() {
-        return imageIndicator;
+        setUiLoadedMarker(imageIndicator);
     }
 
     public void clickCart() {

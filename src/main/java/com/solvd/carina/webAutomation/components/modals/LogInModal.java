@@ -9,7 +9,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class LogInModal extends BaseModal {
 
-    @FindBy(id = "logInModal")
+    @FindBy(css = "#logInModal .modal-content")
     private ExtendedWebElement modalContainer;
 
     @FindBy(id = "logInModalLabel")
@@ -29,11 +29,6 @@ public class LogInModal extends BaseModal {
 
     public LogInModal(WebDriver driver, SearchContext searchContext) {
         super(driver,searchContext);
-    }
-
-    @Override
-    protected ExtendedWebElement getComponentLoadedIndicator() {
-        return labelTitle;
     }
 
     @Override

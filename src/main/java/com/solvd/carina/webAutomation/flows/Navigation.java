@@ -23,7 +23,7 @@ public class Navigation {
         topMenu.clickLogIn();
 
         LogInModal modal = new LogInModal(driver,driver);
-        modal.waitUntilComponentIsReady();
+//        modal.waitUntilComponentIsReady();
 
         return modal;
     }
@@ -32,7 +32,7 @@ public class Navigation {
         topMenu.clickSignUp();
 
         SignUpModal modal = new SignUpModal(driver,driver);
-        modal.waitUntilComponentIsReady();
+//        modal.waitUntilComponentIsReady();
 
         return modal;
     }
@@ -41,7 +41,7 @@ public class Navigation {
         topMenu.clickContact();
 
         ContactModal modal = new ContactModal(driver,driver);
-        modal.waitUntilComponentIsReady();
+//        modal.waitUntilComponentIsReady();
 
         return modal;
     }
@@ -50,7 +50,7 @@ public class Navigation {
         topMenu.clickAboutUs();
 
         AboutUsModal modal = new AboutUsModal(driver,driver);
-        modal.waitUntilComponentIsReady();
+//        modal.waitUntilComponentIsReady();
 
         return modal;
     }

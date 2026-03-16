@@ -21,11 +21,7 @@ public class CartItemComponent extends BaseComponent {
 
     public CartItemComponent(WebDriver driver, SearchContext root) {
         super(driver, root);
-    }
-
-    @Override
-    public ExtendedWebElement getComponentLoadedIndicator() {
-        return imageIndicator;
+        setUiLoadedMarker(imageIndicator);
     }
 
     public String getTitle() {

@@ -18,11 +18,7 @@ public class Footer extends BaseComponent {
 
     public Footer(WebDriver driver, SearchContext searchContext) {
         super(driver,searchContext);
-    }
-
-    @Override
-    protected ExtendedWebElement getComponentLoadedIndicator() {
-        return imageLocator;
+        setUiLoadedMarker(imageLocator);
     }
 
     public String[] getContactInfoText() {

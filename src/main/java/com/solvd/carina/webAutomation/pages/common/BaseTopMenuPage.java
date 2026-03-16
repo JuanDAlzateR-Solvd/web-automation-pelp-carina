@@ -13,7 +13,6 @@ public abstract class BaseTopMenuPage extends BasePage {
 
     protected BaseTopMenuPage(WebDriver driver) {
         super(driver);
-
     }
 
     protected abstract TopMenu getTopMenu();

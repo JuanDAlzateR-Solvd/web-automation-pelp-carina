@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class ContactModal extends BaseModal {
 
-    @FindBy(id = "exampleModal")
+    @FindBy(css = "#exampleModal .modal-content")
     private ExtendedWebElement modalContainer;
 
     @FindBy(id = "exampleModalLabel")
@@ -32,21 +32,20 @@ public class ContactModal extends BaseModal {
     }
 
     @Override
-    protected ExtendedWebElement getComponentLoadedIndicator() {
-        return labelTitle;
-    }
-    @Override
     protected ExtendedWebElement getModalContainer() {
         return modalContainer;
     }
+
     @Override
     protected ExtendedWebElement getModalTitle() {
         return labelTitle;
     }
+
     @Override
     protected ExtendedWebElement getCloseButton() {
         return closeButton;
     }
+
     public ExtendedWebElement getLabelTitle() {
         return labelTitle;
     }

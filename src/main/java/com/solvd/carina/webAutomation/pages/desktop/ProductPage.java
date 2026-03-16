@@ -33,11 +33,7 @@ public class ProductPage extends BaseTopMenuPage {
 
     public ProductPage(WebDriver driver) {
         super(driver);
-    }
-
-    @Override
-    protected ExtendedWebElement getPageLoadedIndicator() {
-        return imageLocator;
+        setUiLoadedMarker(imageLocator);
     }
 
     @Override

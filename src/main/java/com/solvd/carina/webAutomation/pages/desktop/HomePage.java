@@ -46,16 +46,26 @@ public class HomePage extends BaseTopMenuPage {
                 Category.LAPTOPS, laptopsButton,
                 Category.MONITORS, monitorsButton
         );
+        setUiLoadedMarker(phonesButton);
     }
 
-    @Override
-    protected ExtendedWebElement getPageLoadedIndicator() {
 
+//    protected ExtendedWebElement getPageLoadedIndicator() {
+//
+//        logger.debug("Waiting for home page to load imageIndicator. Initial size: {}", imageIndicator.size());
+//
+//        waitUntil(driver -> !imageIndicator.isEmpty(), 10);
+//
+//        return imageIndicator.get(0);
+//    }
+
+    @Override
+    public void waitUntilPageIsReady() {
         logger.debug("Waiting for home page to load imageIndicator. Initial size: {}", imageIndicator.size());
 
         waitUntil(driver -> !imageIndicator.isEmpty(), 10);
 
-        return imageIndicator.get(0);
+        imageIndicator.get(0).assertElementPresent();
     }
 
     @Override

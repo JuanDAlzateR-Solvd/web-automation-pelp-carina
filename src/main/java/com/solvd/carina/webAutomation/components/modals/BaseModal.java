@@ -14,6 +14,7 @@ public abstract class BaseModal extends BaseComponent {
 
     protected BaseModal(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
+        setUiLoadedMarker(getModalTitle());
     }
 
     /**
@@ -38,13 +39,13 @@ public abstract class BaseModal extends BaseComponent {
     public void waitUntilModalOpened() {
 
         logger.debug("Waiting for modal [{}] to open", getClass().getSimpleName());
-        waitUntilComponentIsReady();
+//        waitUntilComponentIsReady();
         getModalContainer().assertElementPresent();
     }
 
     public void closeModal() {
         logger.debug("Closing modal [{}]", getClass().getSimpleName());
-        waitUntilComponentIsReady();
+//        waitUntilComponentIsReady();
         waitUntilCloseButtonIsClickable();
         getCloseButton().click();
         waitUntilModalClosed();
