@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 
-public class FormsTest extends AbstractTest {//implements IAbstractTest
+public class FormsTest extends BaseTest {//implements IAbstractTest
     private static final Logger logger =
             LoggerFactory.getLogger(FormsTest.class);
 
@@ -26,11 +26,9 @@ public class FormsTest extends AbstractTest {//implements IAbstractTest
     @Test(testName = "Fill Contact Form - Task3 TC-005",
             description = "click on contact, then fills the form and sends it")
     public void verifyFillInfoInContactFormAndSend() {
-        WebDriver driver = getDriver();
+         HomePage homePage = openHomePage();
+        ContactModal contactModal = homePage.openContactModal();
 
-        HomePage homePage = Navigation.openHomePage(driver);
-
-        ContactModal contactModal = homePage.getNavigation().openContactModal();
         SoftAssert sa = new SoftAssert();
 
         sa.assertTrue(contactModal.isModalVisible(), "Contact modal is not visible");
@@ -52,10 +50,8 @@ public class FormsTest extends AbstractTest {//implements IAbstractTest
     @Test(testName = "Log In with wrong credentials - Task3 TC-006",
             description = "click on log in, then fills the form and click log in button")
     public void verifyLogInAttemptWithWrongCredentials() {
-        WebDriver driver = getDriver();
-
-        HomePage homePage = Navigation.openHomePage(driver);
-        LogInModal logInModal = homePage.getNavigation().openLogInModal();
+        HomePage homePage = openHomePage();
+        LogInModal logInModal = homePage.openLogInModal();
 
         SoftAssert sa = new SoftAssert();
         sa.assertTrue(logInModal.isModalVisible(), "Log In modal is not visible");

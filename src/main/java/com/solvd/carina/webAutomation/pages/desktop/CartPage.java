@@ -77,7 +77,7 @@ public class CartPage extends BaseTopMenuPage {
 
         item.deleteProduct();
 
-        waitUntilCartSizeChanges(initialSize);
+        waitUntilCartSizeReduces(initialSize);
     }
 
     public void emptyShoppingCart() {
@@ -141,6 +141,12 @@ public class CartPage extends BaseTopMenuPage {
         logger.debug("Waiting for cart size to change from {}", initialSize);
         waitUntil(driver -> getCartItemComponents().size() != initialSize, 10);
     }
+
+    private void waitUntilCartSizeReduces(int initialSize) {
+        logger.debug("Waiting for cart size to change from {}", initialSize);
+        waitUntil(driver -> getCartItemComponents().size() == (initialSize-1), 10);
+    }
+
 
     public void waitUntilCartShowsProducts() {
         waitUntilPageIsReady();

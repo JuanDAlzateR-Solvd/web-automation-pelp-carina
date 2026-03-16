@@ -23,13 +23,13 @@ import org.testng.asserts.SoftAssert;
 import java.util.Arrays;
 import java.util.List;
 
-public class CartTest extends AbstractTest {//implements IAbstractTest
+public class CartTest extends BaseTest {//implements IAbstractTest
     private static final Logger logger =
             LoggerFactory.getLogger(CartTest.class);
 
     @Parameters({"browser"})
     @BeforeMethod
-    public void setUp(@Optional("firefox") String browser) {
+    public void setUp(@Optional("chrome") String browser) {
         R.CONFIG.put("browser", browser);
         logger.info("Running test on browser: {}", browser);
     }
@@ -38,19 +38,13 @@ public class CartTest extends AbstractTest {//implements IAbstractTest
             description = "choose the first product from a category and add it to cart, then verifies info in shopping cart",
             dataProvider = "Category MenuItem Provider")
     public void verifyAddFirstProductToCart(HomePage.Category category) {
-        WebDriver driver = getDriver();
-
-        HomePage homePage = Navigation.openHomePage(driver);
+        HomePage homePage = openHomePage();
 
         ProductGrid productGrid = homePage.selectCategory(category);
 
         String productName = productGrid.getProductName(0);
 
-        CartPage cartPage = productGrid
-                .openProduct(0)
-                .addToCart()
-                .getNavigation()
-                .goToCartPage();
+        CartPage cartPage =  productGrid.addProductToCart(0).goToCartPage();
 
         cartPage.waitUntilCartShowsProducts();
 
@@ -64,19 +58,14 @@ public class CartTest extends AbstractTest {//implements IAbstractTest
             description = "choose the first product from a category and add it to cart, then delete it, verifies info in shopping cart",
             dataProvider = "Category MenuItem Provider")
     public void verifyDeleteProductFromCart(HomePage.Category category) {
-        WebDriver driver = getDriver();
-        HomePage homePage = Navigation.openHomePage(driver);
+        HomePage homePage = openHomePage();
         SoftAssert sa = new SoftAssert();
 
         ProductGrid productGrid = homePage.selectCategory(category);
 
         String productName = productGrid.getProductName(0);
 
-        CartPage cartPage = productGrid
-                .openProduct(0)
-                .addToCart()
-                .getNavigation()
-                .goToCartPage();
+        CartPage cartPage =  productGrid.addProductToCart(0).goToCartPage();
 
         cartPage.waitUntilCartShowsProducts();
 
@@ -99,15 +88,14 @@ public class CartTest extends AbstractTest {//implements IAbstractTest
     @Test(testName = "Empty Shopping Cart - Task3 TC-004",
             description = "add random products to the shopping cart, then empties the cart")
     public void verifyAllDeleteButtonsToEmptyShoppingCart() {
-        WebDriver driver = getDriver();
-
-        HomePage homePage = Navigation.openHomePage(driver);
-        ShoppingFlow shoppingFlow = new ShoppingFlow(driver);
+        HomePage homePage = openHomePage();
+        ShoppingFlow shoppingFlow = new ShoppingFlow(getDriver());
 
         List<String> productNames = shoppingFlow.addRandomProductsToCart(5);
 
         SoftAssert sa = new SoftAssert();
-        CartPage cartPage = homePage.getNavigation().goToCartPage();
+
+        CartPage cartPage = shoppingFlow.getHomePage().goToCartPage();
 
         cartPage.waitUntilCartShowsProducts();
 

@@ -1,5 +1,6 @@
 package com.solvd.carina.webAutomation.components;
 
+import com.solvd.carina.webAutomation.pages.desktop.CartPage;
 import com.solvd.carina.webAutomation.pages.desktop.ProductPage;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.SearchContext;
@@ -64,6 +65,12 @@ public class ProductGrid extends BaseComponent {
        return openProduct(productIndex);
     }
 
+    public ProductPage addProductToCart(int index) {
+        ProductPage productPage=openProduct(index);
+        productPage.waitUntilPageIsReady();
+        return productPage.addToCart();
+    }
+
     public String getProductName(int index) {
         ProductGridItemComponent product = getProduct(index);
         return product.getProductName();
@@ -72,6 +79,7 @@ public class ProductGrid extends BaseComponent {
     public int getProductCount() {
         return productItems.size();
     }
+
 
 
 

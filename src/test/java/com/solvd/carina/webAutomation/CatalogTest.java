@@ -23,6 +23,8 @@ import org.testng.asserts.SoftAssert;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.solvd.carina.webAutomation.pages.desktop.HomePage.Category.LAPTOPS;
+
 public class CatalogTest extends BaseTest {
     private static final Logger logger =
             LoggerFactory.getLogger(CatalogTest.class);
@@ -38,7 +40,7 @@ public class CatalogTest extends BaseTest {
     public void verifyProductsDisplayedForSelectedCategory() {
         HomePage homePage = openHomePage();
 
-        ProductGrid productGrid = homePage.selectCategory(HomePage.Category.LAPTOPS);
+        ProductGrid productGrid = homePage.selectCategory(LAPTOPS);
 
         List<String> productsList = productGrid.getProductTitles();
         productsList.forEach(logger::info);

@@ -44,7 +44,6 @@ public class ShoppingFlow {
         productGrid
                 .openProduct(productIndex)
                 .addToCart()
-                .getNavigation()
                 .goToHomePage();
 
         return productName;
@@ -96,6 +95,10 @@ public class ShoppingFlow {
                 .filter(p -> !excludedProducts.contains(p))
                 .toList();
         return availableProducts;
+    }
+
+    public HomePage getHomePage() {
+        return new HomePage(driver);
     }
 
 }

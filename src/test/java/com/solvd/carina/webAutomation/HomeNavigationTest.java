@@ -23,7 +23,7 @@ import org.testng.asserts.SoftAssert;
 import java.util.Arrays;
 import java.util.List;
 
-public class HomeNavigationTest extends AbstractTest {//implements IAbstractTest
+public class HomeNavigationTest extends BaseTest {//implements IAbstractTest
     private static final Logger logger =
             LoggerFactory.getLogger(HomeNavigationTest.class);
 
@@ -36,36 +36,33 @@ public class HomeNavigationTest extends AbstractTest {//implements IAbstractTest
 
     @Test(testName = "Functionality of top menu modals", description = "verifies that home page loads, and top Menu modals works correctly")
     public void verifyTopMenuNavigation() {
-        WebDriver driver = getDriver();
-        HomePage homePage = Navigation.openHomePage(driver);
-
-        Navigation navigation = homePage.getNavigation();
+        HomePage homePage = openHomePage();
         SoftAssert sa = new SoftAssert();
 
         logger.info("Testing Menu item: [Contact Modal]");
-        ContactModal contactModal = navigation.openContactModal();
+        ContactModal contactModal = homePage.openContactModal();
         sa.assertTrue(contactModal.isModalVisible(), "Contact Modal should be visible");
         contactModal.closeModal();
 
         logger.info("Testing Menu item: [About Us Modal]");
-        AboutUsModal aboutUsModal = navigation.openAboutUsModal();
+        AboutUsModal aboutUsModal = homePage.openAboutUsModal();
         sa.assertTrue(aboutUsModal.isModalVisible(), "About Us Modal should be visible");
         aboutUsModal.closeModal();
 
         logger.info("Testing Menu item: [Log In Modal]");
-        LogInModal logInModal = navigation.openLogInModal();
+        LogInModal logInModal = homePage.openLogInModal();
         sa.assertTrue(logInModal.isModalVisible(), "Log In Modal should be visible");
         logInModal.closeModal();
 
         logger.info("Testing Menu item: [Sign Up Modal]");
-        SignUpModal signUpModal = navigation.openSignUpModal();
+        SignUpModal signUpModal = homePage.openSignUpModal();
         sa.assertTrue(signUpModal.isModalVisible(), "Sign Up Modal should be visible");
         signUpModal.closeModal();
 
         logger.info("Testing Menu item: [CartPage]");
-        CartPage cartPage = navigation.goToCartPage();
+        CartPage cartPage = homePage.goToCartPage();
         sa.assertTrue(cartPage.isPageVisible(), "Cart Page should be visible");
-        cartPage.getNavigation().goToHomePage();
+        cartPage.goToHomePage();
 
         sa.assertAll();
     }
@@ -73,9 +70,7 @@ public class HomeNavigationTest extends AbstractTest {//implements IAbstractTest
     @Test(testName = "VerifyFooterInfo- Task3 TC-007",
             description = "verifies footer visibility and contact info on the home page")
     public void verifyFooterVisibilityAndInfo() {
-        WebDriver driver = getDriver();
-
-        HomePage homePage = Navigation.openHomePage(driver);
+        HomePage homePage = openHomePage();
         Footer footer = homePage.getFooter();
 
         SoftAssert sa = new SoftAssert();
