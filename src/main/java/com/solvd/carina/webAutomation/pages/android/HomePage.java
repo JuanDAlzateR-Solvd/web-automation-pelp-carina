@@ -1,10 +1,11 @@
-package com.solvd.carina.webAutomation.pages.desktop;
+package com.solvd.carina.webAutomation.pages.android;
 
 import com.solvd.carina.webAutomation.components.Footer;
 import com.solvd.carina.webAutomation.components.ProductGrid;
 import com.solvd.carina.webAutomation.components.TopMenu;
-import com.solvd.carina.webAutomation.pages.common.BaseTopMenuPage;
+import com.solvd.carina.webAutomation.pages.common.HomePageBase;
 import com.solvd.carina.webAutomation.pages.common.HomePageCategory;
+import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -13,7 +14,8 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 import java.util.Map;
 
-public class HomePage extends BaseTopMenuPage {
+@DeviceType(pageType = DeviceType.Type.ANDROID_PHONE, parentClass = HomePageBase.class)
+public class HomePage extends HomePageBase {
 
     @FindBy(css = ".list-group a[onclick*='phone']")
     private ExtendedWebElement phonesButton;
@@ -64,20 +66,23 @@ public class HomePage extends BaseTopMenuPage {
         return topMenu;
     }
 
+    @Override
     public void click(HomePageCategory item) {
         menuButtons.get(item).click();
     }
 
     //Test flow methods
-
+    @Override
     public ProductGrid getProductGrid() {
         return productGrid;
     }
 
+    @Override
     public Footer getFooter() {
         return footer;
     }
 
+    @Override
     public ProductGrid selectCategory(HomePageCategory item) {
         click(item);
         waitUntilPageIsReady();

@@ -8,6 +8,7 @@ import com.solvd.carina.webAutomation.components.modals.LogInModal;
 import com.solvd.carina.webAutomation.components.modals.SignUpModal;
 import com.solvd.carina.webAutomation.flows.Navigation;
 import com.solvd.carina.webAutomation.flows.ShoppingFlow;
+import com.solvd.carina.webAutomation.pages.common.HomePageCategory;
 import com.solvd.carina.webAutomation.pages.desktop.CartPage;
 import com.solvd.carina.webAutomation.pages.desktop.HomePage;
 import com.solvd.carina.webAutomation.pages.desktop.ProductPage;
@@ -76,7 +77,7 @@ public class DemoblazeTest extends AbstractTest {//implements IAbstractTest
         WebDriver driver = getDriver();
         HomePage homePage = Navigation.openHomePage(driver);
 
-        ProductGrid productGrid = homePage.selectCategory(HomePage.Category.LAPTOPS);
+        ProductGrid productGrid = homePage.selectCategory(HomePageCategory.LAPTOPS);
 
         List<String> productsList = productGrid.getProductTitles();
         productsList.forEach(logger::info);
@@ -87,7 +88,7 @@ public class DemoblazeTest extends AbstractTest {//implements IAbstractTest
     @Test(testName = "Product Search by Category - Task3 TC-001",
             description = "filters the products by a category, then verifies info from the last product of last page",
             dataProvider = "Category MenuItem Provider")
-    public void verifyLastProductInfoForCategory(HomePage.Category category) {
+    public void verifyLastProductInfoForCategory(HomePageCategory category) {
         WebDriver driver = getDriver();
 
         HomePage homePage = Navigation.openHomePage(driver);
@@ -106,7 +107,7 @@ public class DemoblazeTest extends AbstractTest {//implements IAbstractTest
     @Test(testName = "Add Product to Cart - Task3 TC-002",
             description = "choose the first product from a category and add it to cart, then verifies info in shopping cart",
             dataProvider = "Category MenuItem Provider")
-    public void verifyAddFirstProductToCart(HomePage.Category category) {
+    public void verifyAddFirstProductToCart(HomePageCategory category) {
         WebDriver driver = getDriver();
 
         HomePage homePage = Navigation.openHomePage(driver);
@@ -132,7 +133,7 @@ public class DemoblazeTest extends AbstractTest {//implements IAbstractTest
     @Test(testName = "Delete Product from Cart - Task3 TC-003",
             description = "choose the first product from a category and add it to cart, then delete it, verifies info in shopping cart",
             dataProvider = "Category MenuItem Provider")
-    public void verifyDeleteProductFromCart(HomePage.Category category) {
+    public void verifyDeleteProductFromCart(HomePageCategory category) {
         WebDriver driver = getDriver();
         HomePage homePage = Navigation.openHomePage(driver);
         SoftAssert sa = new SoftAssert();
@@ -261,7 +262,7 @@ public class DemoblazeTest extends AbstractTest {//implements IAbstractTest
     //Data Providers
     @DataProvider(name = "Category MenuItem Provider")
     public Object[][] homePageMenuItem() {
-        return Arrays.stream(HomePage.Category.values())
+        return Arrays.stream(HomePageCategory.values())
                 .map(type -> new Object[]{type})
                 .toArray(Object[][]::new);
     }
