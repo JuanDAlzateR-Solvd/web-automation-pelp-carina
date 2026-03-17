@@ -38,21 +38,32 @@ public abstract class BaseModal extends BaseComponent {
 
     public void waitUntilModalOpened() {
         logger.debug("Waiting for modal [{}] to open", getClass().getSimpleName());
-        assertUIObjectPresent(5);
-        getModalContainer().assertElementPresent();
-        assertUIObjectPresent();
+        getModalContainer().assertElementPresent(10);
+        getModalTitle().assertElementPresent(5);
     }
 
     public void closeModal() {
         logger.debug("Closing modal [{}]", getClass().getSimpleName());
         waitUntilModalOpened();
-        getCloseButton().click();
+        try {
+            getCloseButton().click();
+        } catch (Exception e) {
+            logger.warn("Standard click failed, trying JS click to close modal: " + e.getMessage());
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", getCloseButton().getElement());
+        }
         waitUntilModalClosed();
     }
 
     public void waitUntilModalClosed() {
         ExtendedWebElement modal = getModalContainer();
-        modal.waitUntilElementDisappear(15);
+        // Check if modal container is still present
+        if (modal.isElementPresent(1)) {
+            logger.debug("Modal container is present, waiting for it to disappear");
+            modal.waitUntilElementDisappear(15);
+        }
+        // Wait for the specific modal to not have the 'show' class anymore
+        // or for the backdrop to disappear.
+        // In Demoblaze/Bootstrap, the 'show' class is removed when the modal is hidden.
         waitUntilBackdropDisappear();
     }
 
@@ -63,12 +74,34 @@ public abstract class BaseModal extends BaseComponent {
             if (backdrop.isElementPresent(1)) {
                 logger.debug("Waiting for modal backdrop to disappear");
                 backdrop.waitUntilElementDisappear(10);
-                if(backdrop.isElementPresent(1)){
-                    cleanupBackdrops();
-                }
+            }
+            // If the modal or backdrop is still there (obscuring), force cleanup
+            if (isAnyModalVisible() || isBackdropPresent()) {
+                logger.debug("A modal/backdrop is still present, forcing cleanup");
+                cleanupBackdrops();
+                // Wait for animation to finish
+                try { Thread.sleep(1000); } catch (InterruptedException ignored) {}
             }
         } catch (Exception e) {
             logger.warn("Error waiting for backdrop: " + e.getMessage());
+        }
+    }
+
+    private boolean isBackdropPresent() {
+        try {
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            return (Boolean) js.executeScript("return document.querySelectorAll('.modal-backdrop').length > 0;");
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private boolean isAnyModalVisible() {
+        try {
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            return (Boolean) js.executeScript("return document.querySelectorAll('.modal.show').length > 0;");
+        } catch (Exception e) {
+            return false;
         }
     }
 

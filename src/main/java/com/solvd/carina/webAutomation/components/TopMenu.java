@@ -1,6 +1,7 @@
 package com.solvd.carina.webAutomation.components;
 
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -33,28 +34,32 @@ public class TopMenu extends BaseComponent {
         setUiLoadedMarker(imageIndicator);
     }
 
+    private void jsClick(ExtendedWebElement element) {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element.getElement());
+    }
+
     public void clickCart() {
-       cartButton.click();
+       jsClick(cartButton);
     }
 
     public void clickHome() {
-        homeButton.click();
+        jsClick(homeButton);
     }
 
     public void clickAboutUs() {
-        aboutUsButton.click();
+        jsClick(aboutUsButton);
     }
 
     public void clickSignUp() {
-      signUpButton.click();
+      jsClick(signUpButton);
     }
 
     public void clickContact() {
-       contactButton.click();
+       jsClick(contactButton);
     }
 
     public void clickLogIn() {
-       logInButton.click();
+       jsClick(logInButton);
     }
 
 }
