@@ -27,13 +27,6 @@ public class CartTest extends BaseTest {//implements IAbstractTest
     private static final Logger logger =
             LoggerFactory.getLogger(CartTest.class);
 
-    @Parameters({"browser"})
-    @BeforeMethod
-    public void setUp(@Optional("chrome") String browser) {
-        R.CONFIG.put("browser", browser);
-        logger.info("Running test on browser: {}", browser);
-    }
-
     @Test(testName = "Add Product to Cart - Task3 TC-002",
             description = "choose the first product from a category and add it to cart, then verifies info in shopping cart",
             dataProvider = "Category MenuItem Provider")
@@ -91,24 +84,20 @@ public class CartTest extends BaseTest {//implements IAbstractTest
         HomePage homePage = openHomePage();
         ShoppingFlow shoppingFlow = new ShoppingFlow(getDriver());
 
-        List<String> productNames = shoppingFlow.addRandomProductsToCart(5);
+        shoppingFlow.addRandomProductsToCart(5);
 
         SoftAssert sa = new SoftAssert();
 
-        CartPage cartPage = shoppingFlow.getHomePage().goToCartPage();
+        CartPage cartPage = shoppingFlow.goToCartPage();
 
         cartPage.waitUntilCartShowsProducts();
-
         int initialSize = cartPage.getProductCount();
-
-        sa.assertFalse(initialSize == 0, "The shopping cart is empty");
+        sa.assertTrue(initialSize > 0, "Expected cart to have products, but it was empty");
 
         cartPage.emptyShoppingCart();
-        logger.debug("finished empty shopping cart");
 
         int finalSize = cartPage.getProductCount();
-        sa.assertTrue(finalSize == 0, "The shopping cart is not empty");
-        logger.debug("finished checking shopping cart");
+        sa.assertEquals(finalSize, 0, "Expected cart to be empty");
 
         sa.assertAll();
     }

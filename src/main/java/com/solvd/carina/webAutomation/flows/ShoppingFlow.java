@@ -1,6 +1,7 @@
 package com.solvd.carina.webAutomation.flows;
 
 import com.solvd.carina.webAutomation.components.ProductGrid;
+import com.solvd.carina.webAutomation.pages.desktop.CartPage;
 import com.solvd.carina.webAutomation.pages.desktop.HomePage;
 import com.zebrunner.carina.utils.config.Configuration;
 import org.openqa.selenium.WebDriver;
@@ -90,15 +91,18 @@ public class ShoppingFlow {
      */
     private  List<String> getAvailableProducts(ProductGrid productGrid) {
         List<String> excludedProducts =getExcludedProducts();
-        List<String> availableProducts = productGrid.getProductTitles()
+      return productGrid.getProductTitles()
                 .stream()
                 .filter(p -> !excludedProducts.contains(p))
                 .toList();
-        return availableProducts;
     }
 
     public HomePage getHomePage() {
         return new HomePage(driver);
+    }
+
+    public CartPage goToCartPage() {
+        return getHomePage().goToCartPage();
     }
 
 }

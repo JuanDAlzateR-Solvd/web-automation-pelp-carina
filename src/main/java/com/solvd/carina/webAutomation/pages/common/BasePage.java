@@ -2,7 +2,6 @@ package com.solvd.carina.webAutomation.pages.common;
 
 import com.solvd.carina.webAutomation.wait.LoaderHandler;
 import com.solvd.carina.webAutomation.wait.WaitUtil;
-import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.decorator.PageOpeningStrategy;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.openqa.selenium.*;
@@ -34,8 +33,6 @@ public abstract class BasePage extends AbstractPage {
                 System.identityHashCode(driver));
     }
 
-
-
     public void waitUntilPageIsReady(boolean waitForLoader) {
         logger.debug("Waiting for page: {}", getClass().getSimpleName());
         if(waitForLoader){
@@ -43,16 +40,9 @@ public abstract class BasePage extends AbstractPage {
         }
         getUiLoadedMarker().assertElementPresent();
     }
+
     public void waitUntilPageIsReady() {
         waitUntilPageIsReady(false);
-    }
-
-    public boolean isPageOpened() {
-        return getUiLoadedMarker().isElementPresent();
-    }
-
-    public boolean isPageVisible() {
-        return getUiLoadedMarker().isVisible();
     }
 
     public void acceptAlert() {

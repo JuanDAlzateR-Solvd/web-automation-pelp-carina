@@ -19,13 +19,6 @@ public class FormsTest extends BaseTest {//implements IAbstractTest
     private static final Logger logger =
             LoggerFactory.getLogger(FormsTest.class);
 
-    @Parameters({"browser"})
-    @BeforeMethod
-    public void setUp(@Optional("firefox") String browser) {
-        R.CONFIG.put("browser", browser);
-        logger.info("Running test on browser: {}", browser);
-    }
-
     @Test(testName = "Fill Contact Form - Task3 TC-005",
             description = "click on contact, then fills the form and sends it")
     public void verifyFillInfoInContactFormAndSend() {

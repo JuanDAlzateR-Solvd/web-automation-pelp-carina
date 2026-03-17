@@ -37,15 +37,8 @@ public class HomePage extends BaseTopMenuPage {
 
     private static final By LOADER = By.cssSelector(".loader, .spinner, .loading");
 
-    private final Map<Category, ExtendedWebElement> menuButtons;
-
     public HomePage(WebDriver driver) {
         super(driver);
-        menuButtons = Map.of(
-                Category.PHONES, phonesButton,
-                Category.LAPTOPS, laptopsButton,
-                Category.MONITORS, monitorsButton
-        );
         setUiLoadedMarker(phonesButton);
     }
 
@@ -74,7 +67,11 @@ public class HomePage extends BaseTopMenuPage {
     }
 
     public void click(Category item) {
-        menuButtons.get(item).click();
+        switch (item) {
+            case PHONES -> phonesButton.click();
+            case LAPTOPS -> laptopsButton.click();
+            case MONITORS -> monitorsButton.click();
+        }
     }
 
     public enum Category {

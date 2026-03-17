@@ -29,13 +29,6 @@ public class CatalogTest extends BaseTest {
     private static final Logger logger =
             LoggerFactory.getLogger(CatalogTest.class);
 
-    @Parameters({"browser"})
-    @BeforeMethod
-    public void setUp(@Optional("firefox") String browser) {
-        R.CONFIG.put("browser", browser);
-        logger.info("Running test on browser: {}", browser);
-    }
-
     @Test(testName = "List of Products - Task1", description = "filters the products by category, then prints in console all the products")
     public void verifyProductsDisplayedForSelectedCategory() {
         HomePage homePage = openHomePage();

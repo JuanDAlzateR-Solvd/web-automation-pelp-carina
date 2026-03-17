@@ -27,13 +27,6 @@ public class HomeNavigationTest extends BaseTest {//implements IAbstractTest
     private static final Logger logger =
             LoggerFactory.getLogger(HomeNavigationTest.class);
 
-    @Parameters({"browser"})
-    @BeforeMethod
-    public void setUp(@Optional("firefox") String browser) {
-        R.CONFIG.put("browser", browser);
-        logger.info("Running test on browser: {}", browser);
-    }
-
     @Test(testName = "Functionality of top menu modals", description = "verifies that home page loads, and top Menu modals works correctly")
     public void verifyTopMenuNavigation() {
         HomePage homePage = openHomePage();
@@ -61,7 +54,7 @@ public class HomeNavigationTest extends BaseTest {//implements IAbstractTest
 
         logger.info("Testing Menu item: [CartPage]");
         CartPage cartPage = homePage.goToCartPage();
-        sa.assertTrue(cartPage.isPageVisible(), "Cart Page should be visible");
+        sa.assertTrue(cartPage.isPageOpened(), "Cart Page should be visible");
         cartPage.goToHomePage();
 
         sa.assertAll();

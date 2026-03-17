@@ -37,19 +37,17 @@ public abstract class BaseModal extends BaseComponent {
      ----------------------------- */
 
     public void waitUntilModalOpened() {
-
         logger.debug("Waiting for modal [{}] to open", getClass().getSimpleName());
-//        waitUntilComponentIsReady();
+        assertUIObjectPresent(5);
         getModalContainer().assertElementPresent();
+        assertUIObjectPresent();
     }
 
     public void closeModal() {
         logger.debug("Closing modal [{}]", getClass().getSimpleName());
-//        waitUntilComponentIsReady();
-        waitUntilCloseButtonIsClickable();
+        waitUntilModalOpened();
         getCloseButton().click();
         waitUntilModalClosed();
-        cleanupBackdrops();
     }
 
     public void waitUntilModalClosed() {
@@ -65,6 +63,9 @@ public abstract class BaseModal extends BaseComponent {
             if (backdrop.isElementPresent(1)) {
                 logger.debug("Waiting for modal backdrop to disappear");
                 backdrop.waitUntilElementDisappear(10);
+                if(backdrop.isElementPresent(1)){
+                    cleanupBackdrops();
+                }
             }
         } catch (Exception e) {
             logger.warn("Error waiting for backdrop: " + e.getMessage());
