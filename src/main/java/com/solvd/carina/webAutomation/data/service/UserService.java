@@ -1,6 +1,7 @@
 package com.solvd.carina.webAutomation.data.service;
 
 import com.solvd.carina.webAutomation.data.model.User;
+import com.solvd.carina.webAutomation.data.model.UserAccount;
 import com.zebrunner.carina.utils.R;
 
 public class UserService {
@@ -9,6 +10,13 @@ public class UserService {
         return new User(
                 R.TESTDATA.get("valid.name"),
                 R.TESTDATA.get("valid.email")
+        );
+    }
+
+    public UserAccount getUserAccount() {
+        return new UserAccount(
+                R.TESTDATA.get("credentials.user"),
+                R.TESTDATA.get("credentials.password")
         );
     }
 

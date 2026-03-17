@@ -1,5 +1,6 @@
 package com.solvd.carina.webAutomation.components.modals;
 
+import com.solvd.carina.webAutomation.data.model.UserAccount;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.SearchContext;
@@ -67,6 +68,11 @@ public class LogInModal extends BaseModal {
         typePassword(password);
         clickLogIn();
         return this;
+    }
+
+    public LogInModal logInWith(UserAccount userAccount) {
+//        logger.debug("Decrypted password: " + userAccount.getDecryptedPassword());
+        return logInWith(userAccount.getUsername(), userAccount.getDecryptedPassword());
     }
 
     public void acceptWrongPasswordAlert() {

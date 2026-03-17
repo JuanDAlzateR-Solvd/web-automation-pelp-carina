@@ -3,14 +3,15 @@ package com.solvd.carina.webAutomation;
 import com.solvd.carina.webAutomation.components.modals.ContactModal;
 import com.solvd.carina.webAutomation.components.modals.LogInModal;
 import com.solvd.carina.webAutomation.data.model.User;
+import com.solvd.carina.webAutomation.data.model.UserAccount;
 import com.solvd.carina.webAutomation.data.service.UserService;
-import com.solvd.carina.webAutomation.flows.Navigation;
 import com.solvd.carina.webAutomation.pages.desktop.HomePage;
-import com.zebrunner.carina.core.AbstractTest;
+import com.solvd.carina.webAutomation.utils.CryptoUtils;
 import com.zebrunner.carina.utils.R;
-import org.openqa.selenium.WebDriver;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.Assert;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 
@@ -35,8 +36,8 @@ public class FormsTest extends BaseTest {//implements IAbstractTest
 
         sa.assertTrue(contactModal.isModalVisible(), "Contact modal is not visible");
 
-        UserService userService = new UserService();
-        User user = userService.getUser();
+        User user = new UserService().getUser();
+
         contactModal.fillAndSubmitForm(user.getEmail(),
                 user.getName(),
                 "This is a test message");
@@ -60,11 +61,20 @@ public class FormsTest extends BaseTest {//implements IAbstractTest
         SoftAssert sa = new SoftAssert();
         sa.assertTrue(logInModal.isModalVisible(), "Log In modal is not visible");
 
-        logInModal.logInWith("example@email.com", "Example Password");
+        UserAccount userAccount = new UserService().getUserAccount();
+
+        logInModal.logInWith(userAccount);
         sa.assertTrue(logInModal.isAlertPresent(), "Alert should be present after submitting form");
         logInModal.acceptWrongPasswordAlert();
 
         sa.assertAll();
+    }
+
+    @Test(testName = "Decrypt password test",
+            description = "checks that password is decrypted correctly")
+    public void testEncryption() {
+        String encrypted =R.TESTDATA.get("credentials.password");
+        Assert.assertEquals(CryptoUtils.decrypt(encrypted), "password");
     }
 
 }
