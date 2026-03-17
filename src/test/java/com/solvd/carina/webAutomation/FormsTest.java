@@ -2,6 +2,8 @@ package com.solvd.carina.webAutomation;
 
 import com.solvd.carina.webAutomation.components.modals.ContactModal;
 import com.solvd.carina.webAutomation.components.modals.LogInModal;
+import com.solvd.carina.webAutomation.data.model.User;
+import com.solvd.carina.webAutomation.data.service.UserService;
 import com.solvd.carina.webAutomation.flows.Navigation;
 import com.solvd.carina.webAutomation.pages.desktop.HomePage;
 import com.zebrunner.carina.core.AbstractTest;
@@ -33,8 +35,10 @@ public class FormsTest extends BaseTest {//implements IAbstractTest
 
         sa.assertTrue(contactModal.isModalVisible(), "Contact modal is not visible");
 
-        contactModal.fillAndSubmitForm("example@email.com",
-                "Example Name",
+        UserService userService = new UserService();
+        User user = userService.getUser();
+        contactModal.fillAndSubmitForm(user.getEmail(),
+                user.getName(),
                 "This is a test message");
 
         logger.info("alert {}", contactModal.getAlertText());
