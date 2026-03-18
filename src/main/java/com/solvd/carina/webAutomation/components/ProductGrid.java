@@ -21,7 +21,6 @@ public class ProductGrid extends BaseComponent {
 
     public ProductGrid(WebDriver driver, SearchContext root) {
         super(driver, root);
-//        setUiLoadedMarker(productItems.get(0).getRootExtendedElement()); //works without set marker
     }
 
     public List<ProductGridItemComponent> getProductComponents() {
@@ -66,7 +65,7 @@ public class ProductGrid extends BaseComponent {
 
     public ProductPage addProductToCart(int index) {
         ProductPage productPage=openProduct(index);
-        productPage.waitUntilPageIsReady();
+//        productPage.waitUntilPageIsReady();
         return productPage.addToCart();
     }
 
@@ -75,11 +74,6 @@ public class ProductGrid extends BaseComponent {
         return product.getProductName();
     }
 
-    public int getProductCount() {
-        return productItems.size();
-    }
-
-
-
+    public int getProductCount() {return productItems.size();}
 
 }

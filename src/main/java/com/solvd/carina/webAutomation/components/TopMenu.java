@@ -38,28 +38,20 @@ public class TopMenu extends BaseComponent {
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element.getElement());
     }
 
-    public void clickCart() {
-       jsClick(cartButton);
+    private void clickMenuItem(ExtendedWebElement element) {
+        try {
+            element.click();
+        }
+        catch (Exception e) {
+            logger.warn("Regular click failed, using JS click for {}", element, e);
+            jsClick(element);
+        }
     }
-
-    public void clickHome() {
-        jsClick(homeButton);
-    }
-
-    public void clickAboutUs() {
-        jsClick(aboutUsButton);
-    }
-
-    public void clickSignUp() {
-      jsClick(signUpButton);
-    }
-
-    public void clickContact() {
-       jsClick(contactButton);
-    }
-
-    public void clickLogIn() {
-       jsClick(logInButton);
-    }
+    public void clickCart() { clickMenuItem(cartButton); }
+    public void clickHome() { clickMenuItem(homeButton); }
+    public void clickAboutUs() { clickMenuItem(aboutUsButton); }
+    public void clickSignUp() { clickMenuItem(signUpButton); }
+    public void clickContact() { clickMenuItem(contactButton); }
+    public void clickLogIn() { clickMenuItem(logInButton); }
 
 }

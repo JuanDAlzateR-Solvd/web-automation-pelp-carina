@@ -33,8 +33,7 @@ public class ProductGridItemComponent extends BaseComponent {
     }
 
     public String getText() {
-
-        return getRootExtendedElement().getText(); //It doesn't work with root?  used title?.
+        return getRootExtendedElement().getText();
     }
 
     public String getProductName() {
@@ -55,13 +54,8 @@ public class ProductGridItemComponent extends BaseComponent {
     }
 
     public void waitUntilProductIsClickable() {
-//        waitUntilComponentIsReady();
-        for (int i = 0; i < 5; i++) {
-            if (!getProductTitle().isClickable()) {
-                logger.debug("Product is not clickable, trying again");
-                getProductTitle().assertElementPresent(2);
-            }
-        }
+        logger.debug("Waiting for product title to become clickable");
+        waitUtil.waitForElementClickable(productLink.getElement(), productLink.getName());
     }
 
 }

@@ -7,6 +7,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.Arrays;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Footer extends BaseComponent {
 
@@ -28,56 +30,70 @@ public class Footer extends BaseComponent {
                 .toArray(String[]::new);
     }
 
-    public String getInfo(InfoItem item) {
+    public FooterInfo getInfo() {
+        Map<InfoItem, String> infoMap = getInfoMap();
+
+        String address = infoMap.getOrDefault(InfoItem.ADDRESS, "");
+        String phone = infoMap.getOrDefault(InfoItem.PHONE, "");
+        String email = infoMap.getOrDefault(InfoItem.EMAIL, "");
+
+        return new FooterInfo(address,phone,email);
+    }
+
+    private Map<InfoItem, String> getInfoMap() {
         return Arrays.stream(contactInfo.getText().split("\n"))
                 .map(String::trim)
-                .filter(line -> line.startsWith(item.getLabel()))
-                .map(line -> line.split(":", 2)[1].trim())
-                .findFirst()
-                .orElse("");
+                .filter(line -> line.contains(":"))
+                .map(line -> line.split(":", 2))
+                .collect(Collectors.toMap(
+                        arr -> Arrays.stream(InfoItem.values())
+                                .filter(i -> i.getLabel().equals(arr[0].trim()))
+                                .findFirst()
+                                .orElse(null),
+                        arr -> arr[1].trim())
+                );
     }
 
     public boolean isVisibleInScreen() {
         return isInViewport(contactInfo,"contact info");
     }
 
-    public void scrollToBottom() {
-        contactInfo.scrollTo();
+    private boolean isAddressValid(String address) {
+        return !address.isBlank();
     }
 
-    public boolean verifyAddress() {
-        return !getInfo(InfoItem.ADDRESS).isBlank();
-    }
-
-    public boolean verifyPhone() {
-        String phone = getInfo(InfoItem.PHONE);
+    private boolean isPhoneValid(String phone) {
         return StringUtils.isValidPhone(phone);
     }
 
-    public boolean verifyEmail() {
-        String email = getInfo(InfoItem.EMAIL);
+    private boolean isEmailValid(String email) {
         return StringUtils.isValidEmail(email);
     }
 
-    public boolean verifyFooterInfo() {
-        boolean validAddress = verifyAddress();
-        boolean validPhone = verifyPhone();
-        boolean validEmail = verifyEmail();
+    public boolean isFooterInfoValid() {
+        FooterInfo info = getInfo();
+        String address = info.getAddress();
+        String phone = info.getPhone();
+        String email = info.getEmail();
+
+        boolean validAddress = isAddressValid(address);
+        boolean validPhone = isPhoneValid(phone);
+        boolean validEmail = isEmailValid(email);
 
         if (!validAddress) {
-            logger.error("Invalid Address: {}", getInfo(InfoItem.ADDRESS));
+            logger.error("Invalid Address: {}", address);
         }
         if (!validPhone) {
-            logger.error("Invalid Phone: {}", getInfo(InfoItem.PHONE));
+            logger.error("Invalid Phone: {}", phone);
         }
         if (!validEmail) {
-            logger.error("Invalid Email: {}", getInfo(InfoItem.EMAIL));
+            logger.error("Invalid Email: {}", email);
         }
         return validAddress && validPhone && validEmail;
     }
 
     public void ensureVisible() {
-        scrollToBottom();
+        contactInfo.scrollTo();
     }
 
     public enum InfoItem {
@@ -94,6 +110,43 @@ public class Footer extends BaseComponent {
         public String getLabel() {
             return label;
         }
+    }
+
+    public static class FooterInfo {
+        private String address;
+        private String phone;
+        private String email;
+
+        public FooterInfo(String address, String phone, String email) {
+            this.address = address;
+            this.phone = phone;
+            this.email = email;
+        }
+
+        public String getAddress() {
+            return address;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
     }
 
 }

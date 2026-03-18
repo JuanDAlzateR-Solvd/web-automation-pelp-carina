@@ -7,6 +7,8 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.function.Function;
+
 public abstract class BaseModal extends BaseComponent {
 
     @FindBy(css = ".modal-backdrop")
@@ -46,7 +48,8 @@ public abstract class BaseModal extends BaseComponent {
         logger.debug("Closing modal [{}]", getClass().getSimpleName());
         waitUntilModalOpened();
         try {
-            getCloseButton().click();
+            waitUntilCloseButtonIsClickable();
+            clickCloseButton();
         } catch (Exception e) {
             logger.warn("Standard click failed, trying JS click to close modal: " + e.getMessage());
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", getCloseButton().getElement());
@@ -122,13 +125,19 @@ public abstract class BaseModal extends BaseComponent {
         waitUntilModalOpened();
         logger.debug("Modal {} is opened, checking if close button is clickable", getClass().getSimpleName());
         getCloseButton().isVisible(1);
-        for (int i = 0; i < 5; i++) {
-            logger.debug("Close button is clickable {}",getCloseButton().isClickable()); //
-            if (!getCloseButton().isClickable()) {
-                logger.debug("Close button is not clickable, trying again");
-                getCloseButton().assertElementPresent(2);
-            }
+        waitUtil.waitForElementClickable(getCloseButton().getElement(), getCloseButton().getName());
+
+        logger.info("Close button is clickable {}",getCloseButton().isClickable()); //
+        if (!getCloseButton().isClickable()) {
+            logger.info("Close button is not clickable, trying again");
+            getCloseButton().assertElementPresent(2);
+
+            Function<ExtendedWebElement, Boolean> clickable = ExtendedWebElement::isClickable;
+
+            waitUtil.waitUntilTrue(driver -> clickable.apply(getCloseButton()));
+
         }
+
     }
 
     public boolean isModalOpened() {
@@ -137,6 +146,14 @@ public abstract class BaseModal extends BaseComponent {
 
     public boolean isModalVisible() {
         return getModalTitle().isVisible();
+    }
+
+    public void clickCloseButton() {
+        getCloseButton().click();
+        getModalContainer().waitUntilElementDisappear(3);
+        if (getModalTitle().isVisible(3)) {
+            getCloseButton().click();
+        }
     }
 
 }

@@ -1,19 +1,9 @@
 package com.solvd.carina.webAutomation;
 
-import com.solvd.carina.webAutomation.components.Footer;
 import com.solvd.carina.webAutomation.components.ProductGrid;
-import com.solvd.carina.webAutomation.components.modals.AboutUsModal;
-import com.solvd.carina.webAutomation.components.modals.ContactModal;
-import com.solvd.carina.webAutomation.components.modals.LogInModal;
-import com.solvd.carina.webAutomation.components.modals.SignUpModal;
-import com.solvd.carina.webAutomation.flows.Navigation;
 import com.solvd.carina.webAutomation.flows.ShoppingFlow;
 import com.solvd.carina.webAutomation.pages.desktop.CartPage;
 import com.solvd.carina.webAutomation.pages.desktop.HomePage;
-import com.solvd.carina.webAutomation.pages.desktop.ProductPage;
-import com.zebrunner.carina.core.AbstractTest;
-import com.zebrunner.carina.utils.R;
-import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -21,7 +11,6 @@ import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 
 import java.util.Arrays;
-import java.util.List;
 
 public class CartTest extends BaseTest {//implements IAbstractTest
     private static final Logger logger =
@@ -41,7 +30,7 @@ public class CartTest extends BaseTest {//implements IAbstractTest
 
         cartPage.waitUntilCartShowsProducts();
 
-        Assert.assertTrue(cartPage.containsProduct(productName), "Product was not added to cart");
+        Assert.assertTrue(cartPage.isProductInCart(productName), "Product was not added to cart");
 
         Assert.assertFalse(cartPage.getTotalPrice().isEmpty(), "Total price is empty");
 
@@ -62,7 +51,7 @@ public class CartTest extends BaseTest {//implements IAbstractTest
 
         cartPage.waitUntilCartShowsProducts();
 
-        sa.assertTrue(cartPage.containsProduct(productName),
+        sa.assertTrue(cartPage.isProductInCart(productName),
                 "Product was not added to cart");
 
         int initialSize = cartPage.getProductCount();
@@ -94,7 +83,7 @@ public class CartTest extends BaseTest {//implements IAbstractTest
         int initialSize = cartPage.getProductCount();
         sa.assertTrue(initialSize > 0, "Expected cart to have products, but it was empty");
 
-        cartPage.emptyShoppingCart();
+        cartPage.removeAllProductsFromCart();
 
         int finalSize = cartPage.getProductCount();
         sa.assertEquals(finalSize, 0, "Expected cart to be empty");

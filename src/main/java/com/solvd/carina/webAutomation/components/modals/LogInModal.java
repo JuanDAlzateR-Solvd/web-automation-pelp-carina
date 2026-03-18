@@ -2,10 +2,7 @@ package com.solvd.carina.webAutomation.components.modals;
 
 import com.solvd.carina.webAutomation.data.model.UserAccount;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 
 public class LogInModal extends BaseModal {
@@ -63,16 +60,11 @@ public class LogInModal extends BaseModal {
         passwordInput.type(password);
     }
 
-    public LogInModal logInWith(String username, String password) {
-        typeUsername(username);
-        typePassword(password);
+    public LogInModal logInWith(UserAccount userAccount) {
+        typeUsername(userAccount.getUsername());
+        typePassword(userAccount.getDecryptedPassword());
         clickLogIn();
         return this;
-    }
-
-    public LogInModal logInWith(UserAccount userAccount) {
-//        logger.debug("Decrypted password: " + userAccount.getDecryptedPassword());
-        return logInWith(userAccount.getUsername(), userAccount.getDecryptedPassword());
     }
 
     public void acceptWrongPasswordAlert() {
@@ -91,15 +83,34 @@ public class LogInModal extends BaseModal {
         }
     }
 
-    @Override
-    public void closeModal() {
-        //This method needs to be improved to reduce flakiness
-        logger.debug("Closing modal [{}]", getClass().getSimpleName());
-        pause(1);
-        waitUntilCloseButtonIsClickable();
-        getCloseButton().click();
-        waitUntilModalClosed();
-        cleanupBackdrops();
+//    @Override
+//    public void closeModal() {
+//        //This method needs to be improved to reduce flakiness
+////        logger.debug("Closing modal [{}]", getClass().getSimpleName());
+////        pause(1);
+////        waitUntilCloseButtonIsClickable();
+////        getCloseButton().click();
+////        waitUntilModalClosed();
+////        cleanupBackdrops();
+//
+//        logger.debug("Closing modal [{}]", getClass().getSimpleName());
+//
+//        try {
+//            ExtendedWebElement closeButton = waitUntilClickable(getCloseButton());
+//            closeButton.click();
+//            waitUntilModalClosed();
+//            cleanupBackdrops();
+//        } catch (TimeoutException e) {
+//            logger.warn("Modal [{}] failed to close in time", getClass().getSimpleName(), e);
+//        }
+//    }
+
+    public ExtendedWebElement waitUntilClickable(ExtendedWebElement element) {
+        waitUtil.waitForElementClickable(element.getElement(), element.getName());
+        return element;
     }
 
+
 }
+
+

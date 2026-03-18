@@ -52,7 +52,6 @@ public class SignUpModal extends BaseModal {
     public void clickClose() {
        closeButton.click();
         closeButton.waitUntilElementDisappear(5);
-//        closeButton.isVisible();
     }
 
     public void typeUsername(String username) {

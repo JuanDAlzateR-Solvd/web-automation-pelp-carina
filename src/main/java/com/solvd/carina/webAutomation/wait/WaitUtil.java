@@ -76,8 +76,7 @@ public class WaitUtil {
 
     public void waitForStalenessOf(WebElement element, String elementName) {
         logger.debug("Waiting for staleness of element {}", elementName);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(defaultTimeout));
-        wait.until(ExpectedConditions.stalenessOf(element));
+        buildWait().until(ExpectedConditions.stalenessOf(element));
     }
 
     // ==========================
@@ -107,7 +106,6 @@ public class WaitUtil {
      *
      * @param milliseconds int number of milliseconds to pause*
      */
-    @Deprecated
     public void debugPause(int milliseconds) {
         try {
             Thread.sleep(milliseconds);

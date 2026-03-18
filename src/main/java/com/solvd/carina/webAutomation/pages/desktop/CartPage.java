@@ -80,7 +80,7 @@ public class CartPage extends BaseTopMenuPage {
         waitUntilCartSizeReduces(initialSize);
     }
 
-    public void emptyShoppingCart() {
+    public void removeAllProductsFromCart() {
         final int maxAttempts = 20;
         int attempts = 0;
 
@@ -88,7 +88,7 @@ public class CartPage extends BaseTopMenuPage {
 
             if (attempts >= maxAttempts) {
                 throw new IllegalStateException(
-                        "Failed to empty shopping cart after " + maxAttempts + " attempts."
+                        "Failed to clear shopping cart after " + maxAttempts + " attempts."
                 );
             }
 
@@ -99,7 +99,6 @@ public class CartPage extends BaseTopMenuPage {
 
             ExtendedWebElement rowElement = item.getRootExtendedElement();
             deleteProduct(productName);
-            waitUtil.waitForStalenessOf(rowElement.getElement(), productName);
 
             attempts++;
         }
@@ -111,12 +110,11 @@ public class CartPage extends BaseTopMenuPage {
         Cart validations
      ----------------------------- */
 
-    public boolean containsProduct(String productName) {
+    public boolean isProductInCart(String productName) {
         return getCartItemComponentByName(productName).isPresent();
     }
 
     public boolean isCartEmpty() {
-        waitUntilPageIsReady();
         boolean empty = getCartItemComponents().isEmpty();
         logger.info("Cart empty: {}", empty);
         return empty;
@@ -149,7 +147,6 @@ public class CartPage extends BaseTopMenuPage {
 
 
     public void waitUntilCartShowsProducts() {
-        waitUntilPageIsReady();
         waitUntilCartSizeChanges(0);
     }
 

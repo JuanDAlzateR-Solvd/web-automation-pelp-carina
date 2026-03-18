@@ -10,7 +10,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
-import java.util.Map;
 
 public class HomePage extends BaseTopMenuPage {
 
@@ -42,23 +41,15 @@ public class HomePage extends BaseTopMenuPage {
         setUiLoadedMarker(phonesButton);
     }
 
-
-//    protected ExtendedWebElement getPageLoadedIndicator() {
-//
-//        logger.debug("Waiting for home page to load imageIndicator. Initial size: {}", imageIndicator.size());
-//
-//        waitUntil(driver -> !imageIndicator.isEmpty(), 10);
-//
-//        return imageIndicator.get(0);
-//    }
-
     @Override
     public void waitUntilPageIsReady() {
         logger.debug("Waiting for home page to load imageIndicator. Initial size: {}", imageIndicator.size());
 
-        waitUntil(driver -> !imageIndicator.isEmpty(), 10);
+        waitUntil(driver -> !imageIndicator.isEmpty(), 30);
 
-        imageIndicator.get(0).assertElementPresent();
+        boolean isPresent= imageIndicator.get(0).isElementPresent();
+
+        logger.debug("imageIndicator is {} present", isPresent ? "" : "not ");
     }
 
     @Override

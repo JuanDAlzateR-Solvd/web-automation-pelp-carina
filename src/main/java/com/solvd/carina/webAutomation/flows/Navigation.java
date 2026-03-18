@@ -59,7 +59,6 @@ public class Navigation {
         topMenu.clickCart();
 
         CartPage page = new CartPage(driver);
-        page.waitUntilPageIsReady();
 
         return page;
     }
@@ -68,7 +67,6 @@ public class Navigation {
         topMenu.clickHome();
 
         HomePage page = new HomePage(driver);
-        page.waitUntilPageIsReady();
 
         return page;
     }
@@ -81,7 +79,6 @@ public class Navigation {
 
         HomePage page = new HomePage(driver);
         page.open();
-        page.waitUntilPageIsReady();
 
         return page;
     }

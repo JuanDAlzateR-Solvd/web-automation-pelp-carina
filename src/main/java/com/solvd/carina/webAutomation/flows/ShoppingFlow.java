@@ -55,6 +55,7 @@ public class ShoppingFlow {
         HomePage homePage = new HomePage(driver);
 
         ProductGrid productGrid = homePage.getProductGrid();
+        homePage.waitUntilPageIsReady(); //Necessary to ensure the page is fully loaded before interacting with elements
 
         int size = productGrid.getProductCount();
         int randomIndex = new Random().nextInt(size);
