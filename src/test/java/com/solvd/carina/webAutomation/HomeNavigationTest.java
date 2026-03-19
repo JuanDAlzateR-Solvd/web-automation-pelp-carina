@@ -75,10 +75,10 @@ public class HomeNavigationTest extends BaseTest {
         sa.assertAll();
     }
 
-    public BaseModal softAssertOpenAndCloseModal(BaseModal modal, SoftAssert sa){
+    public BaseModal softAssertOpenAndCloseModal(BaseModal modal, SoftAssert sa) {
         String modalName = modal.getClass().getSimpleName();
         logger.info("Testing Menu item: [{}]", modalName);
-        sa.assertTrue(modal.isModalVisible(), modalName+" should be visible");
+        sa.assertTrue(modal.isModalVisible(), modalName + " should be visible");
         modal.closeModal();
         return modal;
     }

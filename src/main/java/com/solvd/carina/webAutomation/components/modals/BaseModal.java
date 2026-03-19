@@ -7,9 +7,6 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-import java.time.Duration;
-import java.util.function.Function;
-
 public abstract class BaseModal extends BaseComponent {
 
     private static final int CLOSE_ATTEMPTS = 3;
