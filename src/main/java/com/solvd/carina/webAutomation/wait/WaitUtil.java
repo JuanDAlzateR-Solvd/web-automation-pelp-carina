@@ -129,4 +129,18 @@ public class WaitUtil {
     public void waitUntilTrue(Function<WebDriver, Boolean> condition) {
         buildWait().until(condition);
     }
+
+    public void waitUntilTrue(Function<WebDriver, Boolean> condition, int timeoutInSeconds) {
+        buildWait(timeoutInSeconds).until(condition);
+    }
+
+    public boolean waitUntilTrueSafely(Function<WebDriver, Boolean> condition, int timeoutInSeconds) {
+        try {
+            buildWait(timeoutInSeconds).until(condition);
+            return true;
+        } catch (TimeoutException e) {
+            logger.debug("Condition was not met within {} seconds", timeoutInSeconds);
+            return false;
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.solvd.carina.webAutomation.components.modals;
 
+import com.solvd.carina.webAutomation.components.modals.common.BaseModal;
 import com.solvd.carina.webAutomation.wait.Timeouts;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.SearchContext;

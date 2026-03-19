@@ -2,6 +2,7 @@ package com.solvd.carina.webAutomation;
 
 import com.solvd.carina.webAutomation.components.Footer;
 import com.solvd.carina.webAutomation.components.modals.*;
+import com.solvd.carina.webAutomation.components.modals.common.BaseModal;
 import com.solvd.carina.webAutomation.pages.desktop.CartPage;
 import com.solvd.carina.webAutomation.pages.desktop.HomePage;
 import org.slf4j.Logger;
