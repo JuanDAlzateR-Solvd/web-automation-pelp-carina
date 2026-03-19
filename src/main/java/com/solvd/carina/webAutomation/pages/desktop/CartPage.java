@@ -142,7 +142,7 @@ public class CartPage extends BaseTopMenuPage {
 
     private void waitUntilCartSizeReduces(int initialSize) {
         logger.debug("Waiting for cart size to change from {}", initialSize);
-        waitUntil(driver -> getCartItemComponents().size() == (initialSize-1), 10);
+        waitUntil(driver -> getCartItemComponents().size() == (initialSize - 1), 10);
     }
 
 

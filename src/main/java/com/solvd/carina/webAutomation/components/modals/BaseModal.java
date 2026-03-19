@@ -7,9 +7,13 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
+import java.time.Duration;
 import java.util.function.Function;
 
 public abstract class BaseModal extends BaseComponent {
+
+    private static final int CLOSE_ATTEMPTS = 3;
+    private static final int DISAPPEAR_TIMEOUT_SECONDS = 2;
 
     @FindBy(css = ".modal-backdrop")
     private ExtendedWebElement backdrop;
@@ -58,12 +62,7 @@ public abstract class BaseModal extends BaseComponent {
     }
 
     public void waitUntilModalClosed() {
-        ExtendedWebElement modal = getModalContainer();
-        // Check if modal container is still present
-        if (modal.isElementPresent(1)) {
-            logger.debug("Modal container is present, waiting for it to disappear");
-            modal.waitUntilElementDisappear(15);
-        }
+        getModalContainer().waitUntilElementDisappear(15);
         // Wait for the specific modal to not have the 'show' class anymore
         // or for the backdrop to disappear.
         // In Demoblaze/Bootstrap, the 'show' class is removed when the modal is hidden.
@@ -83,10 +82,17 @@ public abstract class BaseModal extends BaseComponent {
                 logger.debug("A modal/backdrop is still present, forcing cleanup");
                 cleanupBackdrops();
                 // Wait for animation to finish
-                try { Thread.sleep(1000); } catch (InterruptedException ignored) {}
+                waitForBackdropToDisappearAfterCleanup();
             }
         } catch (Exception e) {
             logger.warn("Error waiting for backdrop: " + e.getMessage());
+        }
+    }
+
+    private void waitForBackdropToDisappearAfterCleanup() {
+        logger.debug("Waiting for backdrop to disappear after cleanup");
+        if (backdrop.isElementPresent(1) && backdrop.isVisible()) {
+            backdrop.waitUntilElementDisappear(10);
         }
     }
 
@@ -95,6 +101,7 @@ public abstract class BaseModal extends BaseComponent {
             JavascriptExecutor js = (JavascriptExecutor) driver;
             return (Boolean) js.executeScript("return document.querySelectorAll('.modal-backdrop').length > 0;");
         } catch (Exception e) {
+            logger.warn("Failed to check if backdrop is present with JS: " + e.getMessage());
             return false;
         }
     }
@@ -104,6 +111,7 @@ public abstract class BaseModal extends BaseComponent {
             JavascriptExecutor js = (JavascriptExecutor) driver;
             return (Boolean) js.executeScript("return document.querySelectorAll('.modal.show').length > 0;");
         } catch (Exception e) {
+            logger.warn("Failed to check if any modal is visible with JS: " + e.getMessage());
             return false;
         }
     }
@@ -124,20 +132,7 @@ public abstract class BaseModal extends BaseComponent {
         logger.debug("Waiting for close button to be clickable");
         waitUntilModalOpened();
         logger.debug("Modal {} is opened, checking if close button is clickable", getClass().getSimpleName());
-        getCloseButton().isVisible(1);
         waitUtil.waitForElementClickable(getCloseButton().getElement(), getCloseButton().getName());
-
-        logger.info("Close button is clickable {}",getCloseButton().isClickable()); //
-        if (!getCloseButton().isClickable()) {
-            logger.info("Close button is not clickable, trying again");
-            getCloseButton().assertElementPresent(2);
-
-            Function<ExtendedWebElement, Boolean> clickable = ExtendedWebElement::isClickable;
-
-            waitUtil.waitUntilTrue(driver -> clickable.apply(getCloseButton()));
-
-        }
-
     }
 
     public boolean isModalOpened() {
@@ -149,11 +144,27 @@ public abstract class BaseModal extends BaseComponent {
     }
 
     public void clickCloseButton() {
-        getCloseButton().click();
-        getModalContainer().waitUntilElementDisappear(3);
-        if (getModalTitle().isVisible(3)) {
+
+        for (int attempt = 1; attempt <= CLOSE_ATTEMPTS; attempt++) {
+            ExtendedWebElement modalContainer = getModalContainer();
+            logger.debug("Closing modal. Attempt {}/{}.", attempt, CLOSE_ATTEMPTS);
+
+            if (!modalContainer.isVisible(1)) {
+                logger.debug("Modal is already closed before attempt {}.", attempt);
+                return;
+            }
+
             getCloseButton().click();
+
+            if (modalContainer.waitUntilElementDisappear(DISAPPEAR_TIMEOUT_SECONDS)) {
+                logger.info("Modal closed successfully on attempt {}.", attempt);
+                return;
+            }
+
+            logger.warn("Modal is still visible after close attempt {}.", attempt);
         }
+
+        throw new IllegalStateException("Failed to close modal after " + CLOSE_ATTEMPTS + " attempts.");
     }
 
 }

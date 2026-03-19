@@ -16,7 +16,7 @@ import org.testng.Assert;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 
-public class FormsTest extends BaseTest {//implements IAbstractTest
+public class FormsTest extends BaseTest {
     private static final Logger logger =
             LoggerFactory.getLogger(FormsTest.class);
 
@@ -24,7 +24,7 @@ public class FormsTest extends BaseTest {//implements IAbstractTest
     @Test(testName = "Fill Contact Form - Task3 TC-005",
             description = "click on contact, then fills the form and sends it")
     public void verifyFillInfoInContactFormAndSend() {
-         HomePage homePage = openHomePage();
+        HomePage homePage = openHomePage();
         ContactModal contactModal = homePage.openContactModal();
 
         SoftAssert sa = new SoftAssert();
@@ -37,14 +37,14 @@ public class FormsTest extends BaseTest {//implements IAbstractTest
                 user.getName(),
                 "This is a test message");
 
-        logger.info("alert {}", contactModal.getAlertText());
-
         sa.assertTrue(contactModal.isAlertPresent(), "Alert should be present after submitting form");
-        logger.info("finished checking alert");
+        logger.info("alert text: {}", contactModal.getAlertText());
 
         contactModal.acceptMessageAlert();
 
         sa.assertAll();
+
+
     }
 
     @Test(testName = "Log In with wrong credentials - Task3 TC-006",
@@ -63,13 +63,6 @@ public class FormsTest extends BaseTest {//implements IAbstractTest
         logInModal.acceptWrongPasswordAlert();
 
         sa.assertAll();
-    }
-
-    @Test(testName = "Decrypt password test",
-            description = "checks that password is decrypted correctly")
-    public void testEncryption() {
-        String encrypted =R.TESTDATA.get("credentials.password");
-        Assert.assertEquals(CryptoUtils.decrypt(encrypted), "password");
     }
 
 }

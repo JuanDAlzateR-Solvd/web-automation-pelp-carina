@@ -41,17 +41,34 @@ public class TopMenu extends BaseComponent {
     private void clickMenuItem(ExtendedWebElement element) {
         try {
             element.click();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             logger.warn("Regular click failed, using JS click for {}", element, e);
             jsClick(element);
         }
     }
-    public void clickCart() { clickMenuItem(cartButton); }
-    public void clickHome() { clickMenuItem(homeButton); }
-    public void clickAboutUs() { clickMenuItem(aboutUsButton); }
-    public void clickSignUp() { clickMenuItem(signUpButton); }
-    public void clickContact() { clickMenuItem(contactButton); }
-    public void clickLogIn() { clickMenuItem(logInButton); }
+
+    public void clickCart() {
+        clickMenuItem(cartButton);
+    }
+
+    public void clickHome() {
+        clickMenuItem(homeButton);
+    }
+
+    public void clickAboutUs() {
+        clickMenuItem(aboutUsButton);
+    }
+
+    public void clickSignUp() {
+        clickMenuItem(signUpButton);
+    }
+
+    public void clickContact() {
+        clickMenuItem(contactButton);
+    }
+
+    public void clickLogIn() {
+        clickMenuItem(logInButton);
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.solvd.carina.webAutomation.components.modals;
 
+import com.solvd.carina.webAutomation.wait.Timeouts;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -26,37 +27,41 @@ public class SignUpModal extends BaseModal {
     private ExtendedWebElement passwordInput;
 
     public SignUpModal(WebDriver driver, SearchContext searchContext) {
-        super(driver,searchContext);
+        super(driver, searchContext);
     }
 
     @Override
     protected ExtendedWebElement getModalContainer() {
         return modalContainer;
     }
+
     @Override
     protected ExtendedWebElement getModalTitle() {
         return labelTitle;
     }
+
     @Override
     protected ExtendedWebElement getCloseButton() {
         return closeButton;
     }
+
     public ExtendedWebElement getLabelTitle() {
         return labelTitle;
     }
 
     public void clickSignIn() {
-       signInButton.click();
+        signInButton.click();
     }
 
     public void clickClose() {
-       closeButton.click();
-        closeButton.waitUntilElementDisappear(5);
+        closeButton.click();
+        closeButton.waitUntilElementDisappear(Timeouts.SHORT);
     }
 
     public void typeUsername(String username) {
         usernameInput.type(username);
     }
+
     public void typePassword(String password) {
         passwordInput.type(password);
     }

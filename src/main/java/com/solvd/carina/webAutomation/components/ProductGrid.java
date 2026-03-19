@@ -49,6 +49,13 @@ public class ProductGrid extends BaseComponent {
         return productItems.get(productIndex);
     }
 
+    public int getProductIndex(String productName) {
+        return productItems.stream()
+                .map(ProductGridItemComponent::getProductName)
+                .toList()
+                .indexOf(productName);
+    }
+
     //Test flow methods
 
     public ProductPage openProduct(int index) {
@@ -60,11 +67,11 @@ public class ProductGrid extends BaseComponent {
 
     public ProductPage openLastProduct() {
         int productIndex = getProductCount() - 1;
-       return openProduct(productIndex);
+        return openProduct(productIndex);
     }
 
     public ProductPage addProductToCart(int index) {
-        ProductPage productPage=openProduct(index);
+        ProductPage productPage = openProduct(index);
 //        productPage.waitUntilPageIsReady();
         return productPage.addToCart();
     }
@@ -74,6 +81,8 @@ public class ProductGrid extends BaseComponent {
         return product.getProductName();
     }
 
-    public int getProductCount() {return productItems.size();}
+    public int getProductCount() {
+        return productItems.size();
+    }
 
 }

@@ -23,7 +23,7 @@ public abstract class BasePage extends AbstractPage {
     protected BasePage(WebDriver driver) {
         super(driver);
 
-        this.waitUtil=new WaitUtil(getDriver());
+        this.waitUtil = new WaitUtil(getDriver());
         this.loaderHandler =
                 new LoaderHandler(driver, LOADER);
 
@@ -36,7 +36,7 @@ public abstract class BasePage extends AbstractPage {
 
     public void waitUntilPageIsReady(boolean waitForLoader) {
         logger.debug("Waiting for page: {}", getClass().getSimpleName());
-        if(waitForLoader){
+        if (waitForLoader) {
             loaderHandler.waitForLoaderToDisappear(20);
         }
         getUiLoadedMarker().assertElementPresent(Timeouts.MEDIUM);

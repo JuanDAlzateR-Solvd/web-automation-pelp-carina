@@ -26,7 +26,7 @@ public class LogInModal extends BaseModal {
     private ExtendedWebElement passwordInput;
 
     public LogInModal(WebDriver driver, SearchContext searchContext) {
-        super(driver,searchContext);
+        super(driver, searchContext);
     }
 
     @Override
@@ -82,34 +82,6 @@ public class LogInModal extends BaseModal {
             return false;
         }
     }
-
-//    @Override
-//    public void closeModal() {
-//        //This method needs to be improved to reduce flakiness
-////        logger.debug("Closing modal [{}]", getClass().getSimpleName());
-////        pause(1);
-////        waitUntilCloseButtonIsClickable();
-////        getCloseButton().click();
-////        waitUntilModalClosed();
-////        cleanupBackdrops();
-//
-//        logger.debug("Closing modal [{}]", getClass().getSimpleName());
-//
-//        try {
-//            ExtendedWebElement closeButton = waitUntilClickable(getCloseButton());
-//            closeButton.click();
-//            waitUntilModalClosed();
-//            cleanupBackdrops();
-//        } catch (TimeoutException e) {
-//            logger.warn("Modal [{}] failed to close in time", getClass().getSimpleName(), e);
-//        }
-//    }
-
-    public ExtendedWebElement waitUntilClickable(ExtendedWebElement element) {
-        waitUtil.waitForElementClickable(element.getElement(), element.getName());
-        return element;
-    }
-
 
 }
 

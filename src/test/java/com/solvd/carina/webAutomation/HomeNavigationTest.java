@@ -1,10 +1,7 @@
 package com.solvd.carina.webAutomation;
 
 import com.solvd.carina.webAutomation.components.Footer;
-import com.solvd.carina.webAutomation.components.modals.AboutUsModal;
-import com.solvd.carina.webAutomation.components.modals.ContactModal;
-import com.solvd.carina.webAutomation.components.modals.LogInModal;
-import com.solvd.carina.webAutomation.components.modals.SignUpModal;
+import com.solvd.carina.webAutomation.components.modals.*;
 import com.solvd.carina.webAutomation.pages.desktop.CartPage;
 import com.solvd.carina.webAutomation.pages.desktop.HomePage;
 import org.slf4j.Logger;
@@ -12,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 
-public class HomeNavigationTest extends BaseTest {//implements IAbstractTest
+public class HomeNavigationTest extends BaseTest {
     private static final Logger logger =
             LoggerFactory.getLogger(HomeNavigationTest.class);
 
@@ -21,25 +18,13 @@ public class HomeNavigationTest extends BaseTest {//implements IAbstractTest
         HomePage homePage = openHomePage();
         SoftAssert sa = new SoftAssert();
 
-        logger.info("Testing Menu item: [Contact Modal]");
-        ContactModal contactModal = homePage.openContactModal();
-        sa.assertTrue(contactModal.isModalVisible(), "Contact Modal should be visible");
-        contactModal.closeModal();
+        softAssertOpenAndCloseModal(homePage.openContactModal(), sa);
 
-        logger.info("Testing Menu item: [About Us Modal]");
-        AboutUsModal aboutUsModal = homePage.openAboutUsModal();
-        sa.assertTrue(aboutUsModal.isModalVisible(), "About Us Modal should be visible");
-        aboutUsModal.closeModal();
+        softAssertOpenAndCloseModal(homePage.openAboutUsModal(), sa);
 
-        logger.info("Testing Menu item: [Log In Modal]");
-        LogInModal logInModal = homePage.openLogInModal();
-        sa.assertTrue(logInModal.isModalVisible(), "Log In Modal should be visible");
-        logInModal.closeModal();
+        softAssertOpenAndCloseModal(homePage.openLogInModal(), sa);
 
-        logger.info("Testing Menu item: [Sign Up Modal]");
-        SignUpModal signUpModal = homePage.openSignUpModal();
-        sa.assertTrue(signUpModal.isModalVisible(), "Sign Up Modal should be visible");
-        signUpModal.closeModal();
+        softAssertOpenAndCloseModal(homePage.openSignUpModal(), sa);
 
         logger.info("Testing Menu item: [CartPage]");
         CartPage cartPage = homePage.goToCartPage();
@@ -73,10 +58,7 @@ public class HomeNavigationTest extends BaseTest {//implements IAbstractTest
         HomePage homePage = openHomePage();
         SoftAssert sa = new SoftAssert();
 
-        logger.info("Testing Menu item: [Contact Modal]");
-        ContactModal contactModal = homePage.openContactModal();
-        sa.assertTrue(contactModal.isModalVisible(), "Contact Modal should be visible");
-        contactModal.closeModal();
+        ContactModal contactModal = (ContactModal) softAssertOpenAndCloseModal(homePage.openContactModal(), sa);
 
         sa.assertFalse(contactModal.isModalVisible(), "Contact Modal should not be visible after closing");
         sa.assertAll();
@@ -87,13 +69,18 @@ public class HomeNavigationTest extends BaseTest {//implements IAbstractTest
         HomePage homePage = openHomePage();
         SoftAssert sa = new SoftAssert();
 
-        logger.info("Testing Menu item: [Log In Modal]");
-        LogInModal logInModal = homePage.openLogInModal();
-        sa.assertTrue(logInModal.isModalVisible(), "Log In Modal should be visible");
-        logInModal.closeModal();
+        LogInModal logInModal = (LogInModal) softAssertOpenAndCloseModal(homePage.openLogInModal(), sa);
 
         sa.assertFalse(logInModal.isModalVisible(), "Log In Modal should not be visible after closing");
         sa.assertAll();
+    }
+
+    public BaseModal softAssertOpenAndCloseModal(BaseModal modal, SoftAssert sa){
+        String modalName = modal.getClass().getSimpleName();
+        logger.info("Testing Menu item: [{}]", modalName);
+        sa.assertTrue(modal.isModalVisible(), modalName+" should be visible");
+        modal.closeModal();
+        return modal;
     }
 
 }

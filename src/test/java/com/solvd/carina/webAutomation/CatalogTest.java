@@ -47,7 +47,7 @@ public class CatalogTest extends BaseTest {
     public void verifyLastProductInfoForCategory(HomePage.Category category) {
         HomePage homePage = openHomePage();
 
-        ProductPage productPage= homePage
+        ProductPage productPage = homePage
                 .selectCategory(category)
                 .openLastProduct();
 

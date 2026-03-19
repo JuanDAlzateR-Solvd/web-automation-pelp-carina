@@ -14,7 +14,7 @@ import org.openqa.selenium.support.FindBy;
 
 public abstract class BaseTopMenuPage extends BasePage {
 
-    @FindBy(tagName="body")
+    @FindBy(tagName = "body")
     protected ExtendedWebElement body;
 
     protected BaseTopMenuPage(WebDriver driver) {

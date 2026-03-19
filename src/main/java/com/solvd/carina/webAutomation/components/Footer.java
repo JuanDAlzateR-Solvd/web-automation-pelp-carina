@@ -19,7 +19,7 @@ public class Footer extends BaseComponent {
     private ExtendedWebElement imageLocator;
 
     public Footer(WebDriver driver, SearchContext searchContext) {
-        super(driver,searchContext);
+        super(driver, searchContext);
         setUiLoadedMarker(imageLocator);
     }
 
@@ -31,16 +31,16 @@ public class Footer extends BaseComponent {
     }
 
     public FooterInfo getInfo() {
-        Map<InfoItem, String> infoMap = getInfoMap();
+        Map<InfoItem, String> infoMap = getFooterInfoMap();
 
         String address = infoMap.getOrDefault(InfoItem.ADDRESS, "");
         String phone = infoMap.getOrDefault(InfoItem.PHONE, "");
         String email = infoMap.getOrDefault(InfoItem.EMAIL, "");
 
-        return new FooterInfo(address,phone,email);
+        return new FooterInfo(address, phone, email);
     }
 
-    private Map<InfoItem, String> getInfoMap() {
+    private Map<InfoItem, String> getFooterInfoMap() {
         return Arrays.stream(contactInfo.getText().split("\n"))
                 .map(String::trim)
                 .filter(line -> line.contains(":"))
@@ -55,7 +55,7 @@ public class Footer extends BaseComponent {
     }
 
     public boolean isVisibleInScreen() {
-        return isInViewport(contactInfo,"contact info");
+        return isInViewport(contactInfo, "contact info");
     }
 
     private boolean isAddressValid(String address) {

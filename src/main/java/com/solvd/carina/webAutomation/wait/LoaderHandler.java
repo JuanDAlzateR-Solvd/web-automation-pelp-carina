@@ -22,10 +22,11 @@ public class LoaderHandler {
 
     public void waitForLoaderToDisappear(int timeout) {
 
-        List <WebElement> elements = driver.findElements(loaderLocator);
+        List<WebElement> elements = driver.findElements(loaderLocator);
         if (elements.isEmpty()) {
             logger.info("Loader element not found, skipping wait until loader disappears");
-            return; }
+            return;
+        }
 
         ExtendedWebElement loader = new ExtendedWebElement(elements.get(0), "loader");
 

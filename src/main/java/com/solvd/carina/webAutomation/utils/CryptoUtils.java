@@ -11,12 +11,13 @@ import org.slf4j.LoggerFactory;
 public class CryptoUtils {
     private static final org.slf4j.Logger logger =
             LoggerFactory.getLogger(CryptoUtils.class);
-    private static final Dotenv dotenv=Dotenv.load();
+    private static final Dotenv dotenv = Dotenv.load();
 
-    private static final CryptoTool cryptoTool =CryptoToolBuilder.builder()
+    private static final CryptoTool cryptoTool = CryptoToolBuilder.builder()
             .chooseAlgorithm(Algorithm.AES_ECB_PKCS5_PADDING)
-                .setKey(dotenv.get("CRYPTO_KEY_VALUE"))
-            .build();;
+            .setKey(dotenv.get("CRYPTO_KEY_VALUE"))
+            .build();
+    ;
 
     private static final String CRYPTO_PATTERN = Configuration.get(EncryptorConfiguration.Parameter.CRYPTO_PATTERN).orElse("");
 
@@ -25,7 +26,7 @@ public class CryptoUtils {
     }
 
     public static String encryptWithFormat(String plainText) {
-        return "{crypt:"+encrypt(plainText)+"}";
+        return "{crypt:" + encrypt(plainText) + "}";
     }
 
     public static String decrypt(String encryptedText) {

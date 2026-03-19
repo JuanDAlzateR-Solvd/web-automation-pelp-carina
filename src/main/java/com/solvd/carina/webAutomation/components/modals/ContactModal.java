@@ -1,5 +1,6 @@
 package com.solvd.carina.webAutomation.components.modals;
 
+import com.solvd.carina.webAutomation.wait.Timeouts;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
@@ -28,7 +29,7 @@ public class ContactModal extends BaseModal {
     private ExtendedWebElement closeButton;
 
     public ContactModal(WebDriver driver, SearchContext searchContext) {
-        super(driver,searchContext);
+        super(driver, searchContext);
     }
 
     @Override
@@ -97,8 +98,8 @@ public class ContactModal extends BaseModal {
     }
 
     public void clickClose() {
-       closeButton.click();
-        closeButton.waitUntilElementDisappear(5);
+        closeButton.click();
+        closeButton.waitUntilElementDisappear(Timeouts.SHORT);
     }
 
 }

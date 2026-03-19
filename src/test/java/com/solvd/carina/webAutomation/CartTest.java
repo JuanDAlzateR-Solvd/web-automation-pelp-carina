@@ -12,7 +12,7 @@ import org.testng.asserts.SoftAssert;
 
 import java.util.Arrays;
 
-public class CartTest extends BaseTest {//implements IAbstractTest
+public class CartTest extends BaseTest {
     private static final Logger logger =
             LoggerFactory.getLogger(CartTest.class);
 
@@ -26,7 +26,7 @@ public class CartTest extends BaseTest {//implements IAbstractTest
 
         String productName = productGrid.getProductName(0);
 
-        CartPage cartPage =  productGrid.addProductToCart(0).goToCartPage();
+        CartPage cartPage = productGrid.addProductToCart(0).goToCartPage();
 
         cartPage.waitUntilCartShowsProducts();
 
@@ -47,7 +47,7 @@ public class CartTest extends BaseTest {//implements IAbstractTest
 
         String productName = productGrid.getProductName(0);
 
-        CartPage cartPage =  productGrid.addProductToCart(0).goToCartPage();
+        CartPage cartPage = productGrid.addProductToCart(0).goToCartPage();
 
         cartPage.waitUntilCartShowsProducts();
 

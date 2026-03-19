@@ -20,7 +20,7 @@ public class AboutUsModal extends BaseModal {
     private ExtendedWebElement exitButton;
 
     public AboutUsModal(WebDriver driver, SearchContext searchContext) {
-        super(driver,searchContext);
+        super(driver, searchContext);
     }
 
     @Override

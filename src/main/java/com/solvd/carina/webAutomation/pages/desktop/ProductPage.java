@@ -40,10 +40,11 @@ public class ProductPage extends BaseTopMenuPage {
     protected TopMenu getTopMenu() {
         return topMenu;
     }
+
     public boolean isVisible(InfoItem item) {
         return switch (item) {
             case IMAGE -> image.isVisible();
-            case TITLE ->title.isVisible();
+            case TITLE -> title.isVisible();
             case PRICE -> price.isVisible();
             case DESCRIPTION -> description.isVisible();
         };

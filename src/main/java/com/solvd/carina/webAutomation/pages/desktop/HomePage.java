@@ -47,7 +47,7 @@ public class HomePage extends BaseTopMenuPage {
 
         waitUntil(driver -> !imageIndicator.isEmpty(), 30);
 
-        boolean isPresent= imageIndicator.get(0).isElementPresent();
+        boolean isPresent = imageIndicator.get(0).isElementPresent();
 
         logger.debug("imageIndicator is {} present", isPresent ? "" : "not ");
     }

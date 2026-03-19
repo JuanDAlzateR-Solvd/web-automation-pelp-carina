@@ -14,7 +14,7 @@ public class UnitTest {
     @Test(testName = "Decrypt password test",
             description = "checks that password is decrypted correctly")
     public void testPasswordDecryption() {
-        String encrypted =R.TESTDATA.get("credentials.password");
+        String encrypted = R.TESTDATA.get("credentials.password");
         Assert.assertEquals(CryptoUtils.decrypt(encrypted), "password");
     }
 
@@ -24,10 +24,10 @@ public class UnitTest {
         String message = "Hello World!";
         logger.info("Message to encrypt: " + message);
 
-        String encrypted =CryptoUtils.encryptWithFormat(message);
+        String encrypted = CryptoUtils.encryptWithFormat(message);
         logger.info("Encrypted message: " + encrypted);
 
-        String decrypted =CryptoUtils.decrypt(encrypted);
+        String decrypted = CryptoUtils.decrypt(encrypted);
         logger.info("Decrypted message: " + decrypted);
 
         Assert.assertEquals(decrypted, message);
