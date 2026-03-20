@@ -58,17 +58,13 @@ public class Navigation {
     public CartPage goToCartPage() {
         topMenu.clickCart();
 
-        CartPage page = new CartPage(driver);
-
-        return page;
+        return new CartPage(driver);
     }
 
     public HomePage goToHomePage() {
         topMenu.clickHome();
 
-        HomePage page = new HomePage(driver);
-
-        return page;
+        return new HomePage(driver);
     }
 
     // ==========================
@@ -76,7 +72,6 @@ public class Navigation {
     // ==========================
 
     public static HomePage openHomePage(WebDriver driver) {
-
         HomePage page = new HomePage(driver);
         page.open();
 

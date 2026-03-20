@@ -26,7 +26,6 @@ public class ProductGrid extends BaseComponent {
     public List<ProductGridItemComponent> getProductComponents() {
         logger.debug("Found {} products in product grid", productItems.size());
         return productItems;
-
     }
 
     public List<String> getProductTitles() {

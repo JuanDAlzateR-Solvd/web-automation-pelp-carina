@@ -54,11 +54,6 @@ public class SignUpModal extends BaseModal {
         signInButton.click();
     }
 
-    public void clickClose() {
-        closeButton.click();
-        closeButton.waitUntilElementDisappear(Timeouts.SHORT);
-    }
-
     public void typeUsername(String username) {
         usernameInput.type(username);
     }

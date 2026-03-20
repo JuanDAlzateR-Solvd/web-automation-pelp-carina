@@ -98,7 +98,6 @@ public class ShoppingFlow {
         return addProductToCart(gridIndex);
     }
 
-
     public List<String> addUniqueRandomProductsToCart(int numberOfProducts) {
         HomePage homePage = new HomePage(driver);
         ProductGrid productGrid = homePage.getProductGrid();
@@ -127,7 +126,6 @@ public class ShoppingFlow {
                 : List.of();
         return excludedProducts;
     }
-
 
     /**
      * Retrieves a list of product titles that are available in the given product grid

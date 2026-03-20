@@ -42,14 +42,12 @@ public class CartPage extends BaseTopMenuPage {
      ----------------------------- */
 
     public List<CartItemComponent> getCartItemComponents() {
-        waitUntilPageIsReady();
         waitUtil.waitForPresenceOfElementLocated(By.id("tbodyid"));
         logger.debug("Getting cart item components: found {} products", cartItemComponents.size());
         return cartItemComponents;
     }
 
     public Optional<CartItemComponent> getCartItemComponentByName(String productName) {
-        waitUntilPageIsReady();
 
         List<CartItemComponent> cartItems = getCartItemComponents();
 
@@ -161,9 +159,5 @@ public class CartPage extends BaseTopMenuPage {
         getCartItemComponents()
                 .forEach(item -> logger.info(item.getTitle()));
     }
-
-    /* -----------------------------
-        Components
-     ----------------------------- */
 
 }

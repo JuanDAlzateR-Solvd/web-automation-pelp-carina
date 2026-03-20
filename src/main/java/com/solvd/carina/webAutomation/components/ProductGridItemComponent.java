@@ -28,7 +28,6 @@ public class ProductGridItemComponent extends BaseComponent {
     }
 
     private ExtendedWebElement getProductTitle() {
-
         return productTitle;
     }
 

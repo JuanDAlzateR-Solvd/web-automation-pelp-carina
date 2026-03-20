@@ -37,7 +37,7 @@ public abstract class BasePage extends AbstractPage {
     public void waitUntilPageIsReady(boolean waitForLoader) {
         logger.debug("Waiting for page: {}", getClass().getSimpleName());
         if (waitForLoader) {
-            loaderHandler.waitForLoaderToDisappear(20);
+            loaderHandler.waitForLoaderToDisappear(Timeouts.MEDIUM);
         }
         getUiLoadedMarker().assertElementPresent(Timeouts.MEDIUM);
     }

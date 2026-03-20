@@ -17,7 +17,6 @@ public class CryptoUtils {
             .chooseAlgorithm(Algorithm.AES_ECB_PKCS5_PADDING)
             .setKey(dotenv.get("CRYPTO_KEY_VALUE"))
             .build();
-    ;
 
     private static final String CRYPTO_PATTERN = Configuration.get(EncryptorConfiguration.Parameter.CRYPTO_PATTERN).orElse("");
 
