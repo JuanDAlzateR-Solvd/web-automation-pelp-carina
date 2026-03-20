@@ -1,5 +1,7 @@
 package com.solvd.carina.webAutomation.components.modals;
 
+import com.solvd.carina.webAutomation.components.modals.common.BaseModal;
+import com.solvd.carina.webAutomation.wait.Timeouts;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -7,7 +9,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class SignUpModal extends BaseModal {
 
-    @FindBy(id = "signInModal")
+    @FindBy(css = "#signInModal .modal-content")
     private ExtendedWebElement modalContainer;
 
     @FindBy(id = "signInModalLabel")
@@ -26,43 +28,36 @@ public class SignUpModal extends BaseModal {
     private ExtendedWebElement passwordInput;
 
     public SignUpModal(WebDriver driver, SearchContext searchContext) {
-        super(driver,searchContext);
-    }
-
-    @Override
-    protected ExtendedWebElement getComponentLoadedIndicator() {
-        return labelTitle;
+        super(driver, searchContext);
     }
 
     @Override
     protected ExtendedWebElement getModalContainer() {
         return modalContainer;
     }
+
     @Override
     protected ExtendedWebElement getModalTitle() {
         return labelTitle;
     }
+
     @Override
     protected ExtendedWebElement getCloseButton() {
         return closeButton;
     }
+
     public ExtendedWebElement getLabelTitle() {
         return labelTitle;
     }
 
     public void clickSignIn() {
-       signInButton.click();
-    }
-
-    public void clickClose() {
-       closeButton.click();
-        closeButton.waitUntilElementDisappear(5);
-//        closeButton.isVisible();
+        signInButton.click();
     }
 
     public void typeUsername(String username) {
         usernameInput.type(username);
     }
+
     public void typePassword(String password) {
         passwordInput.type(password);
     }

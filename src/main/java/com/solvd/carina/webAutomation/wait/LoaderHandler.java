@@ -7,6 +7,8 @@ import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 public class LoaderHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(LoaderHandler.class);
@@ -20,19 +22,20 @@ public class LoaderHandler {
 
     public void waitForLoaderToDisappear(int timeout) {
 
-        WebElement loaderElement = driver.findElement(loaderLocator);
-        ExtendedWebElement loader =
-                new ExtendedWebElement(loaderElement,"loader");
-
-        if(loaderElement==null){
+        List<WebElement> elements = driver.findElements(loaderLocator);
+        if (elements.isEmpty()) {
             logger.info("Loader element not found, skipping wait until loader disappears");
             return;
         }
 
-        if (loader.isElementNotPresent(2)) {
+        ExtendedWebElement loader = new ExtendedWebElement(elements.get(0), "loader");
+
+        if (loader.isElementNotPresent(Timeouts.SHORT)) {
+            logger.debug("Loader is already not present, skipping wait");
             return;
         }
 
+        logger.debug("Waiting up to {} seconds for loader to disappear", timeout);
         loader.waitUntilElementDisappear(timeout);
     }
 

@@ -16,21 +16,11 @@ public abstract class BaseComponent extends AbstractUIObject {
 
     protected BaseComponent(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
-        this.waitUtil=new WaitUtil(getDriver());
-    }
-
-    /**
-     * Element that indicates the component is fully loaded
-     */
-    protected abstract ExtendedWebElement getComponentLoadedIndicator();
-
-    public void waitUntilComponentIsReady() {
-        logger.debug("Waiting for component [{}] to be ready", getClass().getSimpleName());
-        getComponentLoadedIndicator().isVisible(10);
+        this.waitUtil = new WaitUtil(getDriver());
     }
 
     public boolean isComponentVisible() {
-        return getComponentLoadedIndicator().isVisible();
+        return getUiLoadedMarker().isVisible();
     }
 
     protected boolean isInViewport(ExtendedWebElement element, String elementName) {

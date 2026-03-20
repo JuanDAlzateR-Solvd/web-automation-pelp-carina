@@ -11,7 +11,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
-import java.util.Map;
 
 public class HomePage extends BaseTopMenuPage {
 
@@ -38,25 +37,20 @@ public class HomePage extends BaseTopMenuPage {
 
     private static final By LOADER = By.cssSelector(".loader, .spinner, .loading");
 
-    private final Map<HomePageCategory, ExtendedWebElement> menuButtons;
-
     public HomePage(WebDriver driver) {
         super(driver);
-        menuButtons = Map.of(
-                HomePageCategory.PHONES, phonesButton,
-                HomePageCategory.LAPTOPS, laptopsButton,
-                HomePageCategory.MONITORS, monitorsButton
-        );
+        setUiLoadedMarker(phonesButton);
     }
 
     @Override
-    protected ExtendedWebElement getPageLoadedIndicator() {
-
+    public void waitUntilPageIsReady() {
         logger.debug("Waiting for home page to load imageIndicator. Initial size: {}", imageIndicator.size());
 
-        waitUntil(driver -> !imageIndicator.isEmpty(), 10);
+        waitUntil(driver -> !imageIndicator.isEmpty(), 30);
 
-        return imageIndicator.get(0);
+        boolean isPresent = imageIndicator.get(0).isElementPresent();
+
+        logger.debug("imageIndicator is {} present", isPresent ? "" : "not ");
     }
 
     @Override
@@ -64,8 +58,28 @@ public class HomePage extends BaseTopMenuPage {
         return topMenu;
     }
 
-    public void click(HomePageCategory item) {
-        menuButtons.get(item).click();
+    public void click(Category item) {
+        switch (item) {
+            case PHONES -> phonesButton.click();
+            case LAPTOPS -> laptopsButton.click();
+            case MONITORS -> monitorsButton.click();
+        }
+    }
+
+    public enum Category {
+        PHONES("Category Phones"),
+        LAPTOPS("Category Laptops"),
+        MONITORS("Category Monitors");
+
+        private final String name;
+
+        Category(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
     }
 
     //Test flow methods

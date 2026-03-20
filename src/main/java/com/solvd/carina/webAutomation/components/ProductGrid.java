@@ -23,15 +23,9 @@ public class ProductGrid extends BaseComponent {
         super(driver, root);
     }
 
-    @Override
-    protected ExtendedWebElement getComponentLoadedIndicator() {
-        return  productItems.get(0).getRootExtendedElement();
-    }
-
     public List<ProductGridItemComponent> getProductComponents() {
         logger.debug("Found {} products in product grid", productItems.size());
         return productItems;
-
     }
 
     public List<String> getProductTitles() {
@@ -54,6 +48,13 @@ public class ProductGrid extends BaseComponent {
         return productItems.get(productIndex);
     }
 
+    public int getProductIndex(String productName) {
+        return productItems.stream()
+                .map(ProductGridItemComponent::getProductName)
+                .toList()
+                .indexOf(productName);
+    }
+
     //Test flow methods
 
     public ProductPage openProduct(int index) {
@@ -61,6 +62,17 @@ public class ProductGrid extends BaseComponent {
         logger.info("Opening product {} from product grid", index);
         product.clickProduct();
         return new ProductPage(driver);
+    }
+
+    public ProductPage openLastProduct() {
+        int productIndex = getProductCount() - 1;
+        return openProduct(productIndex);
+    }
+
+    public ProductPage addProductToCart(int index) {
+        ProductPage productPage = openProduct(index);
+//        productPage.waitUntilPageIsReady();
+        return productPage.addToCart();
     }
 
     public String getProductName(int index) {

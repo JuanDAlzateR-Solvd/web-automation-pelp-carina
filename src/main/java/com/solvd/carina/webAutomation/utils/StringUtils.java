@@ -8,7 +8,13 @@ import java.util.regex.Pattern;
 public class StringUtils {
 
     private static final String EMAIL_REGEX = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
+
     private static final String PHONE_REGEX = "^(\\+\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})([- .]?\\d{3})?([- .]?\\d{3,4})?$";
+
+    private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
+
+    private static final Pattern PHONE_PATTERN = Pattern.compile(PHONE_REGEX);
+
 
     private StringUtils() {
         // Private constructor to prevent instantiation
@@ -21,10 +27,10 @@ public class StringUtils {
      * @return true if valid, false otherwise.
      */
     public static boolean isValidEmail(String email) {
-        if (isNullOrEmpty(email) || email.isBlank()) {
+        if (isNullOrBlank(email)) {
             return false;
         }
-        return Pattern.compile(EMAIL_REGEX).matcher(email).matches();
+        return EMAIL_PATTERN.matcher(email).matches();
     }
 
     /**
@@ -35,10 +41,10 @@ public class StringUtils {
      * @return true if valid, false otherwise.
      */
     public static boolean isValidPhone(String phone) {
-        if (isNullOrEmpty(phone) || phone.isBlank()) {
+        if (isNullOrBlank(phone)) {
             return false;
         }
-        return Pattern.compile(PHONE_REGEX).matcher(phone).matches();
+        return PHONE_PATTERN.matcher(phone).matches();
     }
 
     /**
@@ -47,7 +53,7 @@ public class StringUtils {
      * @param str The string to check.
      * @return true if null or empty, false otherwise.
      */
-    public static boolean isNullOrEmpty(String str) {
+    public static boolean isNullOrBlank(String str) {
         return str == null || str.trim().isEmpty();
     }
 
@@ -58,7 +64,7 @@ public class StringUtils {
      * @return The capitalized string.
      */
     public static String capitalize(String str) {
-        if (isNullOrEmpty(str)) {
+        if (isNullOrBlank(str)) {
             return str;
         }
         return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();

@@ -1,5 +1,6 @@
 package com.solvd.carina.webAutomation.components.modals;
 
+import com.solvd.carina.webAutomation.components.modals.common.BaseModal;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -7,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class AboutUsModal extends BaseModal {
 
-    @FindBy(id = "videoModal")
+    @FindBy(css = "#videoModal .modal-content")
     private ExtendedWebElement modalContainer;
 
     @FindBy(id = "videoModalLabel")
@@ -20,17 +21,14 @@ public class AboutUsModal extends BaseModal {
     private ExtendedWebElement exitButton;
 
     public AboutUsModal(WebDriver driver, SearchContext searchContext) {
-        super(driver,searchContext);
+        super(driver, searchContext);
     }
 
-    @Override
-    protected ExtendedWebElement getComponentLoadedIndicator() {
-        return labelTitle;
-    }
     @Override
     protected ExtendedWebElement getModalContainer() {
         return modalContainer;
     }
+
     @Override
     protected ExtendedWebElement getModalTitle() {
         return labelTitle;
@@ -40,6 +38,7 @@ public class AboutUsModal extends BaseModal {
     protected ExtendedWebElement getCloseButton() {
         return closeButton;
     }
+
     public ExtendedWebElement getLabelTitle() {
         return labelTitle;
     }

@@ -27,8 +27,8 @@ public class Navigation implements IAbstractTest, IMobileUtils {
     public LogInModal openLogInModal() {
         topMenu.clickLogIn();
 
-        LogInModal modal = new LogInModal(driver,driver);
-        modal.waitUntilComponentIsReady();
+        LogInModal modal = new LogInModal(driver, driver);
+        modal.waitUntilModalOpened();
 
         return modal;
     }
@@ -36,8 +36,8 @@ public class Navigation implements IAbstractTest, IMobileUtils {
     public SignUpModal openSignUpModal() {
         topMenu.clickSignUp();
 
-        SignUpModal modal = new SignUpModal(driver,driver);
-        modal.waitUntilComponentIsReady();
+        SignUpModal modal = new SignUpModal(driver, driver);
+        modal.waitUntilModalOpened();
 
         return modal;
     }
@@ -45,8 +45,8 @@ public class Navigation implements IAbstractTest, IMobileUtils {
     public ContactModal openContactModal() {
         topMenu.clickContact();
 
-        ContactModal modal = new ContactModal(driver,driver);
-        modal.waitUntilComponentIsReady();
+        ContactModal modal = new ContactModal(driver, driver);
+        modal.waitUntilModalOpened();
 
         return modal;
     }
@@ -54,8 +54,8 @@ public class Navigation implements IAbstractTest, IMobileUtils {
     public AboutUsModal openAboutUsModal() {
         topMenu.clickAboutUs();
 
-        AboutUsModal modal = new AboutUsModal(driver,driver);
-        modal.waitUntilComponentIsReady();
+        AboutUsModal modal = new AboutUsModal(driver, driver);
+        modal.waitUntilModalOpened();
 
         return modal;
     }
@@ -63,19 +63,13 @@ public class Navigation implements IAbstractTest, IMobileUtils {
     public CartPage goToCartPage() {
         topMenu.clickCart();
 
-        CartPage page = new CartPage(driver);
-        page.waitUntilPageIsReady();
-
-        return page;
+        return new CartPage(driver);
     }
 
     public HomePage goToHomePage() {
         topMenu.clickHome();
 
-        HomePage page = new HomePage(driver);
-        page.waitUntilPageIsReady();
-
-        return page;
+        return new HomePage(driver);
     }
 
     // ==========================
@@ -83,10 +77,8 @@ public class Navigation implements IAbstractTest, IMobileUtils {
     // ==========================
 
     public static HomePage openHomePage(WebDriver driver) {
-
         HomePage page = new HomePage(driver);
         page.open();
-        page.waitUntilPageIsReady();
 
         return page;
     }

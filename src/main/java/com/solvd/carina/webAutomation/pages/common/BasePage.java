@@ -1,8 +1,9 @@
 package com.solvd.carina.webAutomation.pages.common;
 
 import com.solvd.carina.webAutomation.wait.LoaderHandler;
+import com.solvd.carina.webAutomation.wait.Timeouts;
 import com.solvd.carina.webAutomation.wait.WaitUtil;
-import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
+import com.zebrunner.carina.webdriver.decorator.PageOpeningStrategy;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.openqa.selenium.*;
 import org.slf4j.Logger;
@@ -22,37 +23,27 @@ public abstract class BasePage extends AbstractPage {
     protected BasePage(WebDriver driver) {
         super(driver);
 
-        this.waitUtil=new WaitUtil(getDriver());
+        this.waitUtil = new WaitUtil(getDriver());
         this.loaderHandler =
                 new LoaderHandler(driver, LOADER);
 
+        setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
+
         logger.debug("Page created | Thread: {} | Driver: {}",
-                Thread.currentThread().getId(),
+                Thread.currentThread().threadId(),
                 System.identityHashCode(driver));
     }
 
-    /**
-     * Element that indicates the page is fully loaded
-     */
-    protected abstract ExtendedWebElement getPageLoadedIndicator();
-
     public void waitUntilPageIsReady(boolean waitForLoader) {
         logger.debug("Waiting for page: {}", getClass().getSimpleName());
-        if(waitForLoader){
-            loaderHandler.waitForLoaderToDisappear(20);
+        if (waitForLoader) {
+            loaderHandler.waitForLoaderToDisappear(Timeouts.MEDIUM);
         }
-        getPageLoadedIndicator().assertElementPresent();
+        getUiLoadedMarker().assertElementPresent(Timeouts.MEDIUM);
     }
+
     public void waitUntilPageIsReady() {
         waitUntilPageIsReady(false);
-    }
-
-    public boolean isPageOpened() {
-        return getPageLoadedIndicator().isElementPresent();
-    }
-
-    public boolean isPageVisible() {
-        return getPageLoadedIndicator().isVisible();
     }
 
     public void acceptAlert() {

@@ -30,11 +30,7 @@ public class CartPage extends BaseTopMenuPage {
 
     public CartPage(WebDriver driver) {
         super(driver);
-    }
-
-    @Override
-    protected ExtendedWebElement getPageLoadedIndicator() {
-        return tableIndicator;
+        setUiLoadedMarker(tableIndicator);
     }
 
     @Override
@@ -46,14 +42,12 @@ public class CartPage extends BaseTopMenuPage {
      ----------------------------- */
 
     public List<CartItemComponent> getCartItemComponents() {
-        waitUntilPageIsReady();
         waitUtil.waitForPresenceOfElementLocated(By.id("tbodyid"));
         logger.debug("Getting cart item components: found {} products", cartItemComponents.size());
         return cartItemComponents;
     }
 
     public Optional<CartItemComponent> getCartItemComponentByName(String productName) {
-        waitUntilPageIsReady();
 
         List<CartItemComponent> cartItems = getCartItemComponents();
 
@@ -81,10 +75,10 @@ public class CartPage extends BaseTopMenuPage {
 
         item.deleteProduct();
 
-        waitUntilCartSizeChanges(initialSize);
+        waitUntilCartSizeReduces(initialSize);
     }
 
-    public void emptyShoppingCart() {
+    public void removeAllProductsFromCart() {
         final int maxAttempts = 20;
         int attempts = 0;
 
@@ -92,7 +86,7 @@ public class CartPage extends BaseTopMenuPage {
 
             if (attempts >= maxAttempts) {
                 throw new IllegalStateException(
-                        "Failed to empty shopping cart after " + maxAttempts + " attempts."
+                        "Failed to clear shopping cart after " + maxAttempts + " attempts."
                 );
             }
 
@@ -103,7 +97,6 @@ public class CartPage extends BaseTopMenuPage {
 
             ExtendedWebElement rowElement = item.getRootExtendedElement();
             deleteProduct(productName);
-            waitUtil.waitForStalenessOf(rowElement.getElement(), productName);
 
             attempts++;
         }
@@ -115,12 +108,11 @@ public class CartPage extends BaseTopMenuPage {
         Cart validations
      ----------------------------- */
 
-    public boolean containsProduct(String productName) {
+    public boolean isProductInCart(String productName) {
         return getCartItemComponentByName(productName).isPresent();
     }
 
     public boolean isCartEmpty() {
-        waitUntilPageIsReady();
         boolean empty = getCartItemComponents().isEmpty();
         logger.info("Cart empty: {}", empty);
         return empty;
@@ -146,8 +138,13 @@ public class CartPage extends BaseTopMenuPage {
         waitUntil(driver -> getCartItemComponents().size() != initialSize, 10);
     }
 
+    private void waitUntilCartSizeReduces(int initialSize) {
+        logger.debug("Waiting for cart size to change from {}", initialSize);
+        waitUntil(driver -> getCartItemComponents().size() == (initialSize - 1), 10);
+    }
+
+
     public void waitUntilCartShowsProducts() {
-        waitUntilPageIsReady();
         waitUntilCartSizeChanges(0);
     }
 
@@ -162,9 +159,5 @@ public class CartPage extends BaseTopMenuPage {
         getCartItemComponents()
                 .forEach(item -> logger.info(item.getTitle()));
     }
-
-    /* -----------------------------
-        Components
-     ----------------------------- */
 
 }

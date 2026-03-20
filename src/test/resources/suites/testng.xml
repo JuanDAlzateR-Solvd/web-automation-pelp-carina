@@ -4,14 +4,20 @@
     <test name="Chrome Test">
         <parameter name="browser" value="chrome"/>
         <classes>
-            <class name="com.solvd.carina.webAutomation.DemoblazeTest"/>
+            <class name="com.solvd.carina.webAutomation.CartTest"/>
+            <class name="com.solvd.carina.webAutomation.CatalogTest"/>
+            <class name="com.solvd.carina.webAutomation.FormsTest"/>
+            <class name="com.solvd.carina.webAutomation.HomeNavigationTest"/>
         </classes>
     </test>
 
     <test name="Firefox Test">
         <parameter name="browser" value="firefox"/>
         <classes>
-            <class name="com.solvd.carina.webAutomation.DemoblazeTest"/>
+            <class name="com.solvd.carina.webAutomation.CartTest"/>
+            <class name="com.solvd.carina.webAutomation.CatalogTest"/>
+            <class name="com.solvd.carina.webAutomation.FormsTest"/>
+            <class name="com.solvd.carina.webAutomation.HomeNavigationTest"/>
         </classes>
     </test>
 

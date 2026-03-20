@@ -3,7 +3,6 @@ package com.solvd.carina.webAutomation.components;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class ProductGridItemComponent extends BaseComponent {
@@ -25,21 +24,15 @@ public class ProductGridItemComponent extends BaseComponent {
 
     public ProductGridItemComponent(WebDriver driver, SearchContext root) {
         super(driver, root);
-    }
-
-    @Override
-    public ExtendedWebElement getComponentLoadedIndicator() {
-        return productTitle;
+        setUiLoadedMarker(productTitle);
     }
 
     private ExtendedWebElement getProductTitle() {
-
         return productTitle;
     }
 
     public String getText() {
-
-        return getRootExtendedElement().getText(); //It doesn't work with root?  used title?.
+        return getRootExtendedElement().getText();
     }
 
     public String getProductName() {
@@ -60,13 +53,8 @@ public class ProductGridItemComponent extends BaseComponent {
     }
 
     public void waitUntilProductIsClickable() {
-        waitUntilComponentIsReady();
-        for (int i = 0; i < 5; i++) {
-            if (!getProductTitle().isClickable()) {
-                logger.debug("Product is not clickable, trying again");
-                getProductTitle().assertElementPresent(2);
-            }
-        }
+        logger.debug("Waiting for product title to become clickable");
+        waitUtil.waitForElementClickable(productLink.getElement(), productLink.getName());
     }
 
 }
