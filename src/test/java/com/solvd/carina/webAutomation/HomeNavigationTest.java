@@ -3,8 +3,10 @@ package com.solvd.carina.webAutomation;
 import com.solvd.carina.webAutomation.components.Footer;
 import com.solvd.carina.webAutomation.components.modals.*;
 import com.solvd.carina.webAutomation.components.modals.common.BaseModal;
+import com.solvd.carina.webAutomation.pages.common.HomePageBase;
 import com.solvd.carina.webAutomation.pages.desktop.CartPage;
 import com.solvd.carina.webAutomation.pages.desktop.HomePage;
+import com.solvd.carina.webAutomation.wait.Timeouts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.*;
@@ -38,7 +40,8 @@ public class HomeNavigationTest extends BaseTest {
     @Test(testName = "VerifyFooterInfo- Task3 TC-007",
             description = "verifies footer visibility and contact info on the home page")
     public void verifyFooterVisibilityAndInfo() {
-        HomePage homePage = openHomePage();
+        HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
+        homePage.open();
         Footer footer = homePage.getFooter();
 
         SoftAssert sa = new SoftAssert();
@@ -61,7 +64,7 @@ public class HomeNavigationTest extends BaseTest {
 
         ContactModal contactModal = (ContactModal) softAssertOpenAndCloseModal(homePage.openContactModal(), sa);
 
-        sa.assertFalse(contactModal.isModalVisible(), "Contact Modal should not be visible after closing");
+        sa.assertFalse(contactModal.isModalOpened(Timeouts.SHORT), "Contact Modal should not be opened after closing");
         sa.assertAll();
     }
 
@@ -72,7 +75,7 @@ public class HomeNavigationTest extends BaseTest {
 
         LogInModal logInModal = (LogInModal) softAssertOpenAndCloseModal(homePage.openLogInModal(), sa);
 
-        sa.assertFalse(logInModal.isModalVisible(), "Log In Modal should not be visible after closing");
+        sa.assertFalse(logInModal.isModalOpened(Timeouts.SHORT), "Log In Modal should not be opened after closing");
         sa.assertAll();
     }
 

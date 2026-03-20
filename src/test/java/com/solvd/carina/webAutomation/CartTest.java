@@ -2,6 +2,7 @@ package com.solvd.carina.webAutomation;
 
 import com.solvd.carina.webAutomation.components.ProductGrid;
 import com.solvd.carina.webAutomation.flows.ShoppingFlow;
+import com.solvd.carina.webAutomation.pages.common.HomePageCategory;
 import com.solvd.carina.webAutomation.pages.desktop.CartPage;
 import com.solvd.carina.webAutomation.pages.desktop.HomePage;
 import org.slf4j.Logger;
@@ -19,7 +20,7 @@ public class CartTest extends BaseTest {
     @Test(testName = "Add Product to Cart - Task3 TC-002",
             description = "choose the first product from a category and add it to cart, then verifies info in shopping cart",
             dataProvider = "Category MenuItem Provider")
-    public void verifyAddFirstProductToCart(HomePage.Category category) {
+    public void verifyAddFirstProductToCart(HomePageCategory category) {
         HomePage homePage = openHomePage();
 
         ProductGrid productGrid = homePage.selectCategory(category);
@@ -39,7 +40,7 @@ public class CartTest extends BaseTest {
     @Test(testName = "Delete Product from Cart - Task3 TC-003",
             description = "choose the first product from a category and add it to cart, then delete it, verifies info in shopping cart",
             dataProvider = "Category MenuItem Provider")
-    public void verifyDeleteProductFromCart(HomePage.Category category) {
+    public void verifyDeleteProductFromCart(HomePageCategory category) {
         HomePage homePage = openHomePage();
         SoftAssert sa = new SoftAssert();
 
@@ -94,7 +95,7 @@ public class CartTest extends BaseTest {
     //Data Providers
     @DataProvider(name = "Category MenuItem Provider")
     public Object[][] homePageMenuItem() {
-        return Arrays.stream(HomePage.Category.values())
+        return Arrays.stream(HomePageCategory.values())
                 .map(type -> new Object[]{type})
                 .toArray(Object[][]::new);
     }

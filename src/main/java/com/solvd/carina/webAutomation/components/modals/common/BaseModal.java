@@ -94,6 +94,14 @@ public abstract class BaseModal extends BaseComponent {
         return getModalTitle().isVisible();
     }
 
+    public boolean isModalOpened(long timeout) {
+        return getModalContainer().isElementPresent(timeout);
+    }
+
+    public boolean isModalVisible(long timeout) {
+        return getModalTitle().isVisible(timeout);
+    }
+
     private void waitVisible(ExtendedWebElement element) {
         waitUtil.waitForElementVisible(element.getElement(), element.getName());
     }

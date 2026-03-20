@@ -55,7 +55,7 @@ public class Footer extends BaseComponent {
     }
 
     public boolean isVisibleInScreen() {
-        return isInViewport(contactInfo, "contact info");
+        return uIActions.isInViewport(contactInfo, "contact info");
     }
 
     private boolean isAddressValid(String address) {
@@ -93,7 +93,9 @@ public class Footer extends BaseComponent {
     }
 
     public void ensureVisible() {
-        contactInfo.scrollTo();
+        logger.info("Scrolling to contact info");
+        uIActions.scrollTo(contactInfo);
+        //Use the scroll method from HomePage?
     }
 
     public enum InfoItem {

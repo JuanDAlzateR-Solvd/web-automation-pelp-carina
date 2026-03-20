@@ -8,6 +8,7 @@ import com.solvd.carina.webAutomation.components.modals.LogInModal;
 import com.solvd.carina.webAutomation.components.modals.SignUpModal;
 import com.solvd.carina.webAutomation.flows.Navigation;
 import com.solvd.carina.webAutomation.flows.ShoppingFlow;
+import com.solvd.carina.webAutomation.pages.common.HomePageCategory;
 import com.solvd.carina.webAutomation.pages.desktop.CartPage;
 import com.solvd.carina.webAutomation.pages.desktop.HomePage;
 import com.solvd.carina.webAutomation.pages.desktop.ProductPage;
@@ -23,7 +24,7 @@ import org.testng.asserts.SoftAssert;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.solvd.carina.webAutomation.pages.desktop.HomePage.Category.LAPTOPS;
+import static com.solvd.carina.webAutomation.pages.common.HomePageCategory.LAPTOPS;
 
 public class CatalogTest extends BaseTest {
     private static final Logger logger =
@@ -44,7 +45,7 @@ public class CatalogTest extends BaseTest {
     @Test(testName = "Product Search by Category - Task3 TC-001",
             description = "filters the products by a category, then verifies info from the last product of last page",
             dataProvider = "Category MenuItem Provider")
-    public void verifyLastProductInfoForCategory(HomePage.Category category) {
+    public void verifyLastProductInfoForCategory(HomePageCategory category) {
         HomePage homePage = openHomePage();
 
         ProductPage productPage = homePage
@@ -57,7 +58,7 @@ public class CatalogTest extends BaseTest {
     //Data Providers
     @DataProvider(name = "Category MenuItem Provider")
     public Object[][] homePageMenuItem() {
-        return Arrays.stream(HomePage.Category.values())
+        return Arrays.stream(HomePageCategory.values())
                 .map(type -> new Object[]{type})
                 .toArray(Object[][]::new);
     }

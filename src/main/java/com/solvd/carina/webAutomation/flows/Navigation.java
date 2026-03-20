@@ -77,6 +77,7 @@ public class Navigation implements IAbstractTest, IMobileUtils {
     // ==========================
 
     public static HomePage openHomePage(WebDriver driver) {
+
         HomePage page = new HomePage(driver);
         page.open();
 
