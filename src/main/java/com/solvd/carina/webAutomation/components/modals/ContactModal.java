@@ -108,14 +108,15 @@ public class ContactModal extends BaseModal {
         closeButton.waitUntilElementDisappear(Timeouts.SHORT);
     }
 
-    public String getEmailValue () {
+    public String getEmailValue() {
         return getInputValue(emailInput);
     }
 
-    public String getNameValue () {
+    public String getNameValue() {
         return getInputValue(nameInput);
     }
-    public String getMessageValue () {
+
+    public String getMessageValue() {
         return getInputValue(messageInput);
     }
 

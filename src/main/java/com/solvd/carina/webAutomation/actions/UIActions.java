@@ -34,7 +34,7 @@ public class UIActions {
         logger.info("Scrolling to element: {}", element.getName());
         element.scrollTo();
 
-        if(!isInViewport(element, element.getName())) {
+        if (!isInViewport(element, element.getName())) {
             logger.info("Element is not in viewport, scrolling to it");
             try {
                 ((JavascriptExecutor) driver).executeScript(

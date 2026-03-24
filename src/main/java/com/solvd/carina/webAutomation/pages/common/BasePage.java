@@ -29,7 +29,7 @@ public abstract class BasePage extends AbstractPage {
         this.waitUtil = new WaitUtil(getDriver());
         this.loaderHandler =
                 new LoaderHandler(driver, LOADER);
-        this.uIActions=new UIActions(getDriver());
+        this.uIActions = new UIActions(getDriver());
 
         setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
 

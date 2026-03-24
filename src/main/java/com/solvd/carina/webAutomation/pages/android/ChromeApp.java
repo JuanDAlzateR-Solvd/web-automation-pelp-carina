@@ -1,6 +1,5 @@
 package com.solvd.carina.webAutomation.pages.android;
 
-import com.solvd.carina.demo.utils.MobileContextUtils;
 import com.solvd.carina.webAutomation.pages.common.HomePageBase;
 import com.solvd.carina.webAutomation.pages.common.NativeAppBase;
 import com.zebrunner.carina.utils.factory.DeviceType;

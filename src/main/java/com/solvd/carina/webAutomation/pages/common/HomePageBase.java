@@ -1,10 +1,8 @@
 package com.solvd.carina.webAutomation.pages.common;
 
-
 import com.solvd.carina.webAutomation.components.Footer;
 import com.solvd.carina.webAutomation.components.ProductGrid;
 import com.solvd.carina.webAutomation.components.TopMenu;
-import com.solvd.carina.webAutomation.pages.desktop.HomePage;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

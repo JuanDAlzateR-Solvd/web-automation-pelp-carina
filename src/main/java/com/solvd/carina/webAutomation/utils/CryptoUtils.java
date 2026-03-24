@@ -9,8 +9,8 @@ import io.github.cdimascio.dotenv.Dotenv;
 import org.slf4j.LoggerFactory;
 
 public class CryptoUtils {
-    private static final org.slf4j.Logger logger =
-            LoggerFactory.getLogger(CryptoUtils.class);
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(CryptoUtils.class);
+
     private static final Dotenv dotenv = Dotenv.load();
 
     private static final CryptoTool cryptoTool = CryptoToolBuilder.builder()

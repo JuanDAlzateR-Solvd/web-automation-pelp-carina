@@ -5,14 +5,11 @@ import com.solvd.carina.webAutomation.components.modals.AboutUsModal;
 import com.solvd.carina.webAutomation.components.modals.ContactModal;
 import com.solvd.carina.webAutomation.components.modals.LogInModal;
 import com.solvd.carina.webAutomation.components.modals.SignUpModal;
-import com.solvd.carina.webAutomation.pages.common.HomePageBase;
 import com.solvd.carina.webAutomation.pages.desktop.CartPage;
 import com.solvd.carina.webAutomation.pages.desktop.HomePage;
 import com.zebrunner.carina.core.IAbstractTest;
 import org.openqa.selenium.WebDriver;
 import com.zebrunner.carina.utils.mobile.IMobileUtils;
-import com.zebrunner.carina.utils.common.CommonUtils;
-import com.zebrunner.carina.utils.factory.ICustomTypePageFactory;
 
 public class Navigation implements IAbstractTest, IMobileUtils {
 
