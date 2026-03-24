@@ -53,10 +53,15 @@ public class ContactModal extends BaseModal {
     }
 
     public ContactModal fillAndSubmitForm(String email, String name, String message) {
+        fillForm(email, name, message);
+        clickSend();
+        return this;
+    }
+
+    public ContactModal fillForm(String email, String name, String message) {
         typeEmail(email);
         typeName(name);
         typeMessage(message);
-        clickSend();
         return this;
     }
 
@@ -101,6 +106,17 @@ public class ContactModal extends BaseModal {
     public void clickClose() {
         closeButton.click();
         closeButton.waitUntilElementDisappear(Timeouts.SHORT);
+    }
+
+    public String getEmailValue () {
+        return getInputValue(emailInput);
+    }
+
+    public String getNameValue () {
+        return getInputValue(nameInput);
+    }
+    public String getMessageValue () {
+        return getInputValue(messageInput);
     }
 
 }

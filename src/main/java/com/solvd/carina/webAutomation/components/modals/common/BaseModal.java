@@ -110,4 +110,8 @@ public abstract class BaseModal extends BaseComponent {
         waitUtil.waitForElementClickable(element.getElement(), element.getName());
     }
 
+    protected String getInputValue(ExtendedWebElement element) {
+        return element.getElement().getDomProperty("value");
+    }
+
 }
