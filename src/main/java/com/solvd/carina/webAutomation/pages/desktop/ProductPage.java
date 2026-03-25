@@ -1,5 +1,7 @@
 package com.solvd.carina.webAutomation.pages.desktop;
 
+import com.solvd.carina.webAutomation.browser.AlertHandler;
+import com.solvd.carina.webAutomation.browser.AlertHandlerFactory;
 import com.solvd.carina.webAutomation.components.TopMenu;
 import com.solvd.carina.webAutomation.pages.common.BaseTopMenuPage;
 import com.solvd.carina.webAutomation.wait.Timeouts;
@@ -32,9 +34,12 @@ public class ProductPage extends BaseTopMenuPage {
     @FindBy(css = ".navbar.navbar-toggleable-md.bg-inverse")
     private TopMenu topMenu;
 
+    private final AlertHandler alertHandler;
+
     public ProductPage(WebDriver driver) {
         super(driver);
         setUiLoadedMarker(imageLocator);
+        this.alertHandler = AlertHandlerFactory.create(driver);
     }
 
     @Override
@@ -56,11 +61,12 @@ public class ProductPage extends BaseTopMenuPage {
     }
 
     public void acceptProductAddedAlert() {
-        logger.info("accepting 'Product Added' Alert");
-        logger.info("Before waitForAlert");
-        Alert alert = waitUtil.waitForAlert(Timeouts.SHORT);
-        logger.info("After waitForAlert");
-        alert.accept();
+        alertHandler.acceptAlert("Product Added", Timeouts.SHORT);
+//        logger.info("accepting 'Product Added' Alert");
+//        logger.info("Before waitForAlert");
+//        Alert alert = waitUtil.waitForAlert(Timeouts.SHORT);
+//        logger.info("After waitForAlert");
+//        alert.accept();
     }
 
     public boolean isProductAddedAlertPresent() {
