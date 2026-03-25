@@ -89,6 +89,12 @@ public class WaitUtil {
 
     }
 
+    public Alert waitForAlert(int timeoutInSeconds) {
+        logger.debug("Waiting for alert to be present");
+        return buildWait(timeoutInSeconds).until(ExpectedConditions.alertIsPresent());
+
+    }
+
     // ==========================
     // PAGE LOAD
     // ==========================

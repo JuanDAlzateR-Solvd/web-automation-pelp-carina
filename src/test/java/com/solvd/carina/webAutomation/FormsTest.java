@@ -5,6 +5,7 @@ import com.solvd.carina.webAutomation.components.modals.LogInModal;
 import com.solvd.carina.webAutomation.data.model.User;
 import com.solvd.carina.webAutomation.data.model.UserAccount;
 import com.solvd.carina.webAutomation.data.service.UserService;
+import com.solvd.carina.webAutomation.pages.common.HomePageBase;
 import com.solvd.carina.webAutomation.pages.desktop.HomePage;
 
 import org.slf4j.Logger;
@@ -19,7 +20,7 @@ public class FormsTest extends BaseTest {
     @Test(testName = "Fill Contact Form - Task3 TC-005",
             description = "click on contact, then fills the form and sends it")
     public void verifyFillInfoInContactFormAndSend() {
-        HomePage homePage = openHomePage();
+        HomePageBase homePage = openHomePage();
         ContactModal contactModal = homePage.openContactModal();
 
         SoftAssert sa = new SoftAssert();
@@ -43,7 +44,7 @@ public class FormsTest extends BaseTest {
     @Test(testName = "Log In with wrong credentials - Task3 TC-006",
             description = "click on log in, then fills the form and click log in button")
     public void verifyLogInAttemptWithWrongCredentials() {
-        HomePage homePage = openHomePage();
+        HomePageBase homePage = openHomePage();
         LogInModal logInModal = homePage.openLogInModal();
 
         SoftAssert sa = new SoftAssert();
@@ -61,7 +62,7 @@ public class FormsTest extends BaseTest {
     @Test(testName = "Fill Contact Form",
             description = "verifies that contact form fills with info correctly")
     public void verifyFillInfoInContactFormAndSend2() {
-        HomePage homePage = openHomePage();
+        HomePageBase homePage = openHomePage();
         ContactModal contactModal = homePage.openContactModal();
 
         SoftAssert sa = new SoftAssert();

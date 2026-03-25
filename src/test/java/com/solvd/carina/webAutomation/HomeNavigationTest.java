@@ -3,10 +3,14 @@ package com.solvd.carina.webAutomation;
 import com.solvd.carina.webAutomation.components.Footer;
 import com.solvd.carina.webAutomation.components.modals.*;
 import com.solvd.carina.webAutomation.components.modals.common.BaseModal;
+import com.solvd.carina.webAutomation.mobile.ContextManager;
+import com.solvd.carina.webAutomation.pages.android.ChromeApp;
 import com.solvd.carina.webAutomation.pages.common.HomePageBase;
+import com.solvd.carina.webAutomation.pages.common.HomePageCategory;
 import com.solvd.carina.webAutomation.pages.desktop.CartPage;
 import com.solvd.carina.webAutomation.pages.desktop.HomePage;
 import com.solvd.carina.webAutomation.wait.Timeouts;
+import com.zebrunner.carina.utils.R;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WrapsDriver;
@@ -16,13 +20,15 @@ import org.slf4j.LoggerFactory;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 
+import java.util.Set;
+
 public class HomeNavigationTest extends BaseTest {
     private static final Logger logger =
             LoggerFactory.getLogger(HomeNavigationTest.class);
 
     @Test(testName = "Functionality of top menu modals", description = "verifies that home page loads, and top Menu modals works correctly")
     public void verifyTopMenuNavigation() {
-        HomePage homePage = openHomePage();
+        HomePageBase homePage = openHomePage();
         SoftAssert sa = new SoftAssert();
 
         softAssertOpenAndCloseModal(homePage.openContactModal(), sa);
@@ -44,20 +50,7 @@ public class HomeNavigationTest extends BaseTest {
     @Test(testName = "VerifyFooterInfo- Task3 TC-007",
             description = "verifies footer visibility and contact info on the home page")
     public void verifyFooterVisibilityAndInfo() {
-        HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
-
-        WebDriver rawDriver = getDriver();
-        while (rawDriver instanceof WrapsDriver) {
-            rawDriver = ((WrapsDriver) rawDriver).getWrappedDriver();
-        }
-        Capabilities capabilities = ((RemoteWebDriver) rawDriver).getCapabilities();
-
-        logger.info("Resolved page class: {}", homePage.getClass().getName());
-        logger.info("Platform name: {}", capabilities.getCapability("platformName"));
-        logger.info("Device type: {}", capabilities.getCapability("deviceType"));
-        logger.info("Device name: {}", capabilities.getCapability("deviceName"));
-
-        homePage.open();
+        HomePageBase homePage = openHomePage();
 
         Footer footer = homePage.getFooter();
 
@@ -76,7 +69,7 @@ public class HomeNavigationTest extends BaseTest {
 
     @Test(testName = "Functionality of contact modal", description = "verifies that home page loads, and contact modal opens and closes correctly")
     public void verifyContactModalNavigation() {
-        HomePage homePage = openHomePage();
+        HomePageBase homePage = openHomePage();
         SoftAssert sa = new SoftAssert();
 
         ContactModal contactModal = (ContactModal) softAssertOpenAndCloseModal(homePage.openContactModal(), sa);
@@ -87,7 +80,7 @@ public class HomeNavigationTest extends BaseTest {
 
     @Test(testName = "Functionality of log in modal", description = "verifies that home page loads, and log in modal opens and closes correctly")
     public void verifyLogInModalNavigation() {
-        HomePage homePage = openHomePage();
+        HomePageBase homePage = openHomePage();
         SoftAssert sa = new SoftAssert();
 
         LogInModal logInModal = (LogInModal) softAssertOpenAndCloseModal(homePage.openLogInModal(), sa);
@@ -102,6 +95,44 @@ public class HomeNavigationTest extends BaseTest {
         sa.assertTrue(modal.isModalVisible(), modalName + " should be visible");
         modal.closeModal();
         return modal;
+    }
+
+    private void logCapabilities(){
+        WebDriver rawDriver = getDriver();
+        while (rawDriver instanceof WrapsDriver) {
+            rawDriver = ((WrapsDriver) rawDriver).getWrappedDriver();
+        }
+        Capabilities capabilities = ((RemoteWebDriver) rawDriver).getCapabilities();
+
+        logger.info("Resolved page class: {}", homePage.getClass().getName());
+        logger.info("Platform name: {}", capabilities.getCapability("platformName"));
+        logger.info("Device type: {}", capabilities.getCapability("deviceType"));
+        logger.info("Device name: {}", capabilities.getCapability("deviceName"));
+    }
+
+    @Test(testName = "Simple Test",
+            description = "simple test")
+    public void simpleTest() {
+        HomePageBase homePage = openHomePage();
+        ContextManager contextManager = new ContextManager();
+
+        logger.info("Current context: {}", contextManager.getCurrentContext());
+        logger.info("Available contexts: {}", contextManager.getContextHandles());
+
+//        Set<String> existingWindowHandles = windowManager.getWindowHandles();
+//        logger.info("Original window handle: {}", windowManager.getCurrentWindowHandle());
+//
+//        contextManager.switchMobileContext(ContextManager.View.NATIVE);
+//
+//        ChromeApp chromeApp = new ChromeApp(getDriver());
+//        chromeApp.clickNewTab();
+//
+//        contextManager.switchMobileContext(ContextManager.View.CHROME_BROWSER);
+//
+//        String newWindowHandle = windowManager.waitForNewWindowAndSwitch(existingWindowHandles, NEW_TAB_TIMEOUT);
+//        logger.info("Switched to new tab: {}", newWindowHandle);
+
+
     }
 
 }

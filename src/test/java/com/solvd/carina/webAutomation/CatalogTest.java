@@ -1,6 +1,7 @@
 package com.solvd.carina.webAutomation;
 
 import com.solvd.carina.webAutomation.components.ProductGrid;
+import com.solvd.carina.webAutomation.pages.common.HomePageBase;
 import com.solvd.carina.webAutomation.pages.common.HomePageCategory;
 import com.solvd.carina.webAutomation.pages.desktop.HomePage;
 import com.solvd.carina.webAutomation.pages.desktop.ProductPage;
@@ -20,7 +21,7 @@ public class CatalogTest extends BaseTest {
 
     @Test(testName = "List of Products - Task1", description = "filters the products by category, then prints in console all the products")
     public void verifyProductsDisplayedForSelectedCategory() {
-        HomePage homePage = openHomePage();
+        HomePageBase homePage = openHomePage();
 
         ProductGrid productGrid = homePage.selectCategory(LAPTOPS);
 
@@ -34,7 +35,7 @@ public class CatalogTest extends BaseTest {
             description = "filters the products by a category, then verifies info from the last product of last page",
             dataProvider = "Category MenuItem Provider")
     public void verifyLastProductInfoForCategory(HomePageCategory category) {
-        HomePage homePage = openHomePage();
+        HomePageBase homePage = openHomePage();
 
         ProductPage productPage = homePage
                 .selectCategory(category)

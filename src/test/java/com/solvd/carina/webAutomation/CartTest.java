@@ -2,6 +2,7 @@ package com.solvd.carina.webAutomation;
 
 import com.solvd.carina.webAutomation.components.ProductGrid;
 import com.solvd.carina.webAutomation.flows.ShoppingFlow;
+import com.solvd.carina.webAutomation.pages.common.HomePageBase;
 import com.solvd.carina.webAutomation.pages.common.HomePageCategory;
 import com.solvd.carina.webAutomation.pages.desktop.CartPage;
 import com.solvd.carina.webAutomation.pages.desktop.HomePage;
@@ -21,7 +22,7 @@ public class CartTest extends BaseTest {
             description = "choose the first product from a category and add it to cart, then verifies info in shopping cart",
             dataProvider = "Category MenuItem Provider")
     public void verifyAddFirstProductToCart(HomePageCategory category) {
-        HomePage homePage = openHomePage();
+        HomePageBase homePage = openHomePage();
 
         ProductGrid productGrid = homePage.selectCategory(category);
 
@@ -41,7 +42,7 @@ public class CartTest extends BaseTest {
             description = "choose the first product from a category and add it to cart, then delete it, verifies info in shopping cart",
             dataProvider = "Category MenuItem Provider")
     public void verifyDeleteProductFromCart(HomePageCategory category) {
-        HomePage homePage = openHomePage();
+        HomePageBase homePage = openHomePage();
         SoftAssert sa = new SoftAssert();
 
         ProductGrid productGrid = homePage.selectCategory(category);
@@ -71,7 +72,7 @@ public class CartTest extends BaseTest {
     @Test(testName = "Empty Shopping Cart - Task3 TC-004",
             description = "add random products to the shopping cart, then empties the cart")
     public void verifyAllDeleteButtonsToEmptyShoppingCart() {
-        HomePage homePage = openHomePage();
+        HomePageBase homePage = openHomePage();
         ShoppingFlow shoppingFlow = new ShoppingFlow(getDriver());
 
         shoppingFlow.addRandomProductsToCart(5);

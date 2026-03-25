@@ -5,6 +5,7 @@ import com.solvd.carina.webAutomation.components.modals.ContactModal;
 import com.solvd.carina.webAutomation.browser.WindowManager;
 import com.solvd.carina.webAutomation.mobile.ContextManager;
 import com.solvd.carina.webAutomation.pages.android.ChromeApp;
+import com.solvd.carina.webAutomation.pages.common.HomePageBase;
 import com.solvd.carina.webAutomation.pages.desktop.HomePage;
 import com.solvd.carina.webAutomation.wait.Timeouts;
 import com.zebrunner.carina.utils.R;
@@ -25,7 +26,7 @@ public class SwitchContextTest extends BaseTest implements IMobileUtils {
     @Test(testName = "Switch Context test",
             description = "Fills contact form, opens about us modal in new tab, then comes back to original tab and verifies contact info is still in the form ")
     public void context() {
-        HomePage homePage = openHomePage();
+        HomePageBase homePage = openHomePage();
         ContextManager contextManager = new ContextManager();
         WindowManager windowManager = new WindowManager(getDriver());
 

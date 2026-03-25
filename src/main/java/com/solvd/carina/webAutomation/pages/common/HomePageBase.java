@@ -40,6 +40,10 @@ public abstract class HomePageBase extends BaseTopMenuPage {
         setUiLoadedMarker(phonesButton);
     }
 
+    protected List<ExtendedWebElement> getImageIndicator() {
+        return imageIndicator;
+    }
+
     @Override
     public void waitUntilPageIsReady() {
         logger.debug("Waiting for home page to load imageIndicator. Initial size: {}", imageIndicator.size());
