@@ -17,7 +17,7 @@ public class BaseTest implements IAbstractTest {
 
     @Parameters({"browser"})
     @BeforeMethod
-    public void setUp(@Optional("firefox") String browser) {
+    public void setUp(@Optional("safari") String browser) {
         R.CONFIG.put("browser", browser);
         logger.info("Running test on browser: {}", browser);
     }

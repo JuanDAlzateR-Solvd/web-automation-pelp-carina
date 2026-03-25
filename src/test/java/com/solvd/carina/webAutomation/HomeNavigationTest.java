@@ -7,6 +7,10 @@ import com.solvd.carina.webAutomation.pages.common.HomePageBase;
 import com.solvd.carina.webAutomation.pages.desktop.CartPage;
 import com.solvd.carina.webAutomation.pages.desktop.HomePage;
 import com.solvd.carina.webAutomation.wait.Timeouts;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WrapsDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.*;
@@ -41,7 +45,20 @@ public class HomeNavigationTest extends BaseTest {
             description = "verifies footer visibility and contact info on the home page")
     public void verifyFooterVisibilityAndInfo() {
         HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
+
+        WebDriver rawDriver = getDriver();
+        while (rawDriver instanceof WrapsDriver) {
+            rawDriver = ((WrapsDriver) rawDriver).getWrappedDriver();
+        }
+        Capabilities capabilities = ((RemoteWebDriver) rawDriver).getCapabilities();
+
+        logger.info("Resolved page class: {}", homePage.getClass().getName());
+        logger.info("Platform name: {}", capabilities.getCapability("platformName"));
+        logger.info("Device type: {}", capabilities.getCapability("deviceType"));
+        logger.info("Device name: {}", capabilities.getCapability("deviceName"));
+
         homePage.open();
+
         Footer footer = homePage.getFooter();
 
         SoftAssert sa = new SoftAssert();
