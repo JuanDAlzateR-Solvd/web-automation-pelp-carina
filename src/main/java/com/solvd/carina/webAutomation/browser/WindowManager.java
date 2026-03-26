@@ -131,4 +131,5 @@ public class WindowManager {
             throw new IllegalArgumentException("Timeout must be greater than zero.");
         }
     }
+
 }

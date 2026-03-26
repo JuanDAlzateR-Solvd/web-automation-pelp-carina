@@ -2,7 +2,6 @@ package com.solvd.carina.webAutomation.browser;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,6 +75,5 @@ public class SafariAlertHandler extends DefaultAlertHandler {
         alert.accept();
         logger.info("Safari alert '{}' accepted after {} ms", alertName, System.currentTimeMillis() - acceptStart);
     }
-
 
 }

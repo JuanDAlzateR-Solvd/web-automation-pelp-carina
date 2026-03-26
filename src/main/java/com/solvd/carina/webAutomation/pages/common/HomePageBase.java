@@ -83,4 +83,5 @@ public abstract class HomePageBase extends BaseTopMenuPage {
         waitUntilPageIsReady();
         return productGrid;
     }
+
 }

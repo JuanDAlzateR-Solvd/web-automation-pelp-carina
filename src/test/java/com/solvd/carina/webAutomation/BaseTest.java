@@ -35,7 +35,7 @@ public class BaseTest implements IAbstractTest {
     }
 
     public HomePageBase openHomePage() {
-        HomePageBase homePageBase= initPage(getDriver(), HomePageBase.class);
+        HomePageBase homePageBase = initPage(getDriver(), HomePageBase.class);
         homePageBase.open();
         return homePageBase;
     }

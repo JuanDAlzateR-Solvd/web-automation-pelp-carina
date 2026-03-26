@@ -71,7 +71,6 @@ public class ProductGrid extends BaseComponent {
 
     public ProductPage addProductToCart(int index) {
         ProductPage productPage = openProduct(index);
-//        productPage.waitUntilPageIsReady();
         return productPage.addToCart();
     }
 

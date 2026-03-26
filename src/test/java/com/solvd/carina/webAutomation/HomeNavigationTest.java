@@ -97,7 +97,7 @@ public class HomeNavigationTest extends BaseTest {
         return modal;
     }
 
-    private void logCapabilities(){
+    private void logCapabilities() {
         WebDriver rawDriver = getDriver();
         while (rawDriver instanceof WrapsDriver) {
             rawDriver = ((WrapsDriver) rawDriver).getWrappedDriver();

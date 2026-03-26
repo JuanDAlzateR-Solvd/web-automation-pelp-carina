@@ -14,4 +14,5 @@ public enum HomePageCategory {
     public String getName() {
         return name;
     }
+
 }

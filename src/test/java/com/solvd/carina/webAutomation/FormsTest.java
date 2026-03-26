@@ -57,9 +57,9 @@ public class FormsTest extends BaseTest {
         sa.assertAll();
     }
 
-    @Test(testName = "Fill Contact Form",
+    @Test(testName = "Open and Fill Contact Form",
             description = "verifies that contact form fills with info correctly")
-    public void verifyFillInfoInContactFormAndSend2() {
+    public void verifyFillInfoInContactForm() {
         HomePageBase homePage = openHomePage();
         ContactModal contactModal = homePage.openContactModal();
 

@@ -6,7 +6,6 @@ import com.solvd.carina.webAutomation.components.TopMenu;
 import com.solvd.carina.webAutomation.pages.common.BaseTopMenuPage;
 import com.solvd.carina.webAutomation.wait.Timeouts;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -62,11 +61,6 @@ public class ProductPage extends BaseTopMenuPage {
 
     public void acceptProductAddedAlert() {
         alertHandler.acceptAlert("Product Added", Timeouts.SHORT);
-//        logger.info("accepting 'Product Added' Alert");
-//        logger.info("Before waitForAlert");
-//        Alert alert = waitUtil.waitForAlert(Timeouts.SHORT);
-//        logger.info("After waitForAlert");
-//        alert.accept();
     }
 
     public boolean isProductAddedAlertPresent() {

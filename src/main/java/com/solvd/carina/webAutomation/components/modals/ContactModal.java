@@ -91,13 +91,28 @@ public class ContactModal extends BaseModal {
     }
 
     public void clickSend() {
-//        JavascriptExecutor js = (JavascriptExecutor) driver;
-//        js.executeScript("arguments[0].click();", sendButton.getElement());
-        sendButton.click();
+        //For now this works, but if needed a clickHandler could be added.
+        if (isSafari()) {
+            logger.info("Clicking 'Send' button using Safari strategy");
+            sendButton.click();
+            return;
+        }
+
+        logger.info("Clicking 'Send' button using default JS strategy");
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].click();", sendButton.getElement());
+    }
+
+    private boolean isSafari() {
+        if (driver instanceof HasCapabilities capabilitiesDriver) {
+            Object browserName = capabilitiesDriver.getCapabilities().getCapability("browserName");
+            return browserName != null && browserName.toString().equalsIgnoreCase("safari");
+        }
+        return false;
     }
 
     public void acceptMessageAlert() {
-        alertHandler.acceptAlert(ALERT_TEXT , Timeouts.SHORT);
+        alertHandler.acceptAlert(ALERT_TEXT, Timeouts.SHORT);
     }
 
     public String getAlertText() {

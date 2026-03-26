@@ -21,7 +21,7 @@ public class WaitUtil {
         this.driver = driver;
         this.defaultTimeout = Configuration.get("explicit_timeout")
                 .map(Integer::parseInt)
-                .orElse(10);
+                .orElse(Timeouts.MEDIUM);
         logger.debug("WaitUtil default timeout is set to: {}", this.defaultTimeout);
     }
 

@@ -2,7 +2,6 @@ package com.solvd.carina.webAutomation.browser;
 
 import com.solvd.carina.webAutomation.wait.WaitUtil;
 import org.openqa.selenium.Alert;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,8 +35,10 @@ public class DefaultAlertHandler implements AlertHandler {
 
         String alertText = alert.getText();
 
+        alert = waitUtil.waitForAlert();
         alert.accept();
 
         return alertText;
     }
+
 }

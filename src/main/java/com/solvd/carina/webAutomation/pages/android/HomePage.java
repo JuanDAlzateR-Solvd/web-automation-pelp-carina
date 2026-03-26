@@ -11,4 +11,5 @@ public class HomePage extends HomePageBase {
         super(driver);
         logger.info("Initializing HomePage ANDROID with driver");
     }
+
 }
