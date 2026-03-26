@@ -12,6 +12,7 @@ import com.zebrunner.carina.utils.R;
 import com.zebrunner.carina.utils.mobile.IMobileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -25,7 +26,7 @@ public class SwitchContextTest extends BaseTest implements IMobileUtils {
 
     @Test(testName = "Switch Context test",
             description = "Fills contact form, opens about us modal in new tab, then comes back to original tab and verifies contact info is still in the form ")
-    public void context() {
+    public void verifyChromeContextSwitching() {
         HomePageBase homePage = openHomePage();
         ContextManager contextManager = new ContextManager();
         WindowManager windowManager = new WindowManager(getDriver());
@@ -56,6 +57,19 @@ public class SwitchContextTest extends BaseTest implements IMobileUtils {
         sa.assertEquals(contactModal.getMessageValue(), message, "Message value does not match");
 
         sa.assertAll();
+    }
+
+    @Test(testName = "Verify Multiple Contexts",
+            description = "Verify that multiple contexts are available")
+    public void verifyMultipleContexts() {
+        HomePageBase homePage = openHomePage();
+        ContextManager contextManager = new ContextManager();
+
+        logger.info("Current context: {}", contextManager.getCurrentContext());
+        logger.info("Available contexts: {}", contextManager.getContextHandles());
+
+        Assert.assertTrue(contextManager.getContextHandles().size() > 1, "There should be more than one context");
+
     }
 
     private HomePage openHomePageInNewTab(ContextManager contextManager, WindowManager windowManager) {

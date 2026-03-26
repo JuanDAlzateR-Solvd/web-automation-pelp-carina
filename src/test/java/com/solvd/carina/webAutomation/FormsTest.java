@@ -29,14 +29,12 @@ public class FormsTest extends BaseTest {
 
         User user = new UserService().getUser();
 
-        contactModal.fillAndSubmitForm(user.getEmail(),
+        String alertText = contactModal.fillSubmitAndAcceptAlert(user.getEmail(),
                 user.getName(),
                 "This is a test message");
 
-        sa.assertTrue(contactModal.isAlertPresent(), "Alert should be present after submitting form");
-        logger.info("alert text: {}", contactModal.getAlertText());
-
-        contactModal.acceptMessageAlert();
+        logger.info("alert text: {}", alertText);
+        sa.assertNotNull(alertText, "Alert text should not be null");
 
         sa.assertAll();
     }

@@ -1,7 +1,7 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="Parallel Suite" parallel="methods" thread-count="3">
+<suite name="Desktop Parallel Suite" parallel="methods" thread-count="3">
 
-    <test name="Chrome Test">
+    <test name="Desktop Chrome Test">
         <parameter name="browser" value="chrome"/>
         <classes>
             <class name="com.solvd.carina.webAutomation.CartTest"/>
@@ -11,7 +11,7 @@
         </classes>
     </test>
 
-    <test name="Firefox Test">
+    <test name="Desktop Firefox Test">
         <parameter name="browser" value="firefox"/>
         <classes>
             <class name="com.solvd.carina.webAutomation.CartTest"/>

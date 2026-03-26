@@ -1,5 +1,7 @@
 package com.solvd.carina.webAutomation.components.modals;
 
+import com.solvd.carina.webAutomation.browser.AlertHandler;
+import com.solvd.carina.webAutomation.browser.AlertHandlerFactory;
 import com.solvd.carina.webAutomation.components.modals.common.BaseModal;
 import com.solvd.carina.webAutomation.wait.Timeouts;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
@@ -29,8 +31,13 @@ public class ContactModal extends BaseModal {
     @FindBy(css = "#exampleModal button.btn.btn-secondary")
     private ExtendedWebElement closeButton;
 
+    private final AlertHandler alertHandler;
+
+    private final String ALERT_TEXT = "Thanks for message";
+
     public ContactModal(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
+        this.alertHandler = AlertHandlerFactory.create(driver);
     }
 
     @Override
@@ -65,6 +72,12 @@ public class ContactModal extends BaseModal {
         return this;
     }
 
+    public String fillSubmitAndAcceptAlert(String email, String name, String message) {
+        fillForm(email, name, message);
+        clickSend();
+        return getAlertTextAndAccept();
+    }
+
     public void typeEmail(String email) {
         emailInput.type(email);
     }
@@ -78,19 +91,22 @@ public class ContactModal extends BaseModal {
     }
 
     public void clickSend() {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].click();", sendButton.getElement());
+//        JavascriptExecutor js = (JavascriptExecutor) driver;
+//        js.executeScript("arguments[0].click();", sendButton.getElement());
+        sendButton.click();
     }
 
     public void acceptMessageAlert() {
-        logger.info("accepting 'Thanks for message' Alert");
-        Alert alert = waitUtil.waitForAlert();
-        alert.accept();
+        alertHandler.acceptAlert(ALERT_TEXT , Timeouts.SHORT);
     }
 
     public String getAlertText() {
         Alert alert = waitUtil.waitForAlert();
         return alert.getText();
+    }
+
+    public String getAlertTextAndAccept() {
+        return alertHandler.getAlertTextAndAccept(ALERT_TEXT, Timeouts.SHORT);
     }
 
     public boolean isAlertPresent() {

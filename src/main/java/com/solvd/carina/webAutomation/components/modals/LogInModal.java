@@ -1,7 +1,10 @@
 package com.solvd.carina.webAutomation.components.modals;
 
+import com.solvd.carina.webAutomation.browser.AlertHandler;
+import com.solvd.carina.webAutomation.browser.AlertHandlerFactory;
 import com.solvd.carina.webAutomation.components.modals.common.BaseModal;
 import com.solvd.carina.webAutomation.data.model.UserAccount;
+import com.solvd.carina.webAutomation.wait.Timeouts;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
@@ -26,8 +29,13 @@ public class LogInModal extends BaseModal {
     @FindBy(id = "loginpassword")
     private ExtendedWebElement passwordInput;
 
+    private final String ALERT_TEXT = "Wrong password";
+
+    private final AlertHandler alertHandler;
+
     public LogInModal(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
+        this.alertHandler = AlertHandlerFactory.create(driver);
     }
 
     @Override
@@ -69,9 +77,7 @@ public class LogInModal extends BaseModal {
     }
 
     public void acceptWrongPasswordAlert() {
-        logger.info("accepting 'Wrong password' Alert");
-        Alert alert = waitUtil.waitForAlert();
-        alert.accept();
+        alertHandler.acceptAlert(ALERT_TEXT, Timeouts.SHORT);
     }
 
     public boolean isAlertPresent() {

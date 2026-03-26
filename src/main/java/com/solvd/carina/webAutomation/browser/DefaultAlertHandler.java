@@ -27,4 +27,17 @@ public class DefaultAlertHandler implements AlertHandler {
 
         alert.accept();
     }
+
+    @Override
+    public String getAlertTextAndAccept(String alertName, int timeoutInSeconds) {
+        logger.info("Accepting '{}' alert using default strategy", alertName);
+
+        Alert alert = waitUtil.waitForAlert();
+
+        String alertText = alert.getText();
+
+        alert.accept();
+
+        return alertText;
+    }
 }

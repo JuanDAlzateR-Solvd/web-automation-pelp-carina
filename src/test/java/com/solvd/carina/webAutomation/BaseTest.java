@@ -25,9 +25,6 @@ public class BaseTest implements IAbstractTest {
     @BeforeMethod
     public void setUp(@Optional("safari") String browser) {
         R.CONFIG.put("browser", browser);
-        if (browser.equals("safari")) {
-            R.CONFIG.put("capabilities.browserName", browser);
-        }
         logger.info("Running test on browser: {}", browser);
 
         String udid = R.CONFIG.get("capabilities.udid");

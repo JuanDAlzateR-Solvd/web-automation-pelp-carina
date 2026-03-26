@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Map;
 
 public class SafariAlertHandler extends DefaultAlertHandler {
-    //For some reason, safari alerts are taking too long to be accepted
+    //For some reason, the first safari alert takes too long to be accepted. The other alerts are accepted immediately.
     private static final Logger logger = LoggerFactory.getLogger(SafariAlertHandler.class);
 
     private static final int SAFARI_SHORT_TIMEOUT_SECONDS = 2;
@@ -22,16 +22,15 @@ public class SafariAlertHandler extends DefaultAlertHandler {
 
     @Override
     public void acceptAlert(String alertName, int timeoutInSeconds) {
-        logger.info("Accepting '{}' alert using Safari strategy", alertName);
-        try {
-            ((JavascriptExecutor) driver).executeScript(
-                    "mobile: alert",
-                    Map.of("action", "accept")
-            );
-        } catch (Exception e) {
-            throw new IllegalStateException("Failed to accept Safari alert: " + alertName, e);
-        }
-        logger.info("Safari alert '{}' accepted", alertName);
+        acceptAlert3(alertName, timeoutInSeconds);
+    }
+
+    @Override
+    public String getAlertTextAndAccept(String alertName, int timeoutInSeconds) {
+        Alert alert = waitUtil.waitForAlert(timeoutInSeconds);
+        String alertText = alert.getText();
+        acceptAlert(alertName, timeoutInSeconds);
+        return alertText;
     }
 
     public void acceptAlert2(String alertName, int timeoutInSeconds) {
@@ -54,6 +53,20 @@ public class SafariAlertHandler extends DefaultAlertHandler {
         throw new IllegalStateException("Failed to accept Safari alert: " + alertName);
     }
 
+    //acceptalert3 it's faster than acceptalert2
+    public void acceptAlert3(String alertName, int timeoutInSeconds) {
+        logger.info("Accepting '{}' alert using Safari strategy", alertName);
+        try {
+            ((JavascriptExecutor) driver).executeScript(
+                    "mobile: alert",
+                    Map.of("action", "accept")
+            );
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to accept Safari alert: " + alertName, e);
+        }
+        logger.info("Safari alert '{}' accepted", alertName);
+    }
+
     private void acceptWithTimeout(String alertName, int timeoutInSeconds) {
         long waitStart = System.currentTimeMillis();
         Alert alert = waitUtil.waitForAlert(timeoutInSeconds);
@@ -63,4 +76,6 @@ public class SafariAlertHandler extends DefaultAlertHandler {
         alert.accept();
         logger.info("Safari alert '{}' accepted after {} ms", alertName, System.currentTimeMillis() - acceptStart);
     }
+
+
 }

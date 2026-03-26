@@ -110,29 +110,4 @@ public class HomeNavigationTest extends BaseTest {
         logger.info("Device name: {}", capabilities.getCapability("deviceName"));
     }
 
-    @Test(testName = "Simple Test",
-            description = "simple test")
-    public void simpleTest() {
-        HomePageBase homePage = openHomePage();
-        ContextManager contextManager = new ContextManager();
-
-        logger.info("Current context: {}", contextManager.getCurrentContext());
-        logger.info("Available contexts: {}", contextManager.getContextHandles());
-
-//        Set<String> existingWindowHandles = windowManager.getWindowHandles();
-//        logger.info("Original window handle: {}", windowManager.getCurrentWindowHandle());
-//
-//        contextManager.switchMobileContext(ContextManager.View.NATIVE);
-//
-//        ChromeApp chromeApp = new ChromeApp(getDriver());
-//        chromeApp.clickNewTab();
-//
-//        contextManager.switchMobileContext(ContextManager.View.CHROME_BROWSER);
-//
-//        String newWindowHandle = windowManager.waitForNewWindowAndSwitch(existingWindowHandles, NEW_TAB_TIMEOUT);
-//        logger.info("Switched to new tab: {}", newWindowHandle);
-
-
-    }
-
 }
