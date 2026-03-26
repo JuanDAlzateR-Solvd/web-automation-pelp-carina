@@ -3,14 +3,9 @@ package com.solvd.carina.webAutomation;
 import com.solvd.carina.webAutomation.components.Footer;
 import com.solvd.carina.webAutomation.components.modals.*;
 import com.solvd.carina.webAutomation.components.modals.common.BaseModal;
-import com.solvd.carina.webAutomation.mobile.ContextManager;
-import com.solvd.carina.webAutomation.pages.android.ChromeApp;
 import com.solvd.carina.webAutomation.pages.common.HomePageBase;
-import com.solvd.carina.webAutomation.pages.common.HomePageCategory;
 import com.solvd.carina.webAutomation.pages.desktop.CartPage;
-import com.solvd.carina.webAutomation.pages.desktop.HomePage;
 import com.solvd.carina.webAutomation.wait.Timeouts;
-import com.zebrunner.carina.utils.R;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WrapsDriver;
@@ -19,8 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
-
-import java.util.Set;
 
 public class HomeNavigationTest extends BaseTest {
     private static final Logger logger =

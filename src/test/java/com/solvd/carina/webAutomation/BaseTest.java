@@ -1,17 +1,13 @@
 package com.solvd.carina.webAutomation;
 
-import com.solvd.carina.webAutomation.flows.Navigation;
 import com.solvd.carina.webAutomation.pages.common.HomePageBase;
 import com.solvd.carina.webAutomation.pages.desktop.HomePage;
 import com.zebrunner.carina.core.IAbstractTest;
 import com.zebrunner.carina.utils.R;
 import io.github.cdimascio.dotenv.Dotenv;
-import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.*;
-
-import java.lang.module.Configuration;
 
 public class BaseTest implements IAbstractTest {
     private static final Logger logger =

@@ -6,7 +6,6 @@ import com.solvd.carina.webAutomation.data.model.User;
 import com.solvd.carina.webAutomation.data.model.UserAccount;
 import com.solvd.carina.webAutomation.data.service.UserService;
 import com.solvd.carina.webAutomation.pages.common.HomePageBase;
-import com.solvd.carina.webAutomation.pages.desktop.HomePage;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
