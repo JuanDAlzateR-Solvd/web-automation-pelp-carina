@@ -19,8 +19,9 @@
 		<carina-aws-s3.version>1.1.4</carina-aws-s3.version>
 		<carina-azure.version>1.1.4</carina-azure.version>
 		<carina-appcenter.version>1.1.4</carina-appcenter.version>
-		<java.version>11</java.version>
+		<java.version>21</java.version>
 		<zebrunner-agent.version>1.9.6</zebrunner-agent.version>
+		<dotenvVersion>3.2.0</dotenvVersion>
 		<suite>helloWorld</suite>
 	</properties>
 
@@ -104,6 +105,14 @@
 			<artifactId>postgresql</artifactId>
 			<version>42.5.3</version>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/io.github.cdimascio/dotenv-java -->
+		<dependency>
+			<groupId>io.github.cdimascio</groupId>
+			<artifactId>dotenv-java</artifactId>
+			<version>${dotenvVersion}</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
