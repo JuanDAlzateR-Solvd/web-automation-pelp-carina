@@ -1,7 +1,6 @@
 package com.solvd.carina.webautomation;
 
 import com.solvd.carina.webautomation.pages.common.HomePageBase;
-import com.solvd.carina.webautomation.pages.desktop.HomePage;
 import com.zebrunner.carina.core.IAbstractTest;
 import com.zebrunner.carina.utils.R;
 import io.github.cdimascio.dotenv.Dotenv;

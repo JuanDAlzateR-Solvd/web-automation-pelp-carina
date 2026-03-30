@@ -15,7 +15,6 @@ public class StringUtils {
 
     private static final Pattern PHONE_PATTERN = Pattern.compile(PHONE_REGEX);
 
-
     private StringUtils() {
         // Private constructor to prevent instantiation
     }

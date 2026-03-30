@@ -61,7 +61,7 @@ public class ShoppingFlow {
         int size = productGrid.getProductCount();
         int randomIndex = new Random().nextInt(size);
 
-        ProductGridItemComponent randomProduct=productGrid.getProductRandomProduct();
+        ProductGridItemComponent randomProduct = productGrid.getProductRandomProduct();
 
         return addProductToCart(randomProduct);
     }
@@ -97,7 +97,7 @@ public class ShoppingFlow {
         int randomIndex = new Random().nextInt(size);
 
         String productName = availableProducts.get(randomIndex);
-       ProductGridItemComponent randomProduct=productGrid.getProductByName(productName);
+        ProductGridItemComponent randomProduct = productGrid.getProductByName(productName);
         return addProductToCart(randomProduct);
     }
 

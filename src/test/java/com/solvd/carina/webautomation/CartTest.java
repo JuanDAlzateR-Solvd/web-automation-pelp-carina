@@ -1,13 +1,10 @@
 package com.solvd.carina.webautomation;
 
 import com.solvd.carina.webautomation.components.ProductGrid;
-import com.solvd.carina.webautomation.components.ProductGridItemComponent;
 import com.solvd.carina.webautomation.flows.ShoppingFlow;
 import com.solvd.carina.webautomation.pages.common.HomePageBase;
 import com.solvd.carina.webautomation.pages.common.HomePageCategory;
 import com.solvd.carina.webautomation.pages.desktop.CartPage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
@@ -24,14 +21,14 @@ public class CartTest extends BaseTest {
 
         ProductGrid productGrid = homePage.selectCategory(category);
 
-        String productName= productGrid.getFistProductName();
+        String productName = productGrid.getFistProductName();
 
         CartPage cartPage = productGrid.addProductToCart(productName).goToCartPage();
 
         cartPage.waitUntilCartShowsProducts();
 
         Assert.assertTrue(cartPage.isProductInCart(productName),
-                "Product "+ productName+ " was not added to cart");
+                "Product " + productName + " was not added to cart");
 
         Assert.assertFalse(cartPage.getTotalPrice().isEmpty(), "Total price is empty");
 
@@ -46,14 +43,14 @@ public class CartTest extends BaseTest {
 
         ProductGrid productGrid = homePage.selectCategory(category);
 
-        String productName= productGrid.getFistProductName();
+        String productName = productGrid.getFistProductName();
 
         CartPage cartPage = productGrid.addProductToCart(productName).goToCartPage();
 
         cartPage.waitUntilCartShowsProducts();
 
         sa.assertTrue(cartPage.isProductInCart(productName),
-                "Product "+ productName+ " was not added to cart");
+                "Product " + productName + " was not added to cart");
 
         int initialSize = cartPage.getProductCount();
 

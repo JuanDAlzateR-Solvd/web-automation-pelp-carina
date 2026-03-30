@@ -38,10 +38,10 @@ public class ProductGrid extends BaseComponent {
 
     public ProductGridItemComponent getProductByName(String productName) {
         return productItems.stream()
-                .filter(p->p.getProductName().equalsIgnoreCase(productName))
+                .filter(p -> p.getProductName().equalsIgnoreCase(productName))
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException(
-                        "Product with name '"+productName+"'not found in grid"));
+                        "Product with name '" + productName + "'not found in grid"));
     }
 
     //Test flow methods
