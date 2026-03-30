@@ -1,0 +1,96 @@
+package com.solvd.carina.webautomation;
+
+import com.solvd.carina.webautomation.components.modals.AboutUsModal;
+import com.solvd.carina.webautomation.components.modals.ContactModal;
+import com.solvd.carina.webautomation.browser.WindowManager;
+import com.solvd.carina.webautomation.mobile.ContextManager;
+import com.solvd.carina.webautomation.pages.android.ChromeApp;
+import com.solvd.carina.webautomation.pages.common.HomePageBase;
+import com.solvd.carina.webautomation.pages.desktop.HomePage;
+import com.solvd.carina.webautomation.wait.Timeouts;
+import com.zebrunner.carina.utils.R;
+import com.zebrunner.carina.utils.mobile.IMobileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+
+import java.time.Duration;
+import java.util.Set;
+
+public class SwitchContextTest extends BaseTest implements IMobileUtils {
+    private static final Logger logger =
+            LoggerFactory.getLogger(SwitchContextTest.class);
+    private static final Duration NEW_TAB_TIMEOUT = Duration.ofSeconds(Timeouts.MEDIUM);
+
+    @Test(testName = "Switch Context test",
+            description = "Fills contact form, opens about us modal in new tab, then comes back to original tab and verifies contact info is still in the form ")
+    public void verifyChromeContextSwitching() {
+        HomePageBase homePage = openHomePage();
+        ContextManager contextManager = new ContextManager();
+        WindowManager windowManager = new WindowManager(getDriver());
+
+        SoftAssert sa = new SoftAssert();
+
+        String email = "Tab1@Tab1.com";
+        String name = "This is Tab1";
+        String message = "Still Tab1";
+
+        ContactModal contactModal = homePage.openContactModal()
+                .fillForm(email, name, message);
+
+        sa.assertTrue(contactModal.isModalVisible(), "Contact modal should be visible");
+
+        String originalWindow = windowManager.getCurrentWindowHandle();
+
+        HomePage homePage2 = openHomePageInNewTab(contextManager, windowManager);
+
+        AboutUsModal aboutUsModal = homePage2.openAboutUsModal();
+        sa.assertTrue(aboutUsModal.isModalVisible(), "About us modal should be visible");
+
+        windowManager.switchToWindow(originalWindow);
+
+        sa.assertTrue(contactModal.isModalVisible(), "Contact modal should be visible");
+        sa.assertEquals(contactModal.getEmailValue(), email, "Email value does not match");
+        sa.assertEquals(contactModal.getNameValue(), name, "Name value does not match");
+        sa.assertEquals(contactModal.getMessageValue(), message, "Message value does not match");
+
+        sa.assertAll();
+    }
+
+    @Test(testName = "Verify Multiple Contexts",
+            description = "Verify that multiple contexts are available")
+    public void verifyMultipleContexts() {
+        HomePageBase homePage = openHomePage();
+        ContextManager contextManager = new ContextManager();
+
+        logger.info("Current context: {}", contextManager.getCurrentContext());
+        logger.info("Available contexts: {}", contextManager.getContextHandles());
+
+        Assert.assertTrue(contextManager.getContextHandles().size() > 1, "There should be more than one context");
+
+    }
+
+    private HomePage openHomePageInNewTab(ContextManager contextManager, WindowManager windowManager) {
+        logger.info("Current context: {}", contextManager.getCurrentContext());
+        logger.info("Available contexts: {}", contextManager.getContextHandles());
+
+        Set<String> existingWindowHandles = windowManager.getWindowHandles();
+        logger.info("Original window handle: {}", windowManager.getCurrentWindowHandle());
+
+        contextManager.switchMobileContext(ContextManager.View.NATIVE);
+
+        ChromeApp chromeApp = new ChromeApp(getDriver());
+        chromeApp.clickNewTab();
+
+        contextManager.switchMobileContext(ContextManager.View.CHROME_BROWSER);
+
+        String newWindowHandle = windowManager.waitForNewWindowAndSwitch(existingWindowHandles, NEW_TAB_TIMEOUT);
+        logger.info("Switched to new tab: {}", newWindowHandle);
+
+        getDriver().get(R.CONFIG.get("url"));
+        return new HomePage(getDriver());
+    }
+
+}

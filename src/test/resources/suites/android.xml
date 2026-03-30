@@ -4,11 +4,11 @@
     <test name="Android Chrome Test">
         <parameter name="browser" value="chrome"/>
         <classes>
-            <class name="com.solvd.carina.webAutomation.CartTest"/>
-            <class name="com.solvd.carina.webAutomation.CatalogTest"/>
-            <class name="com.solvd.carina.webAutomation.FormsTest"/>
-            <class name="com.solvd.carina.webAutomation.HomeNavigationTest"/>
-            <class name="com.solvd.carina.webAutomation.SwitchContextTest"/>
+            <class name="com.solvd.carina.webautomation.CartTest"/>
+            <class name="com.solvd.carina.webautomation.CatalogTest"/>
+            <class name="com.solvd.carina.webautomation.FormsTest"/>
+            <class name="com.solvd.carina.webautomation.HomeNavigationTest"/>
+            <class name="com.solvd.carina.webautomation.SwitchContextTest"/>
         </classes>
     </test>
 

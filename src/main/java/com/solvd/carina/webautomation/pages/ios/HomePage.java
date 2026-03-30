@@ -1,0 +1,22 @@
+package com.solvd.carina.webautomation.pages.ios;
+
+import com.solvd.carina.webautomation.pages.common.HomePageBase;
+import com.zebrunner.carina.utils.factory.DeviceType;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
+@DeviceType(pageType = DeviceType.Type.IOS_PHONE, parentClass = HomePageBase.class)
+public class HomePage extends HomePageBase {
+
+    public HomePage(WebDriver driver) {
+        super(driver);
+        logger.info("Initializing HomePage iOS with driver");
+    }
+
+    @Override
+    public void waitUntilPageIsReady() {
+        waitUtil.waitForPresenceOfElementLocated(By.id("fotcont"));
+        super.waitUntilPageIsReady();
+    }
+
+}

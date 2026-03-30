@@ -4,10 +4,10 @@
     <test name="iOS safari Test">
         <parameter name="browser" value="safari"/>
         <classes>
-            <class name="com.solvd.carina.webAutomation.CartTest"/>
-            <class name="com.solvd.carina.webAutomation.CatalogTest"/>
-            <class name="com.solvd.carina.webAutomation.FormsTest"/>
-            <class name="com.solvd.carina.webAutomation.HomeNavigationTest"/>
+            <class name="com.solvd.carina.webautomation.CartTest"/>
+            <class name="com.solvd.carina.webautomation.CatalogTest"/>
+            <class name="com.solvd.carina.webautomation.FormsTest"/>
+            <class name="com.solvd.carina.webautomation.HomeNavigationTest"/>
         </classes>
     </test>
 
