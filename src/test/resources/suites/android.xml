@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Android Suite">
+
+    <test name="Android Chrome Test">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="com.solvd.carina.webautomation.CartTest"/>
+            <class name="com.solvd.carina.webautomation.CatalogTest"/>
+            <class name="com.solvd.carina.webautomation.FormsTest"/>
+            <class name="com.solvd.carina.webautomation.HomeNavigationTest"/>
+            <class name="com.solvd.carina.webautomation.SwitchContextTest"/>
+        </classes>
+    </test>
+
+</suite>

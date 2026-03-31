@@ -1,0 +1,24 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Desktop Parallel Suite" parallel="methods" thread-count="3">
+
+    <test name="Desktop Chrome Test">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="com.solvd.carina.webautomation.CartTest"/>
+            <class name="com.solvd.carina.webautomation.CatalogTest"/>
+            <class name="com.solvd.carina.webautomation.FormsTest"/>
+            <class name="com.solvd.carina.webautomation.HomeNavigationTest"/>
+        </classes>
+    </test>
+
+    <test name="Desktop Firefox Test">
+        <parameter name="browser" value="firefox"/>
+        <classes>
+            <class name="com.solvd.carina.webautomation.CartTest"/>
+            <class name="com.solvd.carina.webautomation.CatalogTest"/>
+            <class name="com.solvd.carina.webautomation.FormsTest"/>
+            <class name="com.solvd.carina.webautomation.HomeNavigationTest"/>
+        </classes>
+    </test>
+
+</suite>
